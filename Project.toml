@@ -1,0 +1,7 @@
+name = "MagneticModels"
+uuid = "548c34cc-0185-415b-8526-a0c739028078"
+authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.10"
