@@ -7,6 +7,7 @@ and spherical harmonic magnetic field evaluation.
 
 using LinearAlgebra
 using Bumper
+using AxisKeys
 
 """
     schmidt_legendre!(P, dP, cosθ, sinθ, max_degree::Int)
@@ -130,13 +131,10 @@ B_θ = -\\frac{1}{r}\\frac{∂V}{∂θ}, \\quad
 B_φ = -\\frac{1}{r\\sin θ}\\frac{∂V}{∂φ}
 ```
 """
-function evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ)
+function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
     r > 0 || error("Radius must be positive")
     0 <= θ <= π || error("Colatitude θ must be in [0, π]")
     T = promote_type(eltype(r), eltype(θ), eltype(φ))
-
-    coeffs = model.coeffs
-    max_degree = coeffs.degree
 
     # Precompute trigonometric functions
     sinθ = sin(θ)
@@ -190,12 +188,41 @@ function evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ)
         end
     end
 
+    return SVector{3, T}(Br, Bθ, abs(sinθ) > 1.0e-10 ? Bφ / sinθ : Bφ)
+end
 
-    return SVector{3, Float64}(Br, Bθ, abs(sinθ) > 1.0e-10 ? Bφ / sinθ : Bφ)
+function evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ; kw...)
+    return evaluate_field_spherical(model.coeffs, r, θ, φ; kw...)
 end
 
 function evaluate_field_cartesian(model, x, y, z)
     (r, θ, φ) = cartesian_to_spherical(x, y, z)
     B_sph = evaluate_field_spherical(model, r, θ, φ)
     return spherical_field_to_cartesian(B_sph..., θ, φ)
+end
+
+_field_func(idx::Int) = idx <= 3 ? x -> getindex(x, idx) : norm
+_field_func(::Nothing) = identity
+_field_func(f) = f
+
+function fieldmap(model, r, nlat, nlon; idx = identity)
+    func = _field_func(idx)
+    # Create latitude and longitude grids
+    # Latitude: -90 to 90 degrees (convert to colatitude for evaluation)
+    # Longitude: -180 to 180 degrees
+    lats = range(-90, 90, length = nlat)
+    lons = range(-180, 180, length = nlon)
+
+    # Preallocate field array (longitude × latitude for GeoMakie surface!)
+    field = zeros(Float64, nlon, nlat)
+
+    θs = @. deg2rad(90 - lats)'
+    φs = @. deg2rad(mod(lons, 360))
+    field = func.(model.(r, θs, φs; in = :spherical, out = :spherical))
+
+    return KeyedArray(field; lon = lons, lat = lats)
+end
+
+function fieldmap(model, r = 1.0; nlat = 180, nlon = 360, kw...)
+    return fieldmap(model, r, nlat, nlon; kw...)
 end

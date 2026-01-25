@@ -42,3 +42,34 @@ end
     models = available_models()
     @test length(models) == length(unique(models))
 end
+
+@testset "all planets" begin
+    # Test that all planets are supported
+    planets = [:mercury, :earth, :mars, :jupiter, :saturn, :uranus, :neptune, :ganymede]
+    for planet in planets
+        models = available_models(planet)
+        @test length(models) > 0
+    end
+
+    # Test loading a model for each planet
+    test_models = [
+        (:mercury, "anderson2012"),
+        (:earth, "igrf2020"),
+        (:mars, "langlais2019"),
+        (:jupiter, "jrm09"),
+        (:saturn, "cassini11"),
+        (:uranus, "ah5"),
+        (:neptune, "gsfco8"),
+        (:ganymede, "kivelson2002a"),
+    ]
+
+    for (planet, model_name) in test_models
+        model = load_model(planet, model_name)
+        @test isa(model, PlanetaryMagneticFields.MagneticModel)
+
+        # Test that we can evaluate the field
+        B = model(1.0, π / 4, 0.0)
+        @test length(B) == 3
+        @test all(isfinite, B)
+    end
+end

@@ -10,14 +10,15 @@ makedocs(;
     format = Documenter.HTML(;
         canonical = "https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl",
         edit_link = "main",
-        assets = String[],
     ),
     pages = [
         "Home" => "index.md",
+        "Examples" => "examples.md",
     ],
 )
 
 deploydocs(;
     repo = "github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl",
     devbranch = "main",
+    push_preview = true,
 )

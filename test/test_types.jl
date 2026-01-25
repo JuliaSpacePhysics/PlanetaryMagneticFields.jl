@@ -32,20 +32,17 @@ end
     g = zeros(3, 3)
     h = zeros(3, 3)
 
+    check = true
     # Valid construction
-    @test isa(GaussCoefficients(g, h, 2, 2), GaussCoefficients)
-
+    @test isa(GaussCoefficients(g, h, 2, 2; check = check), GaussCoefficients)
     # Invalid: mismatched sizes
-    @test_throws ErrorException GaussCoefficients(g, zeros(2, 2), 2, 2)
-
+    @test_throws ErrorException GaussCoefficients(g, zeros(2, 2), 2, 2; check = check)
     # Invalid: degree too large for matrix
-    @test_throws ErrorException GaussCoefficients(g, h, 5, 2)
-
+    @test_throws ErrorException GaussCoefficients(g, h, 5, 2; check = check)
     # Invalid: order > degree
-    @test_throws ErrorException GaussCoefficients(g, h, 2, 3)
-
+    @test_throws ErrorException GaussCoefficients(g, h, 2, 3; check = check)
     # Invalid: degree < 1
-    @test_throws ErrorException GaussCoefficients(g, h, 0, 0)
+    @test_throws ErrorException GaussCoefficients(g, h, 0, 0; check = check)
 end
 
 @testset "Pretty printing" begin

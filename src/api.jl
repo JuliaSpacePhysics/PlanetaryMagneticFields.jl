@@ -66,6 +66,8 @@ function load_model(name; kw...)
     return load_model(planet, model_str; kw...)
 end
 
+load_model(p, model; kw...) = _load_model(planet(p), model; kw...)
+
 function _load_model(p::Planet, model; max_degree = nothing, kw...)
     data_file = "$(lowercase(model)).dat"
     data_path = pkgdir(@__MODULE__, "data/coeffs", lowercase(string(p.name)), data_file)
@@ -74,7 +76,35 @@ function _load_model(p::Planet, model; max_degree = nothing, kw...)
     return MagneticModel(sh_model, p; kw...)
 end
 
-load_model(p, model; kw...) = _load_model(planet(p), model; kw...)
+"""
+    fieldmap(model, r, nlat, nlon; idx = identity)
+    fieldmap(model, r = 1.0; nlat = 180, nlon = 360, kw...)
+
+Compute magnetic fields over a latitude-longitude grid at a given radial distance `r` [planetary radii] for model `model`.
+
+# Arguments
+- `nlat=180`: Number of latitude points
+- `nlon=360`: Number of longitude points`
+- `idx`: Field component selector / function that works on the output of `model(r, θ, φ)` (default: identity returns full vector)
+  - `1`: Radial component (Br)
+  - `2`: Colatitude component (Bθ)
+  - `3`: Azimuthal component (Bφ)
+  - `norm`: Field magnitude
+
+# Returns
+- `KeyedArray`: Magnetic field values at each grid point with axes:
+  - `lon`: Longitude values [-180, 180] degrees
+  - `lat`: Latitude values [-90, 90] degrees
+
+# Example
+```julia
+model = load_model(:jupiter, "jrm09")
+field_map = fieldmap(model; r=1.0)
+# Access data: field_map[lon=0.0, lat=45.0]
+# Get axes: axiskeys(field_map, 1) for longitudes, axiskeys(field_map, 2) for latitudes
+```
+"""
+function fieldmap end
 
 """
     available_models([body])
@@ -90,41 +120,23 @@ available_models(:jupiter)
 function available_models end
 
 """
-    model_info(planet::Symbol, model::String)
-    model_info(model::SphericalHarmonicModel)
+    model_info(model)
 
 Get detailed information about a magnetic field model.
 
-# Arguments
-- `planet::Symbol`: Planet identifier
-- `model::String`: Model identifier
-OR
-- `model::SphericalHarmonicModel`: An already-loaded model
-
-# Returns
-- `Dict{String,Any}`: Model metadata
-
 # Example
 ```julia
-info = model_info(:jupiter, "jrm09")
+info = model_info("jrm09")
 println(info["description"])
-println("DOI: ", info["doi"])
-
-# Or from a loaded model
-model = MagneticModel(:jupiter, "jrm09")
-info = model_info(model)
 ```
 """
-function model_info(planet::Symbol, model_name::String)
-    if planet == :jupiter
-        return jupiter_model_info(model_name)
-    else
-        error("Unsupported planet: $planet")
-    end
-end
+function model_info end
 
-function model_info(model::SphericalHarmonicModel)
-    return model_info(model.planet, lowercase(model.name))
+function model_info(model)
+    name = lowercase(model)
+    file = "data/metadata/$(name).toml"
+    @assert isfile(file)
+    return TOML.parsefile(file)
 end
 
 for f in [:JRM09, :JRM33]

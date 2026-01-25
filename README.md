@@ -20,7 +20,7 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
   - [ ] Model metadata system
 - Testing
   - [x] Jupiter (JRM09, JRM33)
-  - [ ] Earth models (IGRF, WMM)
+  - [x] Earth models (IGRF)
   - [ ] Saturn models (Cassini-derived)
   - [ ] Mercury, Mars models
 - 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems

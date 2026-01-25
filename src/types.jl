@@ -30,21 +30,35 @@ abstract type ExternalFieldModel <: MagneticFieldModel end
 
 struct Planet
     name::Symbol
-    radius::Float64
+    radius::Float64  # Mean radius in km
 end
 
+# Planet definitions with mean radii in km
+# Sources: NASA planetary fact sheets
+const Mercury = Planet(:mercury, 2439.7)
+const Earth = Planet(:earth, 6371.2)
+const Mars = Planet(:mars, 3389.5)
 const Jupiter = Planet(:jupiter, 71492.0)
 const Saturn = Planet(:saturn, 60268.0)
-const Earth = Planet(:earth, 6371.0)
+const Uranus = Planet(:uranus, 25559.0)
+const Neptune = Planet(:neptune, 24764.0)
+const Ganymede = Planet(:ganymede, 2634.1)
 
-planet(s::Symbol) = if s in (:jupiter, :Jupiter)
-    Jupiter
-elseif s in (:saturn, :Saturn)
-    Saturn
-elseif s in (:earth, :Earth)
-    Earth
-else
-    error("Unknown planet: $s")
+const PLANETS = Dict{Symbol, Planet}(
+    :mercury => Mercury,
+    :earth => Earth,
+    :mars => Mars,
+    :jupiter => Jupiter,
+    :saturn => Saturn,
+    :uranus => Uranus,
+    :neptune => Neptune,
+    :ganymede => Ganymede,
+)
+
+function planet(s::Symbol)
+    key = Symbol(lowercase(string(s)))
+    haskey(PLANETS, key) || error("Unknown planet: $s. Available: $(keys(PLANETS))")
+    return PLANETS[key]
 end
 
 """
@@ -53,10 +67,10 @@ end
 Storage for Gauss coefficients in Schmidt semi-normalized form.
 
 # Fields
-- `g::Matrix{Float64}`: Schmidt semi-normalized g coefficients (degree × order)
-- `h::Matrix{Float64}`: Schmidt semi-normalized h coefficients (degree × order)
-- `degree::Int`: Maximum degree N
-- `order::Int`: Maximum order M (typically M ≤ N)
+- `g`: Schmidt semi-normalized g coefficients (degree × order)
+- `h`: Schmidt semi-normalized h coefficients (degree × order)
+- `degree`: Maximum degree N
+- `order`: Maximum order M (typically M ≤ N)
 
 # Indexing
 Coefficients are stored in a triangular matrix where row n (degree) contains
@@ -70,22 +84,22 @@ For coefficient g_n^m or h_n^m:
 These coefficients follow the Schmidt semi-normalization convention used in
 geomagnetism and planetary magnetic field modeling (IGRF, WMM, JRM, etc.).
 """
-struct GaussCoefficients
-    g::Matrix{Float64}
-    h::Matrix{Float64}
+struct GaussCoefficients{A}
+    g::A
+    h::A
     degree::Int
     order::Int
 
-    function GaussCoefficients(g::Matrix{Float64}, h::Matrix{Float64}, degree::Int, order::Int)
-        # Validation
-        size(g) == size(h) || error("g and h matrices must have the same size")
-        size(g, 1) >= degree + 1 || error("g matrix must have at least degree+1 rows")
-        size(g, 2) >= order + 1 || error("g matrix must have at least order+1 columns")
-        degree >= 1 || error("Degree must be at least 1")
-        order >= 0 || error("Order must be non-negative")
-        order <= degree || error("Order cannot exceed degree")
-
-        return new(g, h, degree, order)
+    function GaussCoefficients(g::A, h::A, degree::Int, order::Int; check = false) where {A <: AbstractMatrix}
+        check && begin
+            size(g) == size(h) || error("g and h matrices must have the same size")
+            size(g, 1) >= degree + 1 || error("g matrix must have at least degree+1 rows")
+            size(g, 2) >= order + 1 || error("g matrix must have at least order+1 columns")
+            degree >= 1 || error("Degree must be at least 1")
+            order >= 0 || error("Order must be non-negative")
+            order <= degree || error("Order cannot exceed degree")
+        end
+        return new{A}(g, h, degree, order)
     end
 end
 
