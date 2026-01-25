@@ -12,9 +12,10 @@ PlanetaryMagneticFields.jl provides a unified framework for working with magneti
 
 ### Features
 
-- **Multi-planetary support**: Currently Jupiter, with Earth, Saturn, and others coming soon
-- **Multiple models**: JRM09, JRM33 for Jupiter
+- **Multi-planetary support**: Mercury, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, and Ganymede
+- **Multiple models**: 80+ models available across all planets
 - **Flexible evaluation**: Support for both spherical and Cartesian coordinates
+- **Visualization**: Plot magnetic field maps using GeoMakie (Mollweide, Hammer projections)
 
 ## Installation
 
@@ -63,79 +64,76 @@ PlanetaryMagneticFields.jl currently supports two coordinate systems:
 - x-axis points to (θ=π/2, φ=0)
 - y-axis points to (θ=π/2, φ=π/2)
 
-## Examples
+## Visualization
 
-### Basic Field Evaluation
+PlanetaryMagneticFields.jl provides visualization capabilities through GeoMakie. To use plotting functions, you need to load CairoMakie (or GLMakie) and GeoMakie:
 
-```@example example
+```@example plotting
+using CairoMakie, GeoMakie
 using PlanetaryMagneticFields
-
-# Load model
-model = JRM09()
-
-# Evaluate at different positions
-positions = [
-    (1.5, 0.0, 0.0),      # North pole, 1.5 RJ
-    (2.0, π/2, 0.0),      # Equator, 2 RJ
-    (1.0, π/4, π/2),      # 45° colatitude, 90° longitude
-]
-B = model.(positions)
 ```
 
-### Using Cartesian Coordinates
+Here is an example of how to plot a magnetic field map for a single planet:
 
-```julia
-# Cartesian input and output
-model = JRM09(in=:cartesian, out=:cartesian)
-x, y, z = 1.0, 0.5, 0.5  # In Jupiter radii
-B = model(x, y, z)
+```@example plotting
+model = JRM09() # Load Jupiter's JRM09 model
 
-# Cartesian input, spherical output
-B_sph = model(x, y, z; out=:spherical)
+# Create a field map with Mollweide projection
+plot_fieldmap(model;
+    r=1.0,
+    axis=(; title="Jupiter Radial Magnetic Field (JRM09)"),
+    dest="+proj=moll"
+)
 ```
 
-### Working with Units
-
-```@example example
-# By default, positions are in planetary radii
-using Unitful
-model = JRM09()
-r_km = 107238.0u"km"  # 1.5 RJ in km
-θ, φ = π/4, 0.0
-@assert model(r_km, θ, φ) == model(1.5, θ, φ)
-model(r_km, θ, φ)
-```
-
-### Using Different Models
-
-```@example example
-# Load JRM09 (degree 10)
-jrm09 = JRM09()
-
-# Load JRM33 truncated to degree 13 (recommended)
-jrm33 = JRM33(max_degree=13)
-
-# Load full JRM33 (degree 30)
-jrm33_full = JRM33()
-
-# Compare models
-r, θ, φ = 1.5, π/4, 0.0
-B09 = jrm09(r, θ, φ)
-B33 = jrm33(r, θ, φ)
-```
+See [visualization examples](./examples.md#visualization) for more details.
 
 ## Available Models
 
-List all available models
+List all available models:
 
-```@repl example
+```@example quick_start
 available_models()
 ```
 
+### Loading Models for Any Planet
+
+```@example quick_start
+# Load a model by planet and model name
+earth_model = load_model(:earth, "igrf2020")
+saturn_model = load_model(:saturn, "cassini11")
+neptune_model = load_model(:neptune, "gsfco8")
+
+# Evaluate at the surface
+earth_model(1.0, π/4, 0.0)
+```
+
+### Mercury
+
+```@example quick_start
+available_models(:Mercury)
+```
+
+### Earth
+
+```@example quick_start
+available_models(:Earth)
+```
+
+The IGRF (International Geomagnetic Reference Field) models span from 1900 to 2025.
+
+### Mars
+
+```@example quick_start
+available_models(:Mars)
+```
+
+Mars has crustal magnetic fields (no global dynamo).
+
 ### Jupiter
 
-```@repl example
-available_models(:jupiter)
+```@example quick_start
+available_models(:Jupiter)
 ```
 
 - **JRM09**: Juno Reference Model through Perijove 9 (degree 10)
@@ -146,12 +144,44 @@ available_models(:jupiter)
   - Reference: Connerney et al. (2022), Journal of Geophysical Research: Planets
   - DOI: 10.1029/2021JE007055
 
+### Saturn
+
+```@example quick_start
+available_models(:Saturn)
+```
+
+### Uranus
+
+```@example quick_start
+available_models(:uranus)
+```
+
+### Neptune
+
+```@example quick_start
+available_models(:neptune)
+```
+
+### Ganymede
+
+```@example quick_start
+available_models(:ganymede)
+```
+
 ## Physical Parameters
 
-### Jupiter
-- Mean radius: 71,492 km (1 RJ)
-- Reference frame: System III (1965) coordinates
-- Magnetic dipole moment: ~4.17 Gauss RJ³
+The package uses the following mean radii for unit conversions:
+
+| Body | Mean Radius (km) |
+|------|------------------|
+| Mercury | 2,439.7 |
+| Earth | 6,371.2 |
+| Mars | 3,389.5 |
+| Jupiter | 71,492.0 |
+| Saturn | 60,268.0 |
+| Uranus | 25,559.0 |
+| Neptune | 24,764.0 |
+| Ganymede | 2,634.1 |
 
 ## Mathematical Background
 
@@ -179,8 +209,8 @@ The magnetic field **B** = -∇V is computed from derivatives of the potential.
 3. Winch, D. E., et al. (2005). Geomagnetism and Schmidt quasi-normalization. *Geophysical Journal International*, 160(2), 487-504.
 
 ## Comparison
-
-```@repl comparison
+ 
+```@example comparison
 using PythonCall
 using PlanetaryMagneticFields
 using Chairmarks
@@ -188,12 +218,14 @@ using Chairmarks
 
 r, θ, φ = 1.5, π/4, 0.0
 jm.Internal.Config(Model="jrm33", CartesianIn=false, CartesianOut=false)
+```
+
+```@repl comparison
 Br, Bt, Bp = jm.Internal.Field(r, θ, φ);
 B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])
 model = JRM33(max_degree=13)
 B = model(r, θ, φ)
 @assert B_py ≈ B
-@b model(r, θ, φ), jm.Internal.Field(r, θ, φ)
 ```
 
 ## API Reference

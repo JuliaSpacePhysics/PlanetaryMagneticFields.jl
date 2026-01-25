@@ -1,0 +1,14 @@
+name = "JRM33"
+doi = "10.1029/2021JE007055"
+year = 2022
+description = "Jupiter Reference Model through Perijove 33"
+degree = 30
+order = 30
+recommended_degree = 13
+references = [
+    "Connerney et al. (2022), Journal of Geophysical Research: Planets",
+]
+notes = [
+    "Based on Juno's first 33 orbits",
+    "Latest model. Coefficients well-determined through degree 13, useful information through degree 18. Higher degrees less certain.",
+]

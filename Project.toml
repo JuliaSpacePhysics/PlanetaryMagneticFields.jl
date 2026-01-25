@@ -7,19 +7,26 @@ authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
 projects = ["docs", "test"]
 
 [deps]
+AxisKeys = "94b1ba4f-4ee9-5380-92f1-94cde586c3c5"
 Bumper = "8ce10254-0962-460f-a3d8-1f77fea1446e"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [weakdeps]
+GeoMakie = "db073c08-6b98-4ee5-b6a4-5efafb3259c6"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [extensions]
+PlanetaryMagneticFieldsMakieExt = "GeoMakie"
 PlanetaryMagneticFieldsUnitfulExt = "Unitful"
 
 [compat]
+AxisKeys = "0.2"
 Bumper = "0.7"
+GeoMakie = "0.7"
 LinearAlgebra = "1"
 StaticArrays = "1"
+TOML = "1"
 Unitful = "1"
 julia = "1.10"

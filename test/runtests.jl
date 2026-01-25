@@ -27,6 +27,8 @@ end
 
 @testset "Public API" begin
     include("test_api.jl")
+
+    @test model_info("jrm09") isa AbstractDict
 end
 
 @testset "Jupiter Models" begin

@@ -7,8 +7,9 @@ function _available_models(path)
 end
 
 function available_models(body)
-    return if body in Celestial_bodies
-        _available_models(body)
+    bsym = Symbol(lowercase(string(body)))
+    return if bsym in Celestial_bodies
+        _available_models(bsym)
     else
         error("Unsupported planet: $body. Currently supported: $Celestial_bodies")
     end

@@ -1,0 +1,9 @@
+name = "JRM09"
+description = "Juno Reference Model through Perijove 9"
+degree = 10
+order = 10
+reference = "Connerney et al. (2018), Geophysical Research Letters"
+doi = "10.1002/2018GL077312"
+year = 2018
+mission_phase = "First 9 Juno orbits"
+notes = "Well-validated standard model for Jupiter's internal field"
