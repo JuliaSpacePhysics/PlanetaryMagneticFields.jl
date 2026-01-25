@@ -1,23 +1,23 @@
-using MagneticModels
+using PlanetaryMagneticFields
 using Documenter
 
-DocMeta.setdocmeta!(MagneticModels, :DocTestSetup, :(using MagneticModels); recursive=true)
+DocMeta.setdocmeta!(PlanetaryMagneticFields, :DocTestSetup, :(using PlanetaryMagneticFields); recursive = true)
 
 makedocs(;
-    modules=[MagneticModels],
-    authors="Beforerr <zzj956959688@gmail.com> and contributors",
-    sitename="MagneticModels.jl",
-    format=Documenter.HTML(;
-        canonical="https://JuliaSpacePhysics.github.io/MagneticModels.jl",
-        edit_link="main",
-        assets=String[],
+    modules = [PlanetaryMagneticFields],
+    authors = "Beforerr <zzj956959688@gmail.com> and contributors",
+    sitename = "PlanetaryMagneticFields.jl",
+    format = Documenter.HTML(;
+        canonical = "https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl",
+        edit_link = "main",
+        assets = String[],
     ),
-    pages=[
+    pages = [
         "Home" => "index.md",
     ],
 )
 
 deploydocs(;
-    repo="github.com/JuliaSpacePhysics/MagneticModels.jl",
-    devbranch="main",
+    repo = "github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl",
+    devbranch = "main",
 )

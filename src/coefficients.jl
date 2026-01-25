@@ -1,5 +1,5 @@
 """
-Coefficient loading and manipulation for MagneticModels.jl
+Coefficient loading and manipulation for PlanetaryMagneticFields.jl
 
 This module provides functions to load Gauss coefficients from data files
 and create GaussCoefficients objects.

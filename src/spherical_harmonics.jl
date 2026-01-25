@@ -1,5 +1,5 @@
 """
-Spherical harmonic field evaluation for MagneticModels.jl
+Spherical harmonic field evaluation for PlanetaryMagneticFields.jl
 
 This module implements Schmidt semi-normalized associated Legendre polynomials
 and spherical harmonic magnetic field evaluation.

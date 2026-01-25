@@ -1,5 +1,5 @@
 using Test
-using MagneticModels
+using PlanetaryMagneticFields
 
 @testset "GaussCoefficients construction and indexing" begin
     # Create simple test coefficients (degree 2, order 2)

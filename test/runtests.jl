@@ -1,11 +1,11 @@
-using MagneticModels
+using PlanetaryMagneticFields
 using Test
 using Aqua
-using MagneticModels: SphericalHarmonicModel, GaussCoefficients
+using PlanetaryMagneticFields: SphericalHarmonicModel, GaussCoefficients
 using Unitful
 
 @testset "Code quality (Aqua.jl)" begin
-    Aqua.test_all(MagneticModels)
+    Aqua.test_all(PlanetaryMagneticFields)
 end
 
 @testset "quick test" begin
@@ -16,7 +16,7 @@ end
     @test model(8 * 71492.0u"km", θ, φ) ≈ [-250.03964154, 779.36280353, -48.0067748]
 end
 
-@testset "MagneticModels.jl" begin
+@testset "PlanetaryMagneticFields.jl" begin
     # Test type system
     include("test_types.jl")
 end

@@ -1,10 +1,10 @@
-module MagneticModelsUnitfulExt
+module PlanetaryMagneticFieldsUnitfulExt
 
-using MagneticModels
+using PlanetaryMagneticFields
 using Unitful
 
 # Import the callable function to extend it
-import MagneticModels: MagneticModel
+import PlanetaryMagneticFields: MagneticModel
 
 function (m::MagneticModel)(r::Unitful.Length, θ, φ; kw...)
     # Convert position to planetary radii
@@ -18,7 +18,7 @@ function (m::MagneticModel)(x::Unitful.Length, y::Unitful.Length, z::Unitful.Len
     x_radii = ustrip(u"km", x) / m.obj.radius
     y_radii = ustrip(u"km", y) / m.obj.radius
     z_radii = ustrip(u"km", z) / m.obj.radius
-    return m(x_radii, y_radii, z_radii; kw...)
+    return m(x_radii, y_radii, z_radii; in = :cartesian, kw...)
 end
 
 end # module

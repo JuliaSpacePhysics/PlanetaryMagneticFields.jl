@@ -1,16 +1,16 @@
-# MagneticModels.jl
+# PlanetaryMagneticFields.jl
 
-[![Build Status](https://github.com/JuliaSpacePhysics/MagneticModels.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaSpacePhysics/MagneticModels.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/JuliaSpacePhysics/MagneticModels.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaSpacePhysics/MagneticModels.jl)
+[![Build Status](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl)
 [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 **A unified framework for planetary magnetic field modeling in Julia.**
 
-MagneticModels.jl provides easy access to spherical harmonic models of planetary magnetic fields, with a focus on clean API design, performance, and extensibility.
+PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of planetary magnetic fields, with a focus on clean API design, performance, and extensibility.
 
-**Installation**: at the Julia REPL, run `using Pkg; Pkg.add("MagneticModels")`
+**Installation**: at the Julia REPL, run `using Pkg; Pkg.add("PlanetaryMagneticFields")`
 
-**Documentation**: [![Dev](https://img.shields.io/badge/docs-dev-blue.svg?logo=julia)](https://JuliaSpacePhysics.github.io/MagneticModels.jl/dev/)
+**Documentation**: [![Dev](https://img.shields.io/badge/docs-dev-blue.svg?logo=julia)](https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/dev/)
 
 ## Features & Roadmap
 
@@ -33,7 +33,7 @@ MagneticModels.jl provides easy access to spherical harmonic models of planetary
 ## Quick Start
 
 ```julia
-using MagneticModels
+using PlanetaryMagneticFields
 
 # Load a Jupiter magnetic field model by unique name
 model = load_model(:JRM33; max_degree=13)

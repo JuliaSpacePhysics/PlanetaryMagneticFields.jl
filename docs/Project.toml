@@ -1,5 +1,5 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-MagneticModels = "548c34cc-0185-415b-8526-a0c739028078"
+PlanetaryMagneticFields = "548c34cc-0185-415b-8526-a0c739028078"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"

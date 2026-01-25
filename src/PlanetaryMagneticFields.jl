@@ -1,4 +1,4 @@
-module MagneticModels
+module PlanetaryMagneticFields
 
 using StaticArrays
 using LinearAlgebra
@@ -29,4 +29,4 @@ export JRM09,
 # Utility functions that users might want
 export degree, order
 
-end # module MagneticModels
+end # module PlanetaryMagneticFields

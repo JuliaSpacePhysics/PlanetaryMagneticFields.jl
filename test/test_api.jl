@@ -1,11 +1,11 @@
 using Test
-using MagneticModels
+using PlanetaryMagneticFields
 using LinearAlgebra
 
 @testset "load_model" begin
     # Test loading by unique model name (Symbol)
     model_sym = load_model(:JRM09)
-    @test isa(model_sym, MagneticModels.MagneticModel)
+    @test isa(model_sym, PlanetaryMagneticFields.MagneticModel)
     @test model_sym.obj.name == :jupiter
 
     # Test with keyword arguments
@@ -29,9 +29,9 @@ end
     B_RJ = model(r_RJ, θ, φ)
     # Same position in km
     r_km = r_RJ * 71492.0u"km"  # Jupiter radius
-    B_km = model(r_km, θ, φ)
-
-    @test B_RJ == B_km
+    @test B_RJ == model(r_km, θ, φ)
+    𝐫 = [r_km * sin(θ) * cos(φ), r_km * sin(θ) * sin(φ), r_km * cos(θ)]
+    @test B_RJ == model(𝐫)
 end
 
 @testset "available_models" begin

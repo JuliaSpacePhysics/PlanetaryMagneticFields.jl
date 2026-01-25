@@ -1,5 +1,5 @@
 """
-Core type definitions for MagneticModels.jl
+Core type definitions for PlanetaryMagneticFields.jl
 
 This module defines the abstract type hierarchy and concrete types for representing
 magnetic field models.
@@ -201,20 +201,16 @@ function (m::MagneticModel)(
     coords ∈ (:spherical, :cartesian) || error("in must be :spherical or :cartesian")
     output_coords ∈ (:spherical, :cartesian) || error("out must be :spherical or :cartesian")
 
-    # Create position vector (assumed to be in planetary radii)
-    pos = [Float64(r), Float64(θ), Float64(φ)]
-
     # Evaluate based on coordinate systems
     return if coords == :spherical && output_coords == :spherical
         m.model(r, θ, φ)
     elseif coords == :spherical && output_coords == :cartesian
         B_sph = m.model(r, θ, φ)
-        spherical_field_to_cartesian(B_sph..., pos[2], pos[3])
+        spherical_field_to_cartesian(B_sph..., θ, φ)
     elseif coords == :cartesian && output_coords == :spherical
-        (r_sph, θ_sph, φ_sph) = cartesian_to_spherical(pos...)
-        m.model(r_sph, θ_sph, φ_sph)
+        m.model(cartesian_to_spherical(r, θ, φ)...)
     else  # cartesian -> cartesian
-        evaluate_field_cartesian(m.model, pos...)
+        evaluate_field_cartesian(m.model, r, θ, φ)
     end
 end
 

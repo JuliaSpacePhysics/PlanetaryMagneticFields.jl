@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = MagneticModels
+CurrentModule = PlanetaryMagneticFields
 ```
 
-# MagneticModels.jl
+# PlanetaryMagneticFields.jl
 
 A Julia package for planetary magnetic field modeling.
 
 ## Overview
 
-MagneticModels.jl provides a unified framework for working with magnetic field models of planets in our solar system. It implements spherical harmonic expansions with Schmidt semi-normalization, following standards used in geomagnetism and planetary science.
+PlanetaryMagneticFields.jl provides a unified framework for working with magnetic field models of planets in our solar system. It implements spherical harmonic expansions with Schmidt semi-normalization, following standards used in geomagnetism and planetary science.
 
 ### Features
 
@@ -20,13 +20,13 @@ MagneticModels.jl provides a unified framework for working with magnetic field m
 
 ```julia
 using Pkg
-Pkg.add("MagneticModels")
+Pkg.add("PlanetaryMagneticFields")
 ```
 
 ## Quick Start
 
 ```@example quick_start
-using MagneticModels
+using PlanetaryMagneticFields
 
 # Load a Jupiter magnetic field model by unique name
 model = load_model(:JRM33; max_degree=13)
@@ -49,7 +49,7 @@ B_sph = model_cart(1.0, 0.0, 0.5; out=:spherical)  # Returns [B_r, B_θ, B_φ]
 
 ## Coordinate Systems
 
-MagneticModels.jl currently supports two coordinate systems:
+PlanetaryMagneticFields.jl currently supports two coordinate systems:
 
 ### Spherical Coordinates
 
@@ -68,7 +68,7 @@ MagneticModels.jl currently supports two coordinate systems:
 ### Basic Field Evaluation
 
 ```@example example
-using MagneticModels
+using PlanetaryMagneticFields
 
 # Load model
 model = JRM09()
@@ -203,5 +203,5 @@ B = model(r, θ, φ)
 ```
 
 ```@autodocs
-Modules = [MagneticModels]
+Modules = [PlanetaryMagneticFields]
 ```

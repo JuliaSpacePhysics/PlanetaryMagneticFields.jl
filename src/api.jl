@@ -1,5 +1,5 @@
 """
-Public API for MagneticModels.jl
+Public API for PlanetaryMagneticFields.jl
 
 This module provides the main user-facing functions for loading and evaluating
 magnetic field models.
