@@ -134,7 +134,7 @@ function model_info end
 
 function model_info(model)
     name = lowercase(model)
-    file = "data/metadata/$(name).toml"
+    file = pkgdir(@__MODULE__, "data/metadata/$(name).toml")
     @assert isfile(file)
     return TOML.parsefile(file)
 end

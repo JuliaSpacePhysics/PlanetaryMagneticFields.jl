@@ -77,13 +77,10 @@ function schmidt_legendre!(P, dP, θ, max_degree::Int)
     # where a_nm = (2n-1) / sqrt(n² - m²)
     #       b_nm = sqrt((n-1)² - m²) / sqrt(n² - m²)
     for m in 0:max_degree
-        fm = Float64(m)
         for n in (m + 1):max_degree
-            fn = Float64(n)
-
             # Compute coefficients
-            n2_m2 = fn * fn - fm * fm  # n² - m²
-            a_nm = (2fn - 1) / sqrt(n2_m2)
+            n2_m2 = n * n - m * m  # n² - m²
+            a_nm = (2n - 1) / sqrt(n2_m2)
 
             if n == m + 1
                 # First off-diagonal: b_nm term is zero (P_{n-2}^m doesn't exist)
@@ -91,7 +88,7 @@ function schmidt_legendre!(P, dP, θ, max_degree::Int)
                 dP[n + 1, m + 1] = a_nm * (cosθ * dP[n, m + 1] - sinθ * P[n, m + 1])
             else
                 # General case with both terms
-                nm1_2_m2 = (fn - 1) * (fn - 1) - fm * fm  # (n-1)² - m²
+                nm1_2_m2 = (n - 1) * (n - 1) - m * m  # (n-1)² - m²
                 b_nm = sqrt(nm1_2_m2 / n2_m2)
 
                 P[n + 1, m + 1] = a_nm * cosθ * P[n, m + 1] - b_nm * P[n - 1, m + 1]
@@ -132,60 +129,55 @@ B_φ = -\\frac{1}{r\\sin θ}\\frac{∂V}{∂φ}
 ```
 """
 function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
+    @assert max_degree <= coeffs.degree
     r > 0 || error("Radius must be positive")
     0 <= θ <= π || error("Colatitude θ must be in [0, π]")
     T = promote_type(eltype(r), eltype(θ), eltype(φ))
-
-    # Precompute trigonometric functions
-    sinθ = sin(θ)
-
-    # Allocate arrays for Legendre polynomials
-    @no_escape begin
+    return @no_escape begin
         P = @alloc(T, max_degree + 1, max_degree + 1)
         dP = @alloc(T, max_degree + 1, max_degree + 1)
-        sincos_mφs = @alloc(Tuple{typeof(φ), typeof(φ)}, max_degree + 1)
-        for m in eachindex(sincos_mφs)
-            sincos_mφs[m] = sincos((m - 1) * φ)
-        end
-
-        # Compute Schmidt-normalized associated Legendre polynomials
-        schmidt_legendre!(P, dP, θ, max_degree)
-
-        # Initialize field components
-        Br, Bθ, Bφ = 0.0, 0.0, 0.0
-
-        # r is in planetary radii (dimensionless), so (1/r)^k gives the radial dependence
-        # For internal field: B components use (1/r)^(n+2)
-        ratio = 1.0 / r
-
-        # Sum over degrees and orders
-        for l in 1:max_degree
-            ratio_pow = ratio * ratio * ratio  # (1/r)^(n+2) for magnetic field
-            for m in 0:min(l, coeffs.order)
-                # Get coefficients
-                g = coeffs.g[l + 1, m + 1]
-                h = coeffs.h[l + 1, m + 1]
-
-                # Compute trigonometric terms
-                sin_mφ, cos_mφ = sincos_mφs[m + 1]
-                # Spherical harmonic term
-                Y = g * cos_mφ + h * sin_mφ
-                # Derivatives
-                dY_dφ = m * (-g * sin_mφ + h * cos_mφ)
-
-                # Contribution to field components
-                # B_r = -∂V/∂r: factor of (n+1) from derivative of (a/r)^(n+1)
-                Br += (l + 1) * ratio_pow * Y * P[l + 1, m + 1]
-                # B_θ = -(1/r)∂V/∂θ
-                Bθ -= ratio_pow * Y * dP[l + 1, m + 1]
-                # B_φ = -(1/(r sin θ))∂V/∂φ
-                abs(sinθ) > 1.0e-10 && (Bφ -= ratio_pow * dY_dφ * P[l + 1, m + 1])
-            end
-            ratio_pow *= ratio
-        end
+        sincos_mφs = @alloc(Tuple{T, T}, max_degree + 1)
+        evaluate_field_spherical!(P, dP, sincos_mφs, coeffs.g, coeffs.h, promote(r, θ, φ)..., max_degree, coeffs.order)
     end
+end
 
-    return SVector{3, T}(Br, Bθ, abs(sinθ) > 1.0e-10 ? Bφ / sinθ : Bφ)
+@inline function evaluate_field_spherical!(P, dP, sincos_mφs, G, H, r::T, θ::T, φ::T, max_degree, max_order) where {T}
+    sinθ = sin(θ)
+    for m in eachindex(sincos_mφs)
+        sincos_mφs[m] = sincos((m - 1) * φ)
+    end
+    schmidt_legendre!(P, dP, θ, max_degree)
+
+    Br, Bθ, Bφ = 0.0, 0.0, 0.0
+
+    # r is in planetary radii (dimensionless), so (1/r)^k gives the radial dependence
+    # For internal field: B components use (1/r)^(n+2)
+    ratio = 1.0 / r
+    pow = ratio * ratio * ratio   # (1/r)^(n+2) for magnetic field
+    flag = abs(sinθ) > 1.0e-10
+    # Sum over degrees and orders
+    @inbounds for l in 1:max_degree
+        for m in 0:min(l, max_order)
+            g = G[l + 1, m + 1]
+            h = H[l + 1, m + 1]
+            sin_mφ, cos_mφ = sincos_mφs[m + 1]
+
+            # Spherical harmonic term
+            Y = g * cos_mφ + h * sin_mφ
+            # Derivatives
+            dY_dφ = m * (-g * sin_mφ + h * cos_mφ)
+
+            # Contribution to field components
+            # B_r = -∂V/∂r: factor of (n+1) from derivative of (a/r)^(n+1)
+            Br += (l + 1) * pow * Y * P[l + 1, m + 1]
+            # B_θ = -(1/r)∂V/∂θ
+            Bθ -= pow * Y * dP[l + 1, m + 1]
+            # B_φ = -(1/(r sin θ))∂V/∂φ
+            flag && (Bφ -= pow * dY_dφ * P[l + 1, m + 1])
+        end
+        pow *= ratio
+    end
+    return SVector{3, T}(Br, Bθ, flag ? Bφ / sinθ : Bφ)
 end
 
 function evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ; kw...)
