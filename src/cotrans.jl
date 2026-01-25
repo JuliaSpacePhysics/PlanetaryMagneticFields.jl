@@ -102,3 +102,21 @@ function spherical_field_to_cartesian(
 
     return SVector{3, Float64}(Bx, By, Bz)
 end
+
+"""
+    cartesian_field_to_spherical(Bx, By, Bz, θ, φ)
+
+Convert magnetic field components from Cartesian to spherical coordinates.
+"""
+function cartesian_field_to_spherical(Bx, By, Bz, θ, φ)
+    sinθ = sin(θ)
+    cosθ = cos(θ)
+    sinφ = sin(φ)
+    cosφ = cos(φ)
+
+    Br = Bx * sinθ * cosφ + By * sinθ * sinφ + Bz * cosθ
+    Bθ = Bx * cosθ * cosφ + By * cosθ * sinφ - Bz * sinθ
+    Bφ = -Bx * sinφ + By * cosφ
+
+    return SVector{3, Float64}(Br, Bθ, Bφ)
+end

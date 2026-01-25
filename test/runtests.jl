@@ -31,6 +31,10 @@ end
     @test model_info("jrm09") isa AbstractDict
 end
 
+@testset "Composite Models" begin
+    include("test_composite.jl")
+end
+
 @testset "Jupiter Models" begin
     include("test_jupiter.jl")
 end

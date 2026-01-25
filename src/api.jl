@@ -9,8 +9,13 @@ magnetic field models.
 const MODEL_REGISTRY = Dict{Symbol, Tuple{Symbol, String}}(
     :JRM09 => (:jupiter, "jrm09"),
     :JRM33 => (:jupiter, "jrm33"),
+    :T89 => (:earth, "t89"),
+    :T96 => (:earth, "t96"),
+    :T01 => (:earth, "t01"),
+    :TS04 => (:earth, "ts04"),
 )
 const Celestial_bodies = (:jupiter, :mercury, :earth, :mars, :ganymede, :neptune, :uranus, :saturn)
+const DEFAULT_IGRF = "igrf2025"
 
 """
     load_model(model; kwargs...)::MagneticModel
@@ -68,12 +73,40 @@ end
 
 load_model(p, model; kw...) = _load_model(planet(p), model; kw...)
 
-function _load_model(p::Planet, model; max_degree = nothing, kw...)
-    data_file = "$(lowercase(model)).dat"
+function _latest_igrf_model()
+    igrf_models = filter(name -> startswith(name, "igrf"), _available_models(:earth))
+    isempty(igrf_models) && return DEFAULT_IGRF
+    years = map(name -> parse(Int, replace(name, "igrf" => "")), igrf_models)
+    latest_idx = findmax(years)[2]
+    return igrf_models[latest_idx]
+end
+
+function _load_model(
+        p::Planet,
+        model;
+        max_degree = nothing,
+        drivers = nothing,
+        igrf_model = nothing,
+        in = :spherical,
+        out = :spherical,
+    )
+    model_str = lowercase(String(model))
+    model_sym = Symbol(model_str)
+
+    if p.name == :earth && Base.in(model_sym, TSYGANENKO_MODELS)
+        drv = isnothing(drivers) ? TsyganenkoDrivers() : drivers
+        drv isa TsyganenkoDrivers || error("drivers must be a TsyganenkoDrivers struct")
+        igrf_choice = isnothing(igrf_model) ? _latest_igrf_model() : igrf_model
+        internal = _load_model(p, igrf_choice; max_degree = max_degree, in = :spherical, out = :spherical)
+        external = tsyg_model(p, model_sym, drv)
+        return compose_models((internal, external); in = in, out = out)
+    end
+
+    data_file = "$(model_str).dat"
     data_path = pkgdir(@__MODULE__, "data/coeffs", lowercase(string(p.name)), data_file)
     coeffs = load_coefficients(data_path, max_degree = max_degree)
-    sh_model = SphericalHarmonicModel(uppercase(model), coeffs)
-    return MagneticModel(sh_model, p; kw...)
+    sh_model = SphericalHarmonicModel(uppercase(model_str), coeffs)
+    return MagneticModel(sh_model, p; in = in, out = out)
 end
 
 """

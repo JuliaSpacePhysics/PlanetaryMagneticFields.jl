@@ -3,6 +3,9 @@ module PlanetaryMagneticFields
 using StaticArrays
 using LinearAlgebra
 using TOML
+using Dates
+using GeoCotrans
+using TsyganenkoModels
 
 # Include core functionality
 include("types.jl")
@@ -10,6 +13,8 @@ include("data.jl")
 include("coefficients.jl")
 include("cotrans.jl")
 include("spherical_harmonics.jl")
+include("composition.jl")
+include("tsyg.jl")
 
 # Include public API
 include("api.jl")
@@ -18,7 +23,7 @@ include("api.jl")
 # export MagneticFieldModel, InternalFieldModel, ExternalFieldModel, SphericalHarmonicModel
 
 # Main user-facing functions
-export load_model, available_models, model_info, MagneticModel, fieldmap
+export load_model, available_models, model_info, MagneticModel, fieldmap, compose_models
 
 # Convenience model accessors
 export JRM09,
@@ -26,6 +31,7 @@ export JRM09,
 
 # Utility functions that users might want
 export degree, order
+export TsyganenkoDrivers
 
 # Plotting functions (implemented in MakieExt)
 export plot_fieldmap, plot_fieldmap!, plot_models

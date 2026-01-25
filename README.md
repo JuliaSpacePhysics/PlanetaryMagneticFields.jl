@@ -24,7 +24,7 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
   - [ ] Saturn models (Cassini-derived)
   - [ ] Mercury, Mars models
 - 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
-- [ ] Model composition
+- [x] Model composition
 - [ ] Time-dependent coefficients (secular variation)
 - Performance optimizations
   - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
@@ -44,6 +44,12 @@ model = JRM33(max_degree=13)
 # Evaluate the field at a position (1.5 Jupiter radii, 45° colatitude, 0° longitude)
 r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
+
+# Compose models (e.g., Earth internal IGRF + external Tsyganenko T96)
+using Dates
+drivers = TsyganenkoDrivers(Date(2020, 1, 1); pdyn=2.0, dst=0.0, byimf=0.0, bzimf=0.0)
+earth = load_model(:earth, "t96"; drivers=drivers, igrf_model="igrf2025")
+B_earth = earth(5.0, π/2, 0.0)
 ```
 
 ## Elsewhere

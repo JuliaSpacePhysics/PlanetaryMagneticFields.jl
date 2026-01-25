@@ -8,11 +8,13 @@ end
 
 function available_models(body)
     bsym = Symbol(lowercase(string(body)))
-    return if bsym in Celestial_bodies
-        _available_models(bsym)
-    else
-        error("Unsupported planet: $body. Currently supported: $Celestial_bodies")
+    bsym in Celestial_bodies || error("Unsupported planet: $body. Currently supported: $Celestial_bodies")
+
+    models = _available_models(bsym)
+    if bsym == :earth
+        append!(models, string.(TSYGANENKO_MODELS))
     end
+    return sort(unique(models))
 end
 
 available_models() = reduce(vcat, available_models(body) for body in Celestial_bodies)
