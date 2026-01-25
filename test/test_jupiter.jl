@@ -42,14 +42,14 @@ end
 
 
 @testset "Model info" begin
-    info = PlanetaryMagneticFields.jupiter_model_info("jrm09")
+    info = PlanetaryMagneticFields.model_info("jrm09")
     @test info["name"] == "JRM09"
     @test haskey(info, "description")
     @test haskey(info, "reference")
     @test haskey(info, "doi")
     @test info["degree"] == 10
 
-    info33 = PlanetaryMagneticFields.jupiter_model_info("jrm33")
+    info33 = PlanetaryMagneticFields.model_info("jrm33")
     @test info33["degree"] == 30
     @test info33["recommended_degree"] == 13
 end
