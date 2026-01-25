@@ -1,5 +1,6 @@
 [deps]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+GeoCotrans = "4624b3bc-fe35-44f8-bfa8-722ff9c0e307"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 PlanetaryMagneticFields = "548c34cc-0185-415b-8526-a0c739028078"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

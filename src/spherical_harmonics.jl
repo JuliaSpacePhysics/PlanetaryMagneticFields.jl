@@ -143,7 +143,10 @@ function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
     @no_escape begin
         P = @alloc(T, max_degree + 1, max_degree + 1)
         dP = @alloc(T, max_degree + 1, max_degree + 1)
-        ratio_powers = @alloc(T, max_degree + 3)
+        sincos_mφs = @alloc(Tuple{typeof(φ), typeof(φ)}, max_degree + 1)
+        for m in eachindex(sincos_mφs)
+            sincos_mφs[m] = sincos((m - 1) * φ)
+        end
 
         # Compute Schmidt-normalized associated Legendre polynomials
         schmidt_legendre!(P, dP, θ, max_degree)
@@ -151,27 +154,20 @@ function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
         # Initialize field components
         Br, Bθ, Bφ = 0.0, 0.0, 0.0
 
-        # Precompute powers of (1/r)
         # r is in planetary radii (dimensionless), so (1/r)^k gives the radial dependence
         # For internal field: B components use (1/r)^(n+2)
         ratio = 1.0 / r
-        ratio_powers[1] = ratio
-        for k in 2:(max_degree + 3)
-            ratio_powers[k] = ratio_powers[k - 1] * ratio
-        end
 
         # Sum over degrees and orders
-        for n in 1:max_degree
-            fn = Float64(n)
-            ratio_pow = ratio_powers[n + 2]  # (1/r)^(n+2) for magnetic field
-
-            for m in 0:min(n, coeffs.order)
+        for l in 1:max_degree
+            ratio_pow = ratio * ratio * ratio  # (1/r)^(n+2) for magnetic field
+            for m in 0:min(l, coeffs.order)
                 # Get coefficients
-                g = coeffs.g[n + 1, m + 1]
-                h = coeffs.h[n + 1, m + 1]
+                g = coeffs.g[l + 1, m + 1]
+                h = coeffs.h[l + 1, m + 1]
 
                 # Compute trigonometric terms
-                sin_mφ, cos_mφ = sincos(m * φ)
+                sin_mφ, cos_mφ = sincos_mφs[m + 1]
                 # Spherical harmonic term
                 Y = g * cos_mφ + h * sin_mφ
                 # Derivatives
@@ -179,12 +175,13 @@ function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
 
                 # Contribution to field components
                 # B_r = -∂V/∂r: factor of (n+1) from derivative of (a/r)^(n+1)
-                Br += (fn + 1) * ratio_pow * Y * P[n + 1, m + 1]
+                Br += (l + 1) * ratio_pow * Y * P[l + 1, m + 1]
                 # B_θ = -(1/r)∂V/∂θ
-                Bθ -= ratio_pow * Y * dP[n + 1, m + 1]
+                Bθ -= ratio_pow * Y * dP[l + 1, m + 1]
                 # B_φ = -(1/(r sin θ))∂V/∂φ
-                abs(sinθ) > 1.0e-10 && (Bφ -= ratio_pow * dY_dφ * P[n + 1, m + 1])
+                abs(sinθ) > 1.0e-10 && (Bφ -= ratio_pow * dY_dφ * P[l + 1, m + 1])
             end
+            ratio_pow *= ratio
         end
     end
 
