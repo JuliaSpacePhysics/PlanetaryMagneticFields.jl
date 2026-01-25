@@ -1,7 +1,23 @@
 name = "MagneticModels"
 uuid = "548c34cc-0185-415b-8526-a0c739028078"
-authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
 version = "1.0.0-DEV"
+authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
+
+[workspace]
+projects = ["docs", "test"]
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[weakdeps]
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[extensions]
+MagneticModelsUnitfulExt = "Unitful"
 
 [compat]
+LinearAlgebra = "1"
+StaticArrays = "1"
+Unitful = "1"
 julia = "1.10"

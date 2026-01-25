@@ -1,0 +1,8 @@
+[deps]
+cmake = ""
+
+[pip.deps]
+numpy = ""
+PyFileIO = ""
+JupiterMag = ""
+planetmagfields = ""
