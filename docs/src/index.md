@@ -182,6 +182,7 @@ The magnetic field **B** = -∇V is computed from derivatives of the potential.
 
 ```@example comparison
 using PythonCall
+using PlanetaryMagneticFields
 @py import JupiterMag as jm
 
 r, θ, φ = 1.5, π/4, 0.0
