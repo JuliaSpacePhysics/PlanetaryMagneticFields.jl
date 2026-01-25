@@ -180,22 +180,20 @@ The magnetic field **B** = -∇V is computed from derivatives of the potential.
 
 ## Comparison
 
-```@example comparison
+```@repl comparison
 using PythonCall
 using PlanetaryMagneticFields
+using Chairmarks
 @py import JupiterMag as jm
 
 r, θ, φ = 1.5, π/4, 0.0
-jm.Internal.Config(Model="jrm33",CartesianIn=false,CartesianOut=false)
-Br,Bt,Bp = jm.Internal.Field(r, θ, φ)
+jm.Internal.Config(Model="jrm33", CartesianIn=false, CartesianOut=false)
+Br, Bt, Bp = jm.Internal.Field(r, θ, φ);
 B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])
 model = JRM33(max_degree=13)
 B = model(r, θ, φ)
 @assert B_py ≈ B
-# @py import planetmagfields: Planet
-# p = Planet("jupiter")
-# p.extrapolate([r])
-# p.plot(r=r)
+@b model(r, θ, φ), jm.Internal.Field(r, θ, φ)
 ```
 
 ## API Reference
