@@ -16,7 +16,7 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
 
 - 🪐 **Multi-planetary support**: General type system and framework for magnetic field models
   - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
-  - [ ] Model discovery API (available_models())
+  - [x] Model discovery API (available_models())
   - [ ] Model metadata system
 - Testing
   - [x] Jupiter (JRM09, JRM33)
@@ -26,9 +26,10 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
 - 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
 - [ ] Model composition
 - [ ] Time-dependent coefficients (secular variation)
-- [ ] Performance optimizations (caching, pre-allocation, [SHTns.jl](https://github.com/fgerick/SHTns.jl))
-  - [ ] Batch/vectorized evaluation
-- [ ] Visualization extensions
+- Performance optimizations
+  - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
+  - [ ] Batch/vectorized evaluation for regular grid (e.g., [SHTns.jl](https://github.com/fgerick/SHTns.jl))
+- [x] Visualization extensions
 
 ## Quick Start
 

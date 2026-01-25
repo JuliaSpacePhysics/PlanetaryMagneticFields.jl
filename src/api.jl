@@ -133,7 +133,7 @@ println(info["description"])
 function model_info end
 
 function model_info(model)
-    name = lowercase(model)
+    name = lowercase(String(model))
     file = pkgdir(@__MODULE__, "data/metadata/$(name).toml")
     @assert isfile(file)
     return TOML.parsefile(file)

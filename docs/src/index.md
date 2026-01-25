@@ -136,13 +136,10 @@ Mars has crustal magnetic fields (no global dynamo).
 available_models(:Jupiter)
 ```
 
-- **JRM09**: Juno Reference Model through Perijove 9 (degree 10)
-  - Reference: Connerney et al. (2018), Geophysical Research Letters
-  - DOI: 10.1002/2018GL077312
-
-- **JRM33**: Juno Reference Model through Perijove 33 (degree 30, recommended truncation: 13)
-  - Reference: Connerney et al. (2022), Journal of Geophysical Research: Planets
-  - DOI: 10.1029/2021JE007055
+```@repl quick_start
+model_info(:jrm33)
+model_info("jrm09")
+```
 
 ### Saturn
 
@@ -226,6 +223,7 @@ B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])
 model = JRM33(max_degree=13)
 B = model(r, θ, φ)
 @assert B_py ≈ B
+@b model(r, θ, φ), jm.Internal.Field(r, θ, φ)
 ```
 
 ## API Reference
