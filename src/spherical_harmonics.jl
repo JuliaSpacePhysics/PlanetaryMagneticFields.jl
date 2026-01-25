@@ -5,11 +5,11 @@ This module implements Schmidt semi-normalized associated Legendre polynomials
 and spherical harmonic magnetic field evaluation.
 """
 
-using StaticArrays
 using LinearAlgebra
+using Bumper
 
 """
-    schmidt_legendre!(P::Matrix{Float64}, dP::Matrix{Float64}, cosθ, sinθ, max_degree::Int)
+    schmidt_legendre!(P, dP, cosθ, sinθ, max_degree::Int)
 
 Compute Schmidt semi-normalized associated Legendre polynomials and their derivatives.
 
@@ -17,8 +17,8 @@ This function computes P_n^m(cos θ) and dP_n^m/dθ for n = 0 to max_degree and 
 using the Schmidt semi-normalization convention standard in geomagnetism.
 
 # Arguments
-- `P::Matrix{Float64}`: Output matrix for P_n^m values (size: (max_degree+1) × (max_degree+1))
-- `dP::Matrix{Float64}`: Output matrix for dP_n^m/dθ values (same size as P)
+- `P`: Output matrix for P_n^m values (size: (max_degree+1) × (max_degree+1))
+- `dP`: Output matrix for dP_n^m/dθ values (same size as P)
 - `cosθ`: cos(colatitude)
 - `sinθ`: sin(colatitude)
 - `max_degree::Int`: Maximum degree to compute
@@ -29,14 +29,11 @@ The Schmidt semi-normalized Legendre polynomials satisfy:
 \\int_0^π [P_n^m(\\cos θ)]² \\sin θ dθ = \\frac{2(n+m)!}{(2n+1)(n-m)!}
 ```
 """
-function schmidt_legendre!(
-        P::Matrix{Float64}, dP::Matrix{Float64},
-        cosθ, sinθ, max_degree::Int
-    )
-    # Initialize
+function schmidt_legendre!(P, dP, θ, max_degree::Int)
     fill!(P, 0.0)
     fill!(dP, 0.0)
 
+    sinθ, cosθ = sincos(θ)
     # P_0^0 = 1 (degree 0, order 0)
     P[1, 1] = 1.0
     dP[1, 1] = 0.0
@@ -136,97 +133,69 @@ B_φ = -\\frac{1}{r\\sin θ}\\frac{∂V}{∂φ}
 function evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ)
     r > 0 || error("Radius must be positive")
     0 <= θ <= π || error("Colatitude θ must be in [0, π]")
+    T = promote_type(eltype(r), eltype(θ), eltype(φ))
 
     coeffs = model.coeffs
     max_degree = coeffs.degree
 
     # Precompute trigonometric functions
-    cosθ = cos(θ)
     sinθ = sin(θ)
 
     # Allocate arrays for Legendre polynomials
-    P = zeros(Float64, max_degree + 1, max_degree + 1)
-    dP = zeros(Float64, max_degree + 1, max_degree + 1)
+    @no_escape begin
+        P = @alloc(T, max_degree + 1, max_degree + 1)
+        dP = @alloc(T, max_degree + 1, max_degree + 1)
+        ratio_powers = @alloc(T, max_degree + 3)
 
-    # Compute Schmidt-normalized associated Legendre polynomials
-    schmidt_legendre!(P, dP, cosθ, sinθ, max_degree)
+        # Compute Schmidt-normalized associated Legendre polynomials
+        schmidt_legendre!(P, dP, θ, max_degree)
 
-    # Initialize field components
-    Br = 0.0
-    Bθ = 0.0
-    Bφ = 0.0
+        # Initialize field components
+        Br, Bθ, Bφ = 0.0, 0.0, 0.0
 
-    # Precompute powers of (1/r)
-    # r is in planetary radii (dimensionless), so (1/r)^k gives the radial dependence
-    # For internal field: B components use (1/r)^(n+2)
-    ratio = 1.0 / r
-    ratio_powers = zeros(Float64, max_degree + 3)
-    ratio_powers[1] = ratio
-    for k in 2:(max_degree + 3)
-        ratio_powers[k] = ratio_powers[k - 1] * ratio
-    end
+        # Precompute powers of (1/r)
+        # r is in planetary radii (dimensionless), so (1/r)^k gives the radial dependence
+        # For internal field: B components use (1/r)^(n+2)
+        ratio = 1.0 / r
+        ratio_powers[1] = ratio
+        for k in 2:(max_degree + 3)
+            ratio_powers[k] = ratio_powers[k - 1] * ratio
+        end
 
-    # Sum over degrees and orders
-    for n in 1:max_degree
-        fn = Float64(n)
-        ratio_pow = ratio_powers[n + 2]  # (1/r)^(n+2) for magnetic field
+        # Sum over degrees and orders
+        for n in 1:max_degree
+            fn = Float64(n)
+            ratio_pow = ratio_powers[n + 2]  # (1/r)^(n+2) for magnetic field
 
-        for m in 0:min(n, coeffs.order)
-            # Get coefficients
-            g = coeffs.g[n + 1, m + 1]
-            h = coeffs.h[n + 1, m + 1]
+            for m in 0:min(n, coeffs.order)
+                # Get coefficients
+                g = coeffs.g[n + 1, m + 1]
+                h = coeffs.h[n + 1, m + 1]
 
-            # Compute trigonometric terms
-            sin_mφ, cos_mφ = sincos(m * φ)
+                # Compute trigonometric terms
+                sin_mφ, cos_mφ = sincos(m * φ)
+                # Spherical harmonic term
+                Y = g * cos_mφ + h * sin_mφ
+                # Derivatives
+                dY_dφ = m * (-g * sin_mφ + h * cos_mφ)
 
-            # Spherical harmonic term
-            Y = g * cos_mφ + h * sin_mφ
-
-            # Derivatives
-            dY_dφ = m * (-g * sin_mφ + h * cos_mφ)
-
-            # Contribution to field components
-            # B_r = -∂V/∂r: factor of (n+1) from derivative of (a/r)^(n+1)
-            Br += (fn + 1) * ratio_pow * Y * P[n + 1, m + 1]
-
-            # B_θ = -(1/r)∂V/∂θ
-            Bθ -= ratio_pow * Y * dP[n + 1, m + 1]
-
-            # B_φ = -(1/(r sin θ))∂V/∂φ
-            if abs(sinθ) > 1.0e-10
-                Bφ -= ratio_pow * dY_dφ * P[n + 1, m + 1] / sinθ
+                # Contribution to field components
+                # B_r = -∂V/∂r: factor of (n+1) from derivative of (a/r)^(n+1)
+                Br += (fn + 1) * ratio_pow * Y * P[n + 1, m + 1]
+                # B_θ = -(1/r)∂V/∂θ
+                Bθ -= ratio_pow * Y * dP[n + 1, m + 1]
+                # B_φ = -(1/(r sin θ))∂V/∂φ
+                abs(sinθ) > 1.0e-10 && (Bφ -= ratio_pow * dY_dφ * P[n + 1, m + 1])
             end
         end
     end
 
-    return SVector{3, Float64}(Br, Bθ, Bφ)
+
+    return SVector{3, Float64}(Br, Bθ, abs(sinθ) > 1.0e-10 ? Bφ / sinθ : Bφ)
 end
 
-
-"""
-    evaluate_field_cartesian(model::SphericalHarmonicModel, x, y, z)
-
-Evaluate the magnetic field at a point in Cartesian coordinates.
-
-# Arguments
-- `model::SphericalHarmonicModel`: The magnetic field model
-- `x, y, z`: Cartesian coordinates in planetary radii
-
-# Returns
-- `SVector{3,Float64}`: Magnetic field vector [Bx, By, Bz] in nanoTesla
-"""
-function evaluate_field_cartesian(
-        model::SphericalHarmonicModel,
-        x, y, z
-    )
-    # Convert to spherical coordinates
+function evaluate_field_cartesian(model, x, y, z)
     (r, θ, φ) = cartesian_to_spherical(x, y, z)
-
-    # Evaluate field in spherical coordinates
     B_sph = evaluate_field_spherical(model, r, θ, φ)
-
-    # Convert field to Cartesian coordinates
-    B_cart = spherical_field_to_cartesian(B_sph[1], B_sph[2], B_sph[3], θ, φ)
-
-    return B_cart
+    return spherical_field_to_cartesian(B_sph..., θ, φ)
 end
