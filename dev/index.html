@@ -1,428 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · PlanetaryMagneticFields.jl</title><meta name="title" content="Home · PlanetaryMagneticFields.jl"/><meta property="og:title" content="Home · PlanetaryMagneticFields.jl"/><meta property="twitter:title" content="Home · PlanetaryMagneticFields.jl"/><meta name="description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="og:description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="twitter:description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="og:url" content="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><meta property="twitter:url" content="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><link rel="canonical" href="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body>
-<!-- NAVBAR START -->
-<style>
-    html {
-        scroll-padding-top: calc(55px + 1rem);
-    }
-
-    /* Documenter css tweaks */
-    .docs-sidebar {
-        margin-top: 3.75rem;
-    }
-
-    #documenter {
-        margin-top: 3.75rem;
-    }
-
-    .docs-version-selector {
-        margin-bottom: 60px !important;
-    }
-
-    @media screen and (max-width: 1056px) {
-        .docs-version-selector {
-            margin-bottom: 60px !important;
-        }
-
-        .docs-sidebar {
-            margin-top: 0 !important;
-        }
-    }
-    /* Documenter css tweaks ends here */
-
-    :root {
-        --heading-color: white;
-        --item-color: rgb(165, 165, 165);
-        --primary-bg: #f8f9fa;  /* Light gray to match Quarto's default navbar */
-        --navbar-text: #212529;  /* Dark text color for better contrast */
-        --hover-color: #e9ecef;  /* Slightly darker gray for hover state */
-        --deprecated-bg: #ff4d4d;
-        --deprecated-text: white;
-    }
-
-    .ext-navigation {
-        position: fixed;
-        height: 3.75rem;
-        top: 0;
-        width: 100%;
-        background-color: var(--primary-bg);
-        color: var(--navbar-text);
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        padding: 0 1.0625rem;
-        transition: transform 0.3s;
-    }
-
-    .ext-navbar-logo {
-        margin-left: 0.625rem;
-    }
-
-    .ext-nav-links {
-        display: flex;
-        align-items: center;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        flex-grow: 1;
-    }
-
-    .ext-nav-links li {
-        margin-left: 1rem !important;
-    }
-
-    .ext-nav-link {
-        color: var(--navbar-text) !important;
-        text-decoration: none;
-        font-size: 1.0625rem !important;
-        transition: color 0.2s ease;
-        cursor: pointer;
-    }
-
-    .ext-nav-link:hover,
-    .ext-navbar-item-single a:hover {
-        color: var(--hover-color) !important;
-        text-decoration: none !important;
-    }
-    
-    .ext-navigation a {
-        text-decoration: none !important;
-    }
-
-    .ext-navbar-item-single a {
-        color: var(--navbar-text) !important;
-    }
-
-    .ext-menu-toggle {
-        display: none;
-        font-size: 1.5rem;
-        color: white;
-        cursor: pointer;
-    }
-
-    .ext-dropdown {
-        display: none;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: auto auto auto;
-        padding: 1.875rem;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        background-color: var(--primary-bg);
-        line-height: 1.875rem;
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        transform: translateY(-0.625rem);
-    }
-
-    #library-handler::after {
-        content: "▼";
-        font-size: 0.6875rem;
-        margin-left: 0.3125rem;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    #library-handler.open::after {
-        content: "▲";
-    }
-
-    .ext-dropdown.show {
-        display: grid;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .ext-dropdown ul {
-        height: auto;
-        width: 12.5rem;
-        margin-bottom: 1.25rem;
-    }
-
-    .ext-dropdown ul li {
-        text-align: left;
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar-sub-item {
-        list-style: none;
-    }
-
-    .ext-dropdown ul a li {
-        color: var(--item-color);
-        width: 15.625rem;
-        border-radius: 3px;
-        padding: 0.125rem 0.625rem;
-        transition: background-color 0.2s ease;
-        text-decoration: none !important;
-    }
-
-    .ext-dropdown ul a li:hover {
-        background-color: rgba(107, 107, 107, 0.5);
-    }
-
-    .ext-dropdown-item-heading {
-        /* color: var(--heading-color); */
-        text-align: center;
-    }
-
-    .deprecated-badge {
-        background-color: var(--deprecated-bg);
-        color: var(--deprecated-text);
-        font-size: 0.75rem;
-        padding: 0.125rem 0.375rem;
-        border-radius: 3px;
-        margin-left: 0.5rem;
-        line-height: 1;
-    }
-
-    /* Responsive styling */
-    @media (max-width: 966px) {
-        .ext-dropdown {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .ext-nav-links {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            background-color: var(--primary-bg);
-            position: absolute;
-            top: 3.75rem;
-            left: 0;
-            padding: 0.625rem 0;
-            height: auto;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: rgb(141, 141, 141) grey;
-        }
-
-        .ext-nav-links.show {
-            display: flex;
-        }
-
-        .ext-nav-links li {
-            margin: 0.625rem 0;
-            text-align: center;
-        }
-
-        .ext-menu-toggle {
-            display: block;
-            margin-left: auto;
-        }
-
-        .ext-navigation.hide {
-            transform: translateY(-3.75rem);
-        }
-
-        .ext-dropdown {
-            place-content: center;
-            text-align: center;
-            grid-template-columns: 1fr;
-            line-height: 1.25rem;
-            padding: 0.625rem;
-        }
-
-        .ext-dropdown ul {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 0.3125rem;
-        }
-
-        .ext-dropdown ul li {
-            text-align: center;
-            /* justify-content: center; */
-        }
-
-        .ext-dropdown ul a li {
-            width: 100%;
-        }
-
-        .ext-dropdown ul a li:hover {
-            background-color: var(--primary-bg);
-            /* color: #fff; */
-        }
-
-        /* Modified scroll bar */
-        .ext-nav-links::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .ext-nav-links::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey;
-        }
-
-        .ext-nav-links::-webkit-scrollbar-thumb {
-            background: rgb(141, 141, 141);
-            border-radius: 3px;
-        }
-
-        .ext-nav-links::-webkit-scrollbar-thumb:hover {
-            background: #9b9b9b;
-        }
-    }
-</style>
-<nav class="ext-navigation">
-    <a href="https://juliaspacephysics.github.io"></a>
-    <a style="color: #212529 !important; font-size: 21.25px !important; margin-left: 10px;" href="https://juliaspacephysics.github.io">JuliaSpacePhysics</a>
-    <ul class="ext-nav-links">
-        <li>
-            <p class="ext-nav-link" id="library-handler">Ecosystem</p>
-            <div class="ext-dropdown" id="ext-dropdown-items">
-                <ul>
-                    <li class="ext-dropdown-item-heading">Core</li>
-                    <a href="https://juliaspacephysics.github.io/SPEDAS.jl"><li>SPEDAS.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/SpaceDataModel.jl"><li>SpaceDataModel.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/GeoCotrans.jl"><li>GeoCotrans.jl</li></a>
-                    <a href="https://henry2004y.github.io/TestParticle.jl/"><li>TestParticle.jl</li></a>
-                </ul>
-                <ul>
-                    <li class="ext-dropdown-item-heading">Data</li>
-                    <a href="https://juliaspacephysics.github.io/CDFDatasets.jl/"><li>CDFDatasets.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/CDAWeb.jl/"><li>CDAWeb.jl</li></a>
-                    <a href="https://sciqlop.github.io/Speasy.jl/"><li>Speasy.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/HAPIClient.jl/"><li>HAPIClient.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/Madrigal.jl/"><li>Madrigal.jl</li></a>
-                    <a href="https://github.com/JuliaSpacePhysics/PySPEDAS.jl"><li>PySPEDAS.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/SunPy.jl/"><li>SunPy.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/CommonDataFormat.jl/"><li>CommonDataFormat.jl</li></a>
-                </ul>
-                <ul>
-                    <li class="ext-dropdown-item-heading">Domain</li>
-                    <a href="https://juliaspacephysics.github.io/SpaceWeather.jl"><li>SpaceWeather.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/SolarEnergeticParticle.jl"><li>SolarEnergeticParticle.jl (Helio)</li></a>
-                    <a href="https://juliaspacephysics.github.io/GeoAACGM.jl"><li>GeoAACGM.jl (ITM)</li></a>
-                    <a href="https://juliaspacephysics.github.io/IRBEM.jl"><li>IRBEM.jl (Magnetosphere)</li></a>
-                    <a href="https://juliaspacephysics.github.io/TsyganenkoModels.jl"><li>TsyganenkoModels.jl (Magnetosphere)</li></a>
-                </ul>
-                <!-- Enable when more mission-specific packages are available -->
-                <ul>
-                    <li class="ext-dropdown-item-heading">Mission-specific</li>
-                    <a href="https://juliaspacephysics.github.io/EISCATData.jl"><li>EISCATData.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/ELFINData.jl"><li>ELFINData.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/DMSPData.jl"><li>DMSPData.jl</li></a>
-                </ul>
-               
-                <ul>
-                    <li class="ext-dropdown-item-heading">General Analysis</li>
-                    <a href="https://juliaplasma.github.io/PlasmaFormulary.jl"><li>JuliaPlasma/PlasmaFormulary.jl</li></a>
-                    <a href="https://juliaplasma.github.io/ChargedParticles.jl"><li>JuliaPlasma/ChargedParticles.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/VelocityDistributionFunctions.jl"><li>VelocityDistributionFunctions.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/PlasmaWaves.jl"><li>PlasmaWaves.jl</li></a>
-                    <a href="https://juliaspacephysics.github.io/PlasmaBO.jl"><li>PlasmaBO.jl</li></a>
-                    <a href="https://github.com/JuliaSpacePhysics/SpacePhysicsMakie.jl"><li>SpacePhysicsMakie.jl</li></a>
-                </ul>
-            </div>
-        </li>
-        <li><a href="https://juliaspacephysics.github.io/tutorials/">Tutorials</a></li>
-    </ul>
-    <a href="https://github.com/JuliaSpacePhysics">
-        <svg width="32px" height="32px" viewBox="-8.2 -8.2 36.40 36.40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-                <title>github [#142]</title>
-                <desc>JuliaSpacePhysics</desc>
-                <defs></defs>
-                <g id="Page-1" stroke-width="0.0002" fill="none" fill-rule="evenodd">
-                    <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -7559.000000)" fill="#ffffff">
-                        <g id="icons" transform="translate(56.000000, 160.000000)">
-                            <path
-                                d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399"
-                                id="github-[#142]">
-                            </path>
-                        </g>
-                    </g>
-                </g>
-            </g>
-        </svg>
-    </a>
-    <span class="ext-menu-toggle">&#9776;</span>
-</nav>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.querySelector(".ext-menu-toggle");
-        const navLinks = document.querySelector(".ext-nav-links");
-        const nav = document.querySelector(".ext-navigation");
-        const navigationHandler = document.getElementById("library-handler");
-        const navigationItemsContainer =
-            document.getElementById("ext-dropdown-items");
-        let lastScrollY = window.scrollY;
-
-        function setAppropriateHeight() {
-            if (window.innerWidth <= 768) {
-                const viewportHeight = window.innerHeight;
-                const navHeight = nav.offsetHeight;
-                navLinks.style.maxHeight = `${viewportHeight - navHeight}px`;
-                navLinks.style.overflowY = "auto";
-            } else {
-                navLinks.style.maxHeight = "";
-                navLinks.style.overflowY = "";
-            }
-        }
-
-        // Toggle main menu for mobile
-        menuToggle.addEventListener("click", () => {
-            navLinks.classList.toggle("show");
-            if (navLinks.classList.contains("show")) {
-                setAppropriateHeight();
-                // Ensure the dropdown is hidden when menu is first opened
-                navigationItemsContainer.style.display = "none";
-                navigationItemsContainer.classList.remove("show");
-            }
-        });
-
-        // Close menus if clicked outside
-        document.addEventListener("click", (event) => {
-            if (
-                !navLinks.contains(event.target) &&
-                !menuToggle.contains(event.target)
-            ) {
-                navLinks.classList.remove("show");
-                navigationItemsContainer.classList.remove("show");
-                navigationHandler.classList.remove("open");
-            }
-        });
-
-        // Hide navigation bar on scroll down in mobile view
-        window.addEventListener("scroll", () => {
-            if (window.innerWidth <= 768) {
-                nav.classList.toggle("hide", window.scrollY > lastScrollY);
-                lastScrollY = window.scrollY;
-            }
-        });
-
-        // Library API script
-        navigationHandler.addEventListener("click", (event) => {
-            event.preventDefault(); // Prevent default action of the link
-            if (navigationItemsContainer.classList.contains("show")) {
-                navigationItemsContainer.classList.remove("show");
-                navigationHandler.classList.remove("open");
-                setTimeout(() => {
-                    navigationItemsContainer.style.display = "none";
-                }, 500); // Match the timeout to the CSS transition duration
-            } else {
-                navigationItemsContainer.style.display = "grid";
-                navigationHandler.classList.add("open");
-                setTimeout(() => {
-                    navigationItemsContainer.classList.add("show");
-                }, 10); // Delay to ensure the display change takes effect before adding class
-            }
-            setAppropriateHeight(); // Recalculate height when dropdown changes
-        });
-
-        // Handle window resize
-        window.addEventListener("resize", setAppropriateHeight);
-
-        // Initial setup
-        setAppropriateHeight();
-    });
-</script>
-<!-- NAVBAR END -->
-<div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>PlanetaryMagneticFields.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Quick-Start"><span>Quick Start</span></a></li><li><a class="tocitem" href="#Coordinate-Systems"><span>Coordinate Systems</span></a></li><li><a class="tocitem" href="#Examples"><span>Examples</span></a></li><li><a class="tocitem" href="#Available-Models"><span>Available Models</span></a></li><li><a class="tocitem" href="#Physical-Parameters"><span>Physical Parameters</span></a></li><li><a class="tocitem" href="#Mathematical-Background"><span>Mathematical Background</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li><li><a class="tocitem" href="#Comparison"><span>Comparison</span></a></li><li><a class="tocitem" href="#API-Reference"><span>API Reference</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/main/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="PlanetaryMagneticFields.jl"><a class="docs-heading-anchor" href="#PlanetaryMagneticFields.jl">PlanetaryMagneticFields.jl</a><a id="PlanetaryMagneticFields.jl-1"></a><a class="docs-heading-anchor-permalink" href="#PlanetaryMagneticFields.jl" title="Permalink"></a></h1><p>A Julia package for planetary magnetic field modeling.</p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>PlanetaryMagneticFields.jl provides a unified framework for working with magnetic field models of planets in our solar system. It implements spherical harmonic expansions with Schmidt semi-normalization, following standards used in geomagnetism and planetary science.</p><h3 id="Features"><a class="docs-heading-anchor" href="#Features">Features</a><a id="Features-1"></a><a class="docs-heading-anchor-permalink" href="#Features" title="Permalink"></a></h3><ul><li><strong>Multi-planetary support</strong>: Currently Jupiter, with Earth, Saturn, and others coming soon</li><li><strong>Multiple models</strong>: JRM09, JRM33 for Jupiter</li><li><strong>Flexible evaluation</strong>: Support for both spherical and Cartesian coordinates</li></ul><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><pre><code class="language-julia hljs">using Pkg
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · PlanetaryMagneticFields.jl</title><meta name="title" content="Home · PlanetaryMagneticFields.jl"/><meta property="og:title" content="Home · PlanetaryMagneticFields.jl"/><meta property="twitter:title" content="Home · PlanetaryMagneticFields.jl"/><meta name="description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="og:description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="twitter:description" content="Documentation for PlanetaryMagneticFields.jl."/><meta property="og:url" content="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><meta property="twitter:url" content="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><link rel="canonical" href="https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/"/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>PlanetaryMagneticFields.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Quick-Start"><span>Quick Start</span></a></li><li><a class="tocitem" href="#Coordinate-Systems"><span>Coordinate Systems</span></a></li><li><a class="tocitem" href="#Visualization"><span>Visualization</span></a></li><li><a class="tocitem" href="#Available-Models"><span>Available Models</span></a></li><li><a class="tocitem" href="#Physical-Parameters"><span>Physical Parameters</span></a></li><li><a class="tocitem" href="#Mathematical-Background"><span>Mathematical Background</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li><li><a class="tocitem" href="#Comparison"><span>Comparison</span></a></li><li><a class="tocitem" href="#API-Reference"><span>API Reference</span></a></li></ul></li><li><a class="tocitem" href="examples/">Examples</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/main/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="PlanetaryMagneticFields.jl"><a class="docs-heading-anchor" href="#PlanetaryMagneticFields.jl">PlanetaryMagneticFields.jl</a><a id="PlanetaryMagneticFields.jl-1"></a><a class="docs-heading-anchor-permalink" href="#PlanetaryMagneticFields.jl" title="Permalink"></a></h1><p>A Julia package for planetary magnetic field modeling.</p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>PlanetaryMagneticFields.jl provides a unified framework for working with magnetic field models of planets in our solar system. It implements spherical harmonic expansions with Schmidt semi-normalization, following standards used in geomagnetism and planetary science.</p><h3 id="Features"><a class="docs-heading-anchor" href="#Features">Features</a><a id="Features-1"></a><a class="docs-heading-anchor-permalink" href="#Features" title="Permalink"></a></h3><ul><li><strong>Multi-planetary support</strong>: Mercury, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, and Ganymede</li><li><strong>Multiple models</strong>: 80+ models available across all planets</li><li><strong>Flexible evaluation</strong>: Support for both spherical and Cartesian coordinates</li><li><strong>Visualization</strong>: Plot magnetic field maps using GeoMakie (Mollweide, Hammer projections)</li></ul><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><pre><code class="language-julia hljs">using Pkg
 Pkg.add(&quot;PlanetaryMagneticFields&quot;)</code></pre><h2 id="Quick-Start"><a class="docs-heading-anchor" href="#Quick-Start">Quick Start</a><a id="Quick-Start-1"></a><a class="docs-heading-anchor-permalink" href="#Quick-Start" title="Permalink"></a></h2><pre><code class="language-julia hljs">using PlanetaryMagneticFields
 
 # Load a Jupiter magnetic field model by unique name
@@ -444,51 +21,15 @@ B = model_cart(1.0, 0.0, 0.5)  # Returns [B_x, B_y, B_z] in nT
 B_sph = model_cart(1.0, 0.0, 0.5; out=:spherical)  # Returns [B_r, B_θ, B_φ]</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
  102024.00685710134
  201005.4341845786
- -24988.588089244262</code></pre><h2 id="Coordinate-Systems"><a class="docs-heading-anchor" href="#Coordinate-Systems">Coordinate Systems</a><a id="Coordinate-Systems-1"></a><a class="docs-heading-anchor-permalink" href="#Coordinate-Systems" title="Permalink"></a></h2><p>PlanetaryMagneticFields.jl currently supports two coordinate systems:</p><h3 id="Spherical-Coordinates"><a class="docs-heading-anchor" href="#Spherical-Coordinates">Spherical Coordinates</a><a id="Spherical-Coordinates-1"></a><a class="docs-heading-anchor-permalink" href="#Spherical-Coordinates" title="Permalink"></a></h3><ul><li><code>r</code>: Radial distance from planet center (in planetary radii or km)</li><li><code>θ</code>: Colatitude in radians [0, π] (0 at north pole, π at south pole)</li><li><code>φ</code>: East longitude in radians [0, 2π]</li></ul><h3 id="Cartesian-Coordinates"><a class="docs-heading-anchor" href="#Cartesian-Coordinates">Cartesian Coordinates</a><a id="Cartesian-Coordinates-1"></a><a class="docs-heading-anchor-permalink" href="#Cartesian-Coordinates" title="Permalink"></a></h3><ul><li><code>x</code>, <code>y</code>, <code>z</code>: Right-handed system with z-axis toward north pole</li><li>x-axis points to (θ=π/2, φ=0)</li><li>y-axis points to (θ=π/2, φ=π/2)</li></ul><h2 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h2><h3 id="Basic-Field-Evaluation"><a class="docs-heading-anchor" href="#Basic-Field-Evaluation">Basic Field Evaluation</a><a id="Basic-Field-Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Field-Evaluation" title="Permalink"></a></h3><pre><code class="language-julia hljs">using PlanetaryMagneticFields
+ -24988.588089244262</code></pre><h2 id="Coordinate-Systems"><a class="docs-heading-anchor" href="#Coordinate-Systems">Coordinate Systems</a><a id="Coordinate-Systems-1"></a><a class="docs-heading-anchor-permalink" href="#Coordinate-Systems" title="Permalink"></a></h2><p>PlanetaryMagneticFields.jl currently supports two coordinate systems:</p><h3 id="Spherical-Coordinates"><a class="docs-heading-anchor" href="#Spherical-Coordinates">Spherical Coordinates</a><a id="Spherical-Coordinates-1"></a><a class="docs-heading-anchor-permalink" href="#Spherical-Coordinates" title="Permalink"></a></h3><ul><li><code>r</code>: Radial distance from planet center (in planetary radii or km)</li><li><code>θ</code>: Colatitude in radians [0, π] (0 at north pole, π at south pole)</li><li><code>φ</code>: East longitude in radians [0, 2π]</li></ul><h3 id="Cartesian-Coordinates"><a class="docs-heading-anchor" href="#Cartesian-Coordinates">Cartesian Coordinates</a><a id="Cartesian-Coordinates-1"></a><a class="docs-heading-anchor-permalink" href="#Cartesian-Coordinates" title="Permalink"></a></h3><ul><li><code>x</code>, <code>y</code>, <code>z</code>: Right-handed system with z-axis toward north pole</li><li>x-axis points to (θ=π/2, φ=0)</li><li>y-axis points to (θ=π/2, φ=π/2)</li></ul><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>PlanetaryMagneticFields.jl provides visualization capabilities through GeoMakie. To use plotting functions, you need to load CairoMakie (or GLMakie) and GeoMakie:</p><pre><code class="language-julia hljs">using CairoMakie, GeoMakie
+using PlanetaryMagneticFields</code></pre><p>Here is an example of how to plot a magnetic field map for a single planet:</p><pre><code class="language-julia hljs">model = JRM09() # Load Jupiter&#39;s JRM09 model
 
-# Load model
-model = JRM09()
-
-# Evaluate at different positions
-positions = [
-    (1.5, 0.0, 0.0),      # North pole, 1.5 RJ
-    (2.0, π/2, 0.0),      # Equator, 2 RJ
-    (1.0, π/4, π/2),      # 45° colatitude, 90° longitude
-]
-B = model.(positions)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element Vector{StaticArraysCore.SVector{3, Float64}}:
- [227836.64536639338, 0.0, 0.0]
- [-9573.896513591533, 45457.37988446426, -3151.0162735670015]
- [286982.5265896149, 529841.920558099, 38158.69343083003]</code></pre><h3 id="Using-Cartesian-Coordinates"><a class="docs-heading-anchor" href="#Using-Cartesian-Coordinates">Using Cartesian Coordinates</a><a id="Using-Cartesian-Coordinates-1"></a><a class="docs-heading-anchor-permalink" href="#Using-Cartesian-Coordinates" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Cartesian input and output
-model = JRM09(in=:cartesian, out=:cartesian)
-x, y, z = 1.0, 0.5, 0.5  # In Jupiter radii
-B = model(x, y, z)
-
-# Cartesian input, spherical output
-B_sph = model(x, y, z; out=:spherical)</code></pre><h3 id="Working-with-Units"><a class="docs-heading-anchor" href="#Working-with-Units">Working with Units</a><a id="Working-with-Units-1"></a><a class="docs-heading-anchor-permalink" href="#Working-with-Units" title="Permalink"></a></h3><pre><code class="language-julia hljs"># By default, positions are in planetary radii
-using Unitful
-model = JRM09()
-r_km = 107238.0u&quot;km&quot;  # 1.5 RJ in km
-θ, φ = π/4, 0.0
-@assert model(r_km, θ, φ) == model(1.5, θ, φ)
-model(r_km, θ, φ)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
- 117871.89135977795
-  92648.14242094092
- -12029.869015050077</code></pre><h3 id="Using-Different-Models"><a class="docs-heading-anchor" href="#Using-Different-Models">Using Different Models</a><a id="Using-Different-Models-1"></a><a class="docs-heading-anchor-permalink" href="#Using-Different-Models" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Load JRM09 (degree 10)
-jrm09 = JRM09()
-
-# Load JRM33 truncated to degree 13 (recommended)
-jrm33 = JRM33(max_degree=13)
-
-# Load full JRM33 (degree 30)
-jrm33_full = JRM33()
-
-# Compare models
-r, θ, φ = 1.5, π/4, 0.0
-B09 = jrm09(r, θ, φ)
-B33 = jrm33(r, θ, φ)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
- 118254.5236651993
-  92694.83054050726
- -11952.585361387926</code></pre><h2 id="Available-Models"><a class="docs-heading-anchor" href="#Available-Models">Available Models</a><a id="Available-Models-1"></a><a class="docs-heading-anchor-permalink" href="#Available-Models" title="Permalink"></a></h2><p>List all available models</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; available_models()</code><code class="nohighlight hljs ansi" style="display:block;">84-element Vector{String}:
+# Create a field map with Mollweide projection
+plot_fieldmap(model;
+    r=1.0,
+    axis=(; title=&quot;Jupiter Radial Magnetic Field (JRM09)&quot;),
+    dest=&quot;+proj=moll&quot;
+)</code></pre><img src="index-9cb2418d.png" alt="Example block output"/><p>See <a href="examples/#visualization">visualization examples</a> for more details.</p><h2 id="Available-Models"><a class="docs-heading-anchor" href="#Available-Models">Available Models</a><a id="Available-Models-1"></a><a class="docs-heading-anchor-permalink" href="#Available-Models" title="Permalink"></a></h2><p>List all available models:</p><pre><code class="language-julia hljs">available_models()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">84-element Vector{String}:
  &quot;gsfc13ev&quot;
  &quot;gsfc15ev&quot;
  &quot;gsfc15evs&quot;
@@ -508,7 +49,54 @@ B33 = jrm33(r, θ, φ)</code></pre><pre class="documenter-example-output"><code 
  &quot;spv&quot;
  &quot;v1&quot;
  &quot;v2&quot;
- &quot;z3&quot;</code></pre><h3 id="Jupiter"><a class="docs-heading-anchor" href="#Jupiter">Jupiter</a><a id="Jupiter-1"></a><a class="docs-heading-anchor-permalink" href="#Jupiter" title="Permalink"></a></h3><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; available_models(:jupiter)</code><code class="nohighlight hljs ansi" style="display:block;">17-element Vector{String}:
+ &quot;z3&quot;</code></pre><h3 id="Loading-Models-for-Any-Planet"><a class="docs-heading-anchor" href="#Loading-Models-for-Any-Planet">Loading Models for Any Planet</a><a id="Loading-Models-for-Any-Planet-1"></a><a class="docs-heading-anchor-permalink" href="#Loading-Models-for-Any-Planet" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Load a model by planet and model name
+earth_model = load_model(:earth, &quot;igrf2020&quot;)
+saturn_model = load_model(:saturn, &quot;cassini11&quot;)
+neptune_model = load_model(:neptune, &quot;gsfco8&quot;)
+
+# Evaluate at the surface
+earth_model(1.0, π/4, 0.0)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
+ -40892.20329623208
+ -22782.628820345948
+    206.39416714386718</code></pre><h3 id="Mercury"><a class="docs-heading-anchor" href="#Mercury">Mercury</a><a id="Mercury-1"></a><a class="docs-heading-anchor-permalink" href="#Mercury" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:Mercury)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">14-element Vector{String}:
+ &quot;anderson2010d&quot;
+ &quot;anderson2010dsha&quot;
+ &quot;anderson2010dts04&quot;
+ &quot;anderson2010q&quot;
+ &quot;anderson2010qsha&quot;
+ &quot;anderson2010qts04&quot;
+ &quot;anderson2010r&quot;
+ &quot;anderson2012&quot;
+ &quot;ness1975&quot;
+ &quot;thebault2018m1&quot;
+ &quot;thebault2018m2&quot;
+ &quot;thebault2018m3&quot;
+ &quot;uno2009&quot;
+ &quot;uno2009svd&quot;</code></pre><h3 id="Earth"><a class="docs-heading-anchor" href="#Earth">Earth</a><a id="Earth-1"></a><a class="docs-heading-anchor-permalink" href="#Earth" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:Earth)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">26-element Vector{String}:
+ &quot;igrf1900&quot;
+ &quot;igrf1905&quot;
+ &quot;igrf1910&quot;
+ &quot;igrf1915&quot;
+ &quot;igrf1920&quot;
+ &quot;igrf1925&quot;
+ &quot;igrf1930&quot;
+ &quot;igrf1935&quot;
+ &quot;igrf1940&quot;
+ &quot;igrf1945&quot;
+ ⋮
+ &quot;igrf1985&quot;
+ &quot;igrf1990&quot;
+ &quot;igrf1995&quot;
+ &quot;igrf2000&quot;
+ &quot;igrf2005&quot;
+ &quot;igrf2010&quot;
+ &quot;igrf2015&quot;
+ &quot;igrf2020&quot;
+ &quot;igrf2025&quot;</code></pre><p>The IGRF (International Geomagnetic Reference Field) models span from 1900 to 2025.</p><h3 id="Mars"><a class="docs-heading-anchor" href="#Mars">Mars</a><a id="Mars-1"></a><a class="docs-heading-anchor-permalink" href="#Mars" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:Mars)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4-element Vector{String}:
+ &quot;cain2003&quot;
+ &quot;gao2021&quot;
+ &quot;langlais2019&quot;
+ &quot;mh2014&quot;</code></pre><p>Mars has crustal magnetic fields (no global dynamo).</p><h3 id="Jupiter"><a class="docs-heading-anchor" href="#Jupiter">Jupiter</a><a id="Jupiter-1"></a><a class="docs-heading-anchor-permalink" href="#Jupiter" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:Jupiter)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">17-element Vector{String}:
  &quot;gsfc13ev&quot;
  &quot;gsfc15ev&quot;
  &quot;gsfc15evs&quot;
@@ -525,79 +113,54 @@ B33 = jrm33(r, θ, φ)</code></pre><pre class="documenter-example-output"><code 
  &quot;v117ev&quot;
  &quot;vip4&quot;
  &quot;vipal&quot;
- &quot;vit4&quot;</code></pre><ul><li><p><strong>JRM09</strong>: Juno Reference Model through Perijove 9 (degree 10)</p><ul><li>Reference: Connerney et al. (2018), Geophysical Research Letters</li><li>DOI: 10.1002/2018GL077312</li></ul></li><li><p><strong>JRM33</strong>: Juno Reference Model through Perijove 33 (degree 30, recommended truncation: 13)</p><ul><li>Reference: Connerney et al. (2022), Journal of Geophysical Research: Planets</li><li>DOI: 10.1029/2021JE007055</li></ul></li></ul><h2 id="Physical-Parameters"><a class="docs-heading-anchor" href="#Physical-Parameters">Physical Parameters</a><a id="Physical-Parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Physical-Parameters" title="Permalink"></a></h2><h3 id="Jupiter-2"><a class="docs-heading-anchor" href="#Jupiter-2">Jupiter</a><a class="docs-heading-anchor-permalink" href="#Jupiter-2" title="Permalink"></a></h3><ul><li>Mean radius: 71,492 km (1 RJ)</li><li>Reference frame: System III (1965) coordinates</li><li>Magnetic dipole moment: ~4.17 Gauss RJ³</li></ul><h2 id="Mathematical-Background"><a class="docs-heading-anchor" href="#Mathematical-Background">Mathematical Background</a><a id="Mathematical-Background-1"></a><a class="docs-heading-anchor-permalink" href="#Mathematical-Background" title="Permalink"></a></h2><p>The magnetic scalar potential is expanded in spherical harmonics:</p><p class="math-container">\[V(r,θ,φ) = a \sum_{n=1}^{N} \sum_{m=0}^{n} \left(\frac{a}{r}\right)^{n+1}
-           [g_n^m \cos(mφ) + h_n^m \sin(mφ)] P_n^m(\cos θ)\]</p><p>where:</p><ul><li><code>a</code> is the planetary radius</li><li><code>g_n^m, h_n^m</code> are the Gauss coefficients (Schmidt semi-normalized)</li><li><code>P_n^m</code> are the associated Legendre polynomials (Schmidt semi-normalized)</li><li><code>(r,θ,φ)</code> are spherical coordinates</li></ul><p>The magnetic field <strong>B</strong> = -∇V is computed from derivatives of the potential.</p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><ol><li><p>Connerney, J. E. P., et al. (2018). A new model of Jupiter&#39;s magnetic field from Juno&#39;s first nine orbits. <em>Geophysical Research Letters</em>, 45(6), 2590-2596. doi:10.1002/2018GL077312</p></li><li><p>Connerney, J. E. P., et al. (2022). A new model of Jupiter&#39;s magnetic field at the completion of Juno&#39;s Prime Mission. <em>Journal of Geophysical Research: Planets</em>, 127(2), e2021JE007055. doi:10.1029/2021JE007055</p></li><li><p>Winch, D. E., et al. (2005). Geomagnetism and Schmidt quasi-normalization. <em>Geophysical Journal International</em>, 160(2), 487-504.</p></li></ol><h2 id="Comparison"><a class="docs-heading-anchor" href="#Comparison">Comparison</a><a id="Comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Comparison" title="Permalink"></a></h2><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PythonCall</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Found dependencies: /home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/CondaPkg.toml
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Found dependencies: /home/runner/.julia/packages/PythonCall/83z4q/CondaPkg.toml
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Found dependencies: /home/runner/.julia/packages/CondaPkg/0UqYV/CondaPkg.toml
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Resolving changes
-<span class="sgr32"><span class="sgr1">             </span>+ cmake</span>
-<span class="sgr32"><span class="sgr1">             </span>+ jupitermag (pip)</span>
-<span class="sgr32"><span class="sgr1">             </span>+ libstdcxx</span>
-<span class="sgr32"><span class="sgr1">             </span>+ libstdcxx-ng</span>
-<span class="sgr32"><span class="sgr1">             </span>+ numpy (pip)</span>
-<span class="sgr32"><span class="sgr1">             </span>+ openssl</span>
-<span class="sgr32"><span class="sgr1">             </span>+ planetmagfields (pip)</span>
-<span class="sgr32"><span class="sgr1">             </span>+ pyfileio (pip)</span>
-<span class="sgr32"><span class="sgr1">             </span>+ python</span>
-<span class="sgr32"><span class="sgr1">             </span>+ uv</span>
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Initialising pixi
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">/home/runner/.julia/artifacts/cefba4912c2b400756d043a2563ef77a0088866b/bin/pixi</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">init</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">--format pixi</span>
-<span class="sgr32"><span class="sgr1">             </span></span>└ <span class="sgr90">/home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg</span>
-✔ Created /home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/pixi.toml
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Wrote /home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/pixi.toml
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">[dependencies]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">cmake = &quot;*&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">openssl = &quot;&gt;=3, &lt;3.6&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">libstdcxx = &quot;&gt;=3.4,&lt;15.0&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">uv = &quot;&gt;=0.4&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">libstdcxx-ng = &quot;&gt;=3.4,&lt;15.0&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ 
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">    [dependencies.python]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">    channel = &quot;conda-forge&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">    build = &quot;*cp*&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">    version = &quot;&gt;=3.10,!=3.14.0,!=3.14.1,&lt;4&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ 
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">[project]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">name = &quot;.CondaPkg&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">platforms = [&quot;linux-64&quot;]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">channels = [&quot;conda-forge&quot;]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">channel-priority = &quot;strict&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">description = &quot;automatically generated by CondaPkg.jl&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ 
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">[pypi-dependencies]</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">planetmagfields = &quot;*&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">jupitermag = &quot;*&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">numpy = &quot;*&quot;</span>
-<span class="sgr32"><span class="sgr1">             </span></span>└ <span class="sgr90">pyfileio = &quot;*&quot;</span>
-<span class="sgr32"><span class="sgr1">    CondaPkg </span></span>Installing packages
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">/home/runner/.julia/artifacts/cefba4912c2b400756d043a2563ef77a0088866b/bin/pixi</span>
-<span class="sgr32"><span class="sgr1">             </span></span>│ <span class="sgr90">install</span>
-<span class="sgr32"><span class="sgr1">             </span></span>└ <span class="sgr90">--manifest-path /home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/pixi.toml</span>
-✔ The default environment has been installed.</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PlanetaryMagneticFields</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using Chairmarks</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @py import JupiterMag as jm</code><code class="nohighlight hljs ansi" style="display:block;">/home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/.pixi/envs/default/lib/python3.14/site-packages/JupiterMag/TraceField.py:800: SyntaxWarning: &quot;\c&quot; is an invalid escape sequence. Such sequences will not work in the future. Did you mean &quot;\\c&quot;? A raw string is also an option.
-  ax.text((rpo+10.0)*np.pi/180.0,np.mean(rlim),&#39;Latitude ($^\circ$)&#39;,rotation=rpo+90.0,ha=&#39;center&#39;,va=&#39;center&#39;)
-/home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/.pixi/envs/default/lib/python3.14/site-packages/JupiterMag/TraceField.py:801: SyntaxWarning: &quot;\c&quot; is an invalid escape sequence. Such sequences will not work in the future. Did you mean &quot;\\c&quot;? A raw string is also an option.
-  ax.set_xlabel(&#39;Longitude ($^\circ$)&#39;)
-/home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/.pixi/envs/default/lib/python3.14/site-packages/JupiterMag/Internal/Test.py:83: SyntaxWarning: &quot;\c&quot; is an invalid escape sequence. Such sequences will not work in the future. Did you mean &quot;\\c&quot;? A raw string is also an option.
-  ax.set_xlabel(&#39;SIII East Longitude ($^\circ$)&#39;)
-/home/runner/work/PlanetaryMagneticFields.jl/PlanetaryMagneticFields.jl/docs/.CondaPkg/.pixi/envs/default/lib/python3.14/site-packages/JupiterMag/Internal/Test.py:84: SyntaxWarning: &quot;\c&quot; is an invalid escape sequence. Such sequences will not work in the future. Did you mean &quot;\\c&quot;? A raw string is also an option.
-  ax.set_ylabel(&#39;SIII Latitude ($^\circ$)&#39;)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; r, θ, φ = 1.5, π/4, 0.0</code><code class="nohighlight hljs ansi" style="display:block;">(1.5, 0.7853981633974483, 0.0)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; jm.Internal.Config(Model=&quot;jrm33&quot;, CartesianIn=false, CartesianOut=false)</code><code class="nohighlight hljs ansi" style="display:block;">Python: {&#39;Model&#39;: &#39;jrm33&#39;, &#39;CartesianIn&#39;: np.False_, &#39;CartesianOut&#39;: np.False_, &#39;Degree&#39;: np.int32(13)}</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; Br, Bt, Bp = jm.Internal.Field(r, θ, φ);</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])</code><code class="nohighlight hljs ansi" style="display:block;">3-element Vector{Float64}:
+ &quot;vit4&quot;</code></pre><ul><li><p><strong>JRM09</strong>: Juno Reference Model through Perijove 9 (degree 10)</p><ul><li>Reference: Connerney et al. (2018), Geophysical Research Letters</li><li>DOI: 10.1002/2018GL077312</li></ul></li><li><p><strong>JRM33</strong>: Juno Reference Model through Perijove 33 (degree 30, recommended truncation: 13)</p><ul><li>Reference: Connerney et al. (2022), Journal of Geophysical Research: Planets</li><li>DOI: 10.1029/2021JE007055</li></ul></li></ul><h3 id="Saturn"><a class="docs-heading-anchor" href="#Saturn">Saturn</a><a id="Saturn-1"></a><a class="docs-heading-anchor-permalink" href="#Saturn" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:Saturn)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">11-element Vector{String}:
+ &quot;burton2009&quot;
+ &quot;cassini11&quot;
+ &quot;cassini3&quot;
+ &quot;cassini5&quot;
+ &quot;p1184&quot;
+ &quot;p11as&quot;
+ &quot;soi&quot;
+ &quot;spv&quot;
+ &quot;v1&quot;
+ &quot;v2&quot;
+ &quot;z3&quot;</code></pre><h3 id="Uranus"><a class="docs-heading-anchor" href="#Uranus">Uranus</a><a id="Uranus-1"></a><a class="docs-heading-anchor-permalink" href="#Uranus" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:uranus)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">4-element Vector{String}:
+ &quot;ah5&quot;
+ &quot;gsfcq3&quot;
+ &quot;gsfcq3full&quot;
+ &quot;umoh&quot;</code></pre><h3 id="Neptune"><a class="docs-heading-anchor" href="#Neptune">Neptune</a><a id="Neptune-1"></a><a class="docs-heading-anchor-permalink" href="#Neptune" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:neptune)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">3-element Vector{String}:
+ &quot;gsfco8&quot;
+ &quot;gsfco8full&quot;
+ &quot;nmoh&quot;</code></pre><h3 id="Ganymede"><a class="docs-heading-anchor" href="#Ganymede">Ganymede</a><a id="Ganymede-1"></a><a class="docs-heading-anchor-permalink" href="#Ganymede" title="Permalink"></a></h3><pre><code class="language-julia hljs">available_models(:ganymede)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">5-element Vector{String}:
+ &quot;kivelson2002a&quot;
+ &quot;kivelson2002b&quot;
+ &quot;kivelson2002c&quot;
+ &quot;weber2022dip&quot;
+ &quot;weber2022quad&quot;</code></pre><h2 id="Physical-Parameters"><a class="docs-heading-anchor" href="#Physical-Parameters">Physical Parameters</a><a id="Physical-Parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Physical-Parameters" title="Permalink"></a></h2><p>The package uses the following mean radii for unit conversions:</p><table><tr><th style="text-align: right">Body</th><th style="text-align: right">Mean Radius (km)</th></tr><tr><td style="text-align: right">Mercury</td><td style="text-align: right">2,439.7</td></tr><tr><td style="text-align: right">Earth</td><td style="text-align: right">6,371.2</td></tr><tr><td style="text-align: right">Mars</td><td style="text-align: right">3,389.5</td></tr><tr><td style="text-align: right">Jupiter</td><td style="text-align: right">71,492.0</td></tr><tr><td style="text-align: right">Saturn</td><td style="text-align: right">60,268.0</td></tr><tr><td style="text-align: right">Uranus</td><td style="text-align: right">25,559.0</td></tr><tr><td style="text-align: right">Neptune</td><td style="text-align: right">24,764.0</td></tr><tr><td style="text-align: right">Ganymede</td><td style="text-align: right">2,634.1</td></tr></table><h2 id="Mathematical-Background"><a class="docs-heading-anchor" href="#Mathematical-Background">Mathematical Background</a><a id="Mathematical-Background-1"></a><a class="docs-heading-anchor-permalink" href="#Mathematical-Background" title="Permalink"></a></h2><p>The magnetic scalar potential is expanded in spherical harmonics:</p><p class="math-container">\[V(r,θ,φ) = a \sum_{n=1}^{N} \sum_{m=0}^{n} \left(\frac{a}{r}\right)^{n+1}
+           [g_n^m \cos(mφ) + h_n^m \sin(mφ)] P_n^m(\cos θ)\]</p><p>where:</p><ul><li><code>a</code> is the planetary radius</li><li><code>g_n^m, h_n^m</code> are the Gauss coefficients (Schmidt semi-normalized)</li><li><code>P_n^m</code> are the associated Legendre polynomials (Schmidt semi-normalized)</li><li><code>(r,θ,φ)</code> are spherical coordinates</li></ul><p>The magnetic field <strong>B</strong> = -∇V is computed from derivatives of the potential.</p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><ol><li><p>Connerney, J. E. P., et al. (2018). A new model of Jupiter&#39;s magnetic field from Juno&#39;s first nine orbits. <em>Geophysical Research Letters</em>, 45(6), 2590-2596. doi:10.1002/2018GL077312</p></li><li><p>Connerney, J. E. P., et al. (2022). A new model of Jupiter&#39;s magnetic field at the completion of Juno&#39;s Prime Mission. <em>Journal of Geophysical Research: Planets</em>, 127(2), e2021JE007055. doi:10.1029/2021JE007055</p></li><li><p>Winch, D. E., et al. (2005). Geomagnetism and Schmidt quasi-normalization. <em>Geophysical Journal International</em>, 160(2), 487-504.</p></li></ol><h2 id="Comparison"><a class="docs-heading-anchor" href="#Comparison">Comparison</a><a id="Comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Comparison" title="Permalink"></a></h2><pre><code class="language-julia hljs">using PythonCall
+using PlanetaryMagneticFields
+using Chairmarks
+@py import JupiterMag as jm
+
+r, θ, φ = 1.5, π/4, 0.0
+jm.Internal.Config(Model=&quot;jrm33&quot;, CartesianIn=false, CartesianOut=false)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Python: {&#39;Model&#39;: &#39;jrm33&#39;, &#39;CartesianIn&#39;: np.False_, &#39;CartesianOut&#39;: np.False_, &#39;Degree&#39;: np.int32(13)}</code></pre><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; Br, Bt, Bp = jm.Internal.Field(r, θ, φ);</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])</code><code class="nohighlight hljs ansi" style="display:block;">3-element Vector{Float64}:
  118254.5236651993
   92694.83054050733
  -11952.585361387928</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; model = JRM33(max_degree=13)</code><code class="nohighlight hljs ansi" style="display:block;">MagneticModel(name=JRM33, obj=PlanetaryMagneticFields.Planet(:jupiter, 71492.0), degree=13, input_coords=:spherical, output_coords=:spherical)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; B = model(r, θ, φ)</code><code class="nohighlight hljs ansi" style="display:block;">3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
  118254.5236651993
   92694.83054050726
- -11952.585361387926</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @assert B_py ≈ B</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @b model(r, θ, φ), jm.Internal.Field(r, θ, φ)</code><code class="nohighlight hljs ansi" style="display:block;">(1.803 μs (1 allocs: 32 bytes), 28.473 μs (26 allocs: 576 bytes))</code></pre><h2 id="API-Reference"><a class="docs-heading-anchor" href="#API-Reference">API Reference</a><a id="API-Reference-1"></a><a class="docs-heading-anchor-permalink" href="#API-Reference" title="Permalink"></a></h2><ul><li><a href="#PlanetaryMagneticFields.ExternalFieldModel"><code>PlanetaryMagneticFields.ExternalFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.GaussCoefficients"><code>PlanetaryMagneticFields.GaussCoefficients</code></a></li><li><a href="#PlanetaryMagneticFields.InternalFieldModel"><code>PlanetaryMagneticFields.InternalFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.MagneticFieldModel"><code>PlanetaryMagneticFields.MagneticFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.MagneticModel"><code>PlanetaryMagneticFields.MagneticModel</code></a></li><li><a href="#PlanetaryMagneticFields.SphericalHarmonicModel"><code>PlanetaryMagneticFields.SphericalHarmonicModel</code></a></li><li><a href="#Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><code>Base.getindex</code></a></li><li><a href="#PlanetaryMagneticFields.available_models"><code>PlanetaryMagneticFields.available_models</code></a></li><li><a href="#PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.cartesian_to_spherical</code></a></li><li><a href="#PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.degree</code></a></li><li><a href="#PlanetaryMagneticFields.evaluate_field_spherical-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel, Any, Any, Any}"><code>PlanetaryMagneticFields.evaluate_field_spherical</code></a></li><li><a href="#PlanetaryMagneticFields.jupiter_model_info-Tuple{Any}"><code>PlanetaryMagneticFields.jupiter_model_info</code></a></li><li><a href="#PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><code>PlanetaryMagneticFields.load_coefficients</code></a></li><li><a href="#PlanetaryMagneticFields.load_model-Tuple{Any}"><code>PlanetaryMagneticFields.load_model</code></a></li><li><a href="#PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><code>PlanetaryMagneticFields.magnetic_dipole_moment</code></a></li><li><a href="#PlanetaryMagneticFields.model_info-Tuple{Symbol, String}"><code>PlanetaryMagneticFields.model_info</code></a></li><li><a href="#PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.order</code></a></li><li><a href="#PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><code>PlanetaryMagneticFields.schmidt_legendre!</code></a></li><li><a href="#PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><code>PlanetaryMagneticFields.spherical_field_to_cartesian</code></a></li><li><a href="#PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.spherical_to_cartesian</code></a></li><li><a href="#PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><code>PlanetaryMagneticFields.truncate_coefficients</code></a></li></ul><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.ExternalFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.ExternalFieldModel"><code>PlanetaryMagneticFields.ExternalFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">ExternalFieldModel &lt;: MagneticFieldModel</code></pre><p>Abstract type for external (magnetospheric) magnetic field models. These models may be empirical or physics-based.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L23-L28">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.GaussCoefficients"><a class="docstring-binding" href="#PlanetaryMagneticFields.GaussCoefficients"><code>PlanetaryMagneticFields.GaussCoefficients</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">GaussCoefficients</code></pre><p>Storage for Gauss coefficients in Schmidt semi-normalized form.</p><p><strong>Fields</strong></p><ul><li><code>g::Matrix{Float64}</code>: Schmidt semi-normalized g coefficients (degree × order)</li><li><code>h::Matrix{Float64}</code>: Schmidt semi-normalized h coefficients (degree × order)</li><li><code>degree::Int</code>: Maximum degree N</li><li><code>order::Int</code>: Maximum order M (typically M ≤ N)</li></ul><p><strong>Indexing</strong></p><p>Coefficients are stored in a triangular matrix where row n (degree) contains coefficients for orders m = 0, 1, ..., min(n, M).</p><p>For coefficient g<em>n^m or h</em>n^m:</p><ul><li>Use: coeffs.g[n+1, m+1] or coeffs.h[n+1, m+1]</li><li>Note: Julia uses 1-based indexing, so degree n is in row n+1</li></ul><p><strong>Schmidt Semi-Normalization</strong></p><p>These coefficients follow the Schmidt semi-normalization convention used in geomagnetism and planetary magnetic field modeling (IGRF, WMM, JRM, etc.).</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L50-L72">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.InternalFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.InternalFieldModel"><code>PlanetaryMagneticFields.InternalFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">InternalFieldModel &lt;: MagneticFieldModel</code></pre><p>Abstract type for internal (planetary) magnetic field models. These models typically use spherical harmonic expansions.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L15-L20">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.MagneticFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.MagneticFieldModel"><code>PlanetaryMagneticFields.MagneticFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">MagneticFieldModel</code></pre><p>Abstract base type for all magnetic field models.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L8-L12">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.MagneticModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.MagneticModel"><code>PlanetaryMagneticFields.MagneticModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">MagneticModel</code></pre><p>A callable wrapper around a magnetic field model that stores default parameters.</p><p><strong>Usage</strong></p><pre><code class="language-julia hljs">model = JRM33()
+ -11952.585361387926</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @assert B_py ≈ B</code></pre><h2 id="API-Reference"><a class="docs-heading-anchor" href="#API-Reference">API Reference</a><a id="API-Reference-1"></a><a class="docs-heading-anchor-permalink" href="#API-Reference" title="Permalink"></a></h2><ul><li><a href="#PlanetaryMagneticFields.ExternalFieldModel"><code>PlanetaryMagneticFields.ExternalFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.GaussCoefficients"><code>PlanetaryMagneticFields.GaussCoefficients</code></a></li><li><a href="#PlanetaryMagneticFields.InternalFieldModel"><code>PlanetaryMagneticFields.InternalFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.MagneticFieldModel"><code>PlanetaryMagneticFields.MagneticFieldModel</code></a></li><li><a href="#PlanetaryMagneticFields.MagneticModel"><code>PlanetaryMagneticFields.MagneticModel</code></a></li><li><a href="#PlanetaryMagneticFields.SphericalHarmonicModel"><code>PlanetaryMagneticFields.SphericalHarmonicModel</code></a></li><li><a href="#Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><code>Base.getindex</code></a></li><li><a href="#PlanetaryMagneticFields.available_models"><code>PlanetaryMagneticFields.available_models</code></a></li><li><a href="#PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.cartesian_to_spherical</code></a></li><li><a href="#PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.degree</code></a></li><li><a href="#PlanetaryMagneticFields.evaluate_field_spherical-NTuple{4, Any}"><code>PlanetaryMagneticFields.evaluate_field_spherical</code></a></li><li><a href="#PlanetaryMagneticFields.fieldmap"><code>PlanetaryMagneticFields.fieldmap</code></a></li><li><a href="#PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><code>PlanetaryMagneticFields.load_coefficients</code></a></li><li><a href="#PlanetaryMagneticFields.load_model-Tuple{Any}"><code>PlanetaryMagneticFields.load_model</code></a></li><li><a href="#PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><code>PlanetaryMagneticFields.magnetic_dipole_moment</code></a></li><li><a href="#PlanetaryMagneticFields.model_info"><code>PlanetaryMagneticFields.model_info</code></a></li><li><a href="#PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.order</code></a></li><li><a href="#PlanetaryMagneticFields.plot_fieldmap"><code>PlanetaryMagneticFields.plot_fieldmap</code></a></li><li><a href="#PlanetaryMagneticFields.plot_fieldmap!"><code>PlanetaryMagneticFields.plot_fieldmap!</code></a></li><li><a href="#PlanetaryMagneticFields.plot_models"><code>PlanetaryMagneticFields.plot_models</code></a></li><li><a href="#PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><code>PlanetaryMagneticFields.schmidt_legendre!</code></a></li><li><a href="#PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><code>PlanetaryMagneticFields.spherical_field_to_cartesian</code></a></li><li><a href="#PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.spherical_to_cartesian</code></a></li><li><a href="#PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><code>PlanetaryMagneticFields.truncate_coefficients</code></a></li></ul><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.ExternalFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.ExternalFieldModel"><code>PlanetaryMagneticFields.ExternalFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">ExternalFieldModel &lt;: MagneticFieldModel</code></pre><p>Abstract type for external (magnetospheric) magnetic field models. These models may be empirical or physics-based.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L23-L28">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.GaussCoefficients"><a class="docstring-binding" href="#PlanetaryMagneticFields.GaussCoefficients"><code>PlanetaryMagneticFields.GaussCoefficients</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">GaussCoefficients</code></pre><p>Storage for Gauss coefficients in Schmidt semi-normalized form.</p><p><strong>Fields</strong></p><ul><li><code>g</code>: Schmidt semi-normalized g coefficients (degree × order)</li><li><code>h</code>: Schmidt semi-normalized h coefficients (degree × order)</li><li><code>degree</code>: Maximum degree N</li><li><code>order</code>: Maximum order M (typically M ≤ N)</li></ul><p><strong>Indexing</strong></p><p>Coefficients are stored in a triangular matrix where row n (degree) contains coefficients for orders m = 0, 1, ..., min(n, M).</p><p>For coefficient g<em>n^m or h</em>n^m:</p><ul><li>Use: coeffs.g[n+1, m+1] or coeffs.h[n+1, m+1]</li><li>Note: Julia uses 1-based indexing, so degree n is in row n+1</li></ul><p><strong>Schmidt Semi-Normalization</strong></p><p>These coefficients follow the Schmidt semi-normalization convention used in geomagnetism and planetary magnetic field modeling (IGRF, WMM, JRM, etc.).</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L64-L86">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.InternalFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.InternalFieldModel"><code>PlanetaryMagneticFields.InternalFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">InternalFieldModel &lt;: MagneticFieldModel</code></pre><p>Abstract type for internal (planetary) magnetic field models. These models typically use spherical harmonic expansions.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L15-L20">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.MagneticFieldModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.MagneticFieldModel"><code>PlanetaryMagneticFields.MagneticFieldModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">MagneticFieldModel</code></pre><p>Abstract base type for all magnetic field models.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L8-L12">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.MagneticModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.MagneticModel"><code>PlanetaryMagneticFields.MagneticModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">MagneticModel</code></pre><p>A callable wrapper around a magnetic field model that stores default parameters.</p><p><strong>Usage</strong></p><pre><code class="language-julia hljs">model = JRM33()
 B = model(r, θ, φ)  # Uses default in/out from constructor
-B = model(r, θ, φ; out=:spherical)  # Keyword arguments override defaults</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L162-L173">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.SphericalHarmonicModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.SphericalHarmonicModel"><code>PlanetaryMagneticFields.SphericalHarmonicModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">SphericalHarmonicModel &lt;: InternalFieldModel</code></pre><p>A magnetic field model using spherical harmonic expansion.</p><p><strong>Fields</strong></p><ul><li><code>name::String</code>: Model name (e.g., &quot;jrm09&quot;, &quot;jrm33&quot;, &quot;igrf14&quot;)</li><li><code>coeffs::GaussCoefficients</code>: Gauss coefficients</li></ul><p><strong>Mathematical Formulation</strong></p><p>The magnetic scalar potential V is expanded in spherical harmonics:</p><p class="math-container">\[V(r,θ,φ) = a \sum_{n=1}^{N} \sum_{m=0}^{n} \left(\frac{a}{r}\right)^{n+1}
-           [g_n^m \cos(mφ) + h_n^m \sin(mφ)] P_n^m(\cos θ)\]</p><p>where:</p><ul><li>a is the planetary radius</li><li>g<em>n^m, h</em>n^m are the Gauss coefficients (Schmidt semi-normalized)</li><li>P_n^m are the associated Legendre polynomials (Schmidt semi-normalized)</li><li>(r,θ,φ) are spherical coordinates (radius, colatitude, longitude)</li></ul><p>The magnetic field <strong>B</strong> = -∇V is computed from derivatives of the potential.</p><p><strong>Coordinate Systems</strong></p><ul><li>Spherical: (r, θ, φ) where θ is colatitude [0, π] and φ is longitude [0, 2π]</li><li>Cartesian: (x, y, z) in the planet&#39;s reference frame</li><li>All coordinates are planetocentric unless otherwise specified</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L108-L137">source</a></section></details></article><article><details class="docstring" open="true"><summary id="Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><a class="docstring-binding" href="#Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><code>Base.getindex</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">Base.getindex(coeffs::GaussCoefficients, n::Int, m::Int)</code></pre><p>Get the (g, h) coefficient pair for degree n and order m.</p><p>Returns a named tuple with fields <code>g</code> and <code>h</code>.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">coeffs[2, 1]  # Get g_2^1 and h_2^1</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L92-L103">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.available_models"><a class="docstring-binding" href="#PlanetaryMagneticFields.available_models"><code>PlanetaryMagneticFields.available_models</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">available_models([body])</code></pre><p>List all available models, optionally specified by a given astronomical <code>body</code>.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">available_models()
-available_models(:jupiter)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/api.jl#L79-L89">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.cartesian_to_spherical</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">cartesian_to_spherical(x, y, z)</code></pre><p>Convert Cartesian coordinates to spherical coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>x, y, z</code>: Cartesian coordinates (same units, e.g., km or planetary radii)</li></ul><p><strong>Returns</strong></p><ul><li><code>(r, θ, φ)</code>: Spherical coordinates<ul><li><code>r</code>: radial distance (same units as input)</li><li><code>θ</code>: colatitude in radians [0, π]</li><li><code>φ</code>: east longitude in radians [0, 2π]</li></ul></li></ul><p><strong>Coordinate Convention</strong></p><ul><li>x-axis: points to (θ=π/2, φ=0)</li><li>y-axis: points to (θ=π/2, φ=π/2)</li><li>z-axis: points to north pole (θ=0)</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/cotrans.jl#L1-L19">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><a class="docstring-binding" href="#PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.degree</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">degree(model::SphericalHarmonicModel)</code></pre><p>Get the maximum degree of the spherical harmonic expansion.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L148-L152">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.evaluate_field_spherical-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel, Any, Any, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.evaluate_field_spherical-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel, Any, Any, Any}"><code>PlanetaryMagneticFields.evaluate_field_spherical</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ)</code></pre><p>Evaluate the magnetic field at a point in spherical coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>model::SphericalHarmonicModel</code>: The magnetic field model</li><li><code>r</code>: Radial distance in planetary radii (dimensionless)</li><li><code>θ</code>: Colatitude in radians [0, π]</li><li><code>φ</code>: East longitude in radians [0, 2π]</li></ul><p><strong>Returns</strong></p><ul><li><code>SVector{3,Float64}</code>: Magnetic field vector [B<em>r, B</em>θ, B_φ] in nanoTesla</li></ul><p><strong>Coordinate System</strong></p><ul><li>Spherical coordinates (r, θ, φ) where:<ul><li>r: radial distance from planet center</li><li>θ: colatitude (0 at north pole, π at south pole)</li><li>φ: east longitude (0 at prime meridian, increases eastward)</li></ul></li></ul><p><strong>Mathematical Formulation</strong></p><p>The magnetic field is derived from the scalar potential:</p><p class="math-container">\[B_r = -\frac{∂V}{∂r}, \quad
+B = model(r, θ, φ; out=:spherical)  # Keyword arguments override defaults</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L176-L187">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.SphericalHarmonicModel"><a class="docstring-binding" href="#PlanetaryMagneticFields.SphericalHarmonicModel"><code>PlanetaryMagneticFields.SphericalHarmonicModel</code></a> — <span class="docstring-category">Type</span></summary><section><div><pre><code class="language-julia hljs">SphericalHarmonicModel &lt;: InternalFieldModel</code></pre><p>A magnetic field model using spherical harmonic expansion.</p><p><strong>Fields</strong></p><ul><li><code>name::String</code>: Model name (e.g., &quot;jrm09&quot;, &quot;jrm33&quot;, &quot;igrf14&quot;)</li><li><code>coeffs::GaussCoefficients</code>: Gauss coefficients</li></ul><p><strong>Mathematical Formulation</strong></p><p>The magnetic scalar potential V is expanded in spherical harmonics:</p><p class="math-container">\[V(r,θ,φ) = a \sum_{n=1}^{N} \sum_{m=0}^{n} \left(\frac{a}{r}\right)^{n+1}
+           [g_n^m \cos(mφ) + h_n^m \sin(mφ)] P_n^m(\cos θ)\]</p><p>where:</p><ul><li>a is the planetary radius</li><li>g<em>n^m, h</em>n^m are the Gauss coefficients (Schmidt semi-normalized)</li><li>P_n^m are the associated Legendre polynomials (Schmidt semi-normalized)</li><li>(r,θ,φ) are spherical coordinates (radius, colatitude, longitude)</li></ul><p>The magnetic field <strong>B</strong> = -∇V is computed from derivatives of the potential.</p><p><strong>Coordinate Systems</strong></p><ul><li>Spherical: (r, θ, φ) where θ is colatitude [0, π] and φ is longitude [0, 2π]</li><li>Cartesian: (x, y, z) in the planet&#39;s reference frame</li><li>All coordinates are planetocentric unless otherwise specified</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L122-L151">source</a></section></details></article><article><details class="docstring" open="true"><summary id="Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><a class="docstring-binding" href="#Base.getindex-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64, Int64}"><code>Base.getindex</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">Base.getindex(coeffs::GaussCoefficients, n::Int, m::Int)</code></pre><p>Get the (g, h) coefficient pair for degree n and order m.</p><p>Returns a named tuple with fields <code>g</code> and <code>h</code>.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">coeffs[2, 1]  # Get g_2^1 and h_2^1</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L106-L117">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.available_models"><a class="docstring-binding" href="#PlanetaryMagneticFields.available_models"><code>PlanetaryMagneticFields.available_models</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">available_models([body])</code></pre><p>List all available models, optionally specified by a given astronomical <code>body</code>.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">available_models()
+available_models(:jupiter)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/api.jl#L109-L119">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.cartesian_to_spherical-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.cartesian_to_spherical</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">cartesian_to_spherical(x, y, z)</code></pre><p>Convert Cartesian coordinates to spherical coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>x, y, z</code>: Cartesian coordinates (same units, e.g., km or planetary radii)</li></ul><p><strong>Returns</strong></p><ul><li><code>(r, θ, φ)</code>: Spherical coordinates<ul><li><code>r</code>: radial distance (same units as input)</li><li><code>θ</code>: colatitude in radians [0, π]</li><li><code>φ</code>: east longitude in radians [0, 2π]</li></ul></li></ul><p><strong>Coordinate Convention</strong></p><ul><li>x-axis: points to (θ=π/2, φ=0)</li><li>y-axis: points to (θ=π/2, φ=π/2)</li><li>z-axis: points to north pole (θ=0)</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/cotrans.jl#L1-L19">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><a class="docstring-binding" href="#PlanetaryMagneticFields.degree-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.degree</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">degree(model::SphericalHarmonicModel)</code></pre><p>Get the maximum degree of the spherical harmonic expansion.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L162-L166">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.evaluate_field_spherical-NTuple{4, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.evaluate_field_spherical-NTuple{4, Any}"><code>PlanetaryMagneticFields.evaluate_field_spherical</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">evaluate_field_spherical(model::SphericalHarmonicModel, r, θ, φ)</code></pre><p>Evaluate the magnetic field at a point in spherical coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>model::SphericalHarmonicModel</code>: The magnetic field model</li><li><code>r</code>: Radial distance in planetary radii (dimensionless)</li><li><code>θ</code>: Colatitude in radians [0, π]</li><li><code>φ</code>: East longitude in radians [0, 2π]</li></ul><p><strong>Returns</strong></p><ul><li><code>SVector{3,Float64}</code>: Magnetic field vector [B<em>r, B</em>θ, B_φ] in nanoTesla</li></ul><p><strong>Coordinate System</strong></p><ul><li>Spherical coordinates (r, θ, φ) where:<ul><li>r: radial distance from planet center</li><li>θ: colatitude (0 at north pole, π at south pole)</li><li>φ: east longitude (0 at prime meridian, increases eastward)</li></ul></li></ul><p><strong>Mathematical Formulation</strong></p><p>The magnetic field is derived from the scalar potential:</p><p class="math-container">\[B_r = -\frac{∂V}{∂r}, \quad
 B_θ = -\frac{1}{r}\frac{∂V}{∂θ}, \quad
-B_φ = -\frac{1}{r\sin θ}\frac{∂V}{∂φ}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/spherical_harmonics.jl#L105-L132">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.jupiter_model_info-Tuple{Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.jupiter_model_info-Tuple{Any}"><code>PlanetaryMagneticFields.jupiter_model_info</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">jupiter_model_info(model_name::String)</code></pre><p>Get detailed information about a Jupiter magnetic field model.</p><p><strong>Arguments</strong></p><ul><li><code>model_name::String</code>: Model identifier</li></ul><p><strong>Returns</strong></p><ul><li><code>Dict{String,Any}</code>: Model metadata including description, reference, DOI, degree, etc.</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">info = jupiter_model_info(&quot;jrm09&quot;)
-println(info[&quot;description&quot;])
-println(&quot;Reference: &quot;, info[&quot;reference&quot;])</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/models/Jupiter.jl#L29-L46">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><code>PlanetaryMagneticFields.load_coefficients</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">load_coefficients(filepath; max_degree = nothing)::GaussCoefficients</code></pre><p>Load Gauss coefficients from a <code>filepath</code>.</p><ul><li><code>max_degree::Union{Int,Nothing}</code>: Optional maximum degree to load (truncate higher degrees)</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">coeffs = load_coefficients(&quot;data/jupiter/jrm09.dat&quot;)
-coeffs = load_coefficients(&quot;data/jupiter/jrm33.dat&quot;, max_degree=10)  # Truncate to degree 10</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/coefficients.jl#L8-L20">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.load_model-Tuple{Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.load_model-Tuple{Any}"><code>PlanetaryMagneticFields.load_model</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">load_model(model; kwargs...)::MagneticModel
+B_φ = -\frac{1}{r\sin θ}\frac{∂V}{∂φ}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/spherical_harmonics.jl#L106-L133">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.fieldmap"><a class="docstring-binding" href="#PlanetaryMagneticFields.fieldmap"><code>PlanetaryMagneticFields.fieldmap</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">fieldmap(model, r, nlat, nlon; idx = identity)
+fieldmap(model, r = 1.0; nlat = 180, nlon = 360, kw...)</code></pre><p>Compute magnetic fields over a latitude-longitude grid at a given radial distance <code>r</code> [planetary radii] for model <code>model</code>.</p><p><strong>Arguments</strong></p><ul><li><code>nlat=180</code>: Number of latitude points</li><li><code>nlon=360</code>: Number of longitude points`</li><li><code>idx</code>: Field component selector / function that works on the output of <code>model(r, θ, φ)</code> (default: identity returns full vector)<ul><li><code>1</code>: Radial component (Br)</li><li><code>2</code>: Colatitude component (Bθ)</li><li><code>3</code>: Azimuthal component (Bφ)</li><li><code>norm</code>: Field magnitude</li></ul></li></ul><p><strong>Returns</strong></p><ul><li><code>KeyedArray</code>: Magnetic field values at each grid point with axes:<ul><li><code>lon</code>: Longitude values [-180, 180] degrees</li><li><code>lat</code>: Latitude values [-90, 90] degrees</li></ul></li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">model = load_model(:jupiter, &quot;jrm09&quot;)
+field_map = fieldmap(model; r=1.0)
+# Access data: field_map[lon=0.0, lat=45.0]
+# Get axes: axiskeys(field_map, 1) for longitudes, axiskeys(field_map, 2) for latitudes</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/api.jl#L79-L106">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.load_coefficients-Tuple{Any}"><code>PlanetaryMagneticFields.load_coefficients</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">load_coefficients(filepath; max_degree = nothing)::GaussCoefficients</code></pre><p>Load Gauss coefficients from a <code>filepath</code>.</p><ul><li><code>max_degree::Union{Int,Nothing}</code>: Optional maximum degree to load (truncate higher degrees)</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">coeffs = load_coefficients(&quot;data/jupiter/jrm09.dat&quot;)
+coeffs = load_coefficients(&quot;data/jupiter/jrm33.dat&quot;, max_degree=10)  # Truncate to degree 10</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/coefficients.jl#L8-L20">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.load_model-Tuple{Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.load_model-Tuple{Any}"><code>PlanetaryMagneticFields.load_model</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">load_model(model; kwargs...)::MagneticModel
 load_model(planet, model; kwargs...)::MagneticModel</code></pre><p>Load and create a magnetic field model.</p><p><strong>Single-argument form (by unique model name)</strong></p><p>Load a model by its unique name (e.g., <code>:JRM33</code>, <code>:JRM09</code>).</p><p><strong>Two-argument form (by planet and model)</strong></p><p>Load a model by specifying both planet and model name.</p><p><strong>Arguments</strong></p><ul><li><code>model</code>: Unique model identifier (e.g., <code>:JRM33</code>, <code>:JRM09</code>)</li><li><code>planet</code>: Planet identifier (e.g., :jupiter, :saturn, :earth)</li><li><code>max_degree</code>: Maximum degree to use (truncates model if specified)</li><li><code>in</code>: Default input coordinate system (<code>:spherical</code> or <code>:cartesian</code>)</li><li><code>out</code>: Default output coordinate system (<code>:spherical</code> or <code>:cartesian</code>)</li></ul><p><strong>Notes</strong></p><p>Input positions are assumed to be in planetary radii by default. For physical units (e.g., km), use Unitful.jl which is supported via a package extension.</p><p><strong>Returns</strong></p><p>A callable <code>MagneticModel</code> object that can be invoked as <code>model(r, θ, φ; kwargs...)</code></p><p><strong>Examples</strong></p><pre><code class="language-julia hljs"># Load by unique model name
 model = load_model(:JRM33; max_degree=13)
 B = model(1.5, π/4, 0.0)  # Returns [B_r, B_θ, B_φ] in nT
@@ -611,18 +174,24 @@ model = load_model(:JRM33; max_degree=13, in=:cartesian, out=:cartesian)
 B = model(1.0, 0.0, 0.5)  # Returns [B_x, B_y, B_z] in nT
 
 # Override output coordinates at call time
-B_sph = model(1.0, 0.0, 0.5; out=:spherical)  # Returns [B_r, B_θ, B_φ]</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/api.jl#L15-L58">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><code>PlanetaryMagneticFields.magnetic_dipole_moment</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">magnetic_dipole_moment(coeffs::GaussCoefficients, radius::Float64)</code></pre><p>Calculate the magnetic dipole moment from g_1^0 coefficient.</p><p>The dipole moment is:</p><p class="math-container">\[M = -4π R³ g_1^0 / μ_0\]</p><p>where R is the planetary radius and μ_0 = 4π × 10^(-7) H/m.</p><p><strong>Arguments</strong></p><ul><li><code>coeffs::GaussCoefficients</code>: Gauss coefficients</li><li><code>radius::Float64</code>: Planetary radius in km</li></ul><p><strong>Returns</strong></p><ul><li><code>Float64</code>: Magnetic dipole moment in units of 10^27 Am²</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">moment = magnetic_dipole_moment(coeffs, 71492.0)  # Jupiter</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/coefficients.jl#L69-L92">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.model_info-Tuple{Symbol, String}"><a class="docstring-binding" href="#PlanetaryMagneticFields.model_info-Tuple{Symbol, String}"><code>PlanetaryMagneticFields.model_info</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">model_info(planet::Symbol, model::String)
-model_info(model::SphericalHarmonicModel)</code></pre><p>Get detailed information about a magnetic field model.</p><p><strong>Arguments</strong></p><ul><li><code>planet::Symbol</code>: Planet identifier</li><li><code>model::String</code>: Model identifier</li></ul><p>OR</p><ul><li><code>model::SphericalHarmonicModel</code>: An already-loaded model</li></ul><p><strong>Returns</strong></p><ul><li><code>Dict{String,Any}</code>: Model metadata</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">info = model_info(:jupiter, &quot;jrm09&quot;)
-println(info[&quot;description&quot;])
-println(&quot;DOI: &quot;, info[&quot;doi&quot;])
+B_sph = model(1.0, 0.0, 0.5; out=:spherical)  # Returns [B_r, B_θ, B_φ]</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/api.jl#L15-L58">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.magnetic_dipole_moment-Tuple{PlanetaryMagneticFields.GaussCoefficients, Float64}"><code>PlanetaryMagneticFields.magnetic_dipole_moment</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">magnetic_dipole_moment(coeffs::GaussCoefficients, radius::Float64)</code></pre><p>Calculate the magnetic dipole moment from g_1^0 coefficient.</p><p>The dipole moment is:</p><p class="math-container">\[M = -4π R³ g_1^0 / μ_0\]</p><p>where R is the planetary radius and μ_0 = 4π × 10^(-7) H/m.</p><p><strong>Arguments</strong></p><ul><li><code>coeffs::GaussCoefficients</code>: Gauss coefficients</li><li><code>radius::Float64</code>: Planetary radius in km</li></ul><p><strong>Returns</strong></p><ul><li><code>Float64</code>: Magnetic dipole moment in units of 10^27 Am²</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">moment = magnetic_dipole_moment(coeffs, 71492.0)  # Jupiter</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/coefficients.jl#L69-L92">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.model_info"><a class="docstring-binding" href="#PlanetaryMagneticFields.model_info"><code>PlanetaryMagneticFields.model_info</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">model_info(model)</code></pre><p>Get detailed information about a magnetic field model.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">info = model_info(&quot;jrm09&quot;)
+println(info[&quot;description&quot;])</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/api.jl#L122-L132">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><a class="docstring-binding" href="#PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.order</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">order(model::SphericalHarmonicModel)</code></pre><p>Get the maximum order of the spherical harmonic expansion.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/types.jl#L169-L173">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.plot_fieldmap"><a class="docstring-binding" href="#PlanetaryMagneticFields.plot_fieldmap"><code>PlanetaryMagneticFields.plot_fieldmap</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">plot_fieldmap(model; r=1.0, dest=&quot;+proj=moll&quot;, kwargs...)</code></pre><p>Create a complete figure with a magnetic field map.</p><p><strong>Arguments</strong></p><ul><li><code>model</code>: The magnetic field model</li><li><code>r::Real=1.0</code>: Radial distance in planetary radii</li></ul><p><strong>Example</strong></p><pre><code class="language-julia hljs">using CairoMakie, GeoMakie
+using PlanetaryMagneticFields
 
-# Or from a loaded model
-model = MagneticModel(:jupiter, &quot;jrm09&quot;)
-info = model_info(model)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/api.jl#L92-L117">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><a class="docstring-binding" href="#PlanetaryMagneticFields.order-Tuple{PlanetaryMagneticFields.SphericalHarmonicModel}"><code>PlanetaryMagneticFields.order</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">order(model::SphericalHarmonicModel)</code></pre><p>Get the maximum order of the spherical harmonic expansion.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/types.jl#L155-L159">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><code>PlanetaryMagneticFields.schmidt_legendre!</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">schmidt_legendre!(P, dP, cosθ, sinθ, max_degree::Int)</code></pre><p>Compute Schmidt semi-normalized associated Legendre polynomials and their derivatives.</p><p>This function computes P<em>n^m(cos θ) and dP</em>n^m/dθ for n = 0 to max_degree and m = 0 to n, using the Schmidt semi-normalization convention standard in geomagnetism.</p><p><strong>Arguments</strong></p><ul><li><code>P</code>: Output matrix for P<em>n^m values (size: (max</em>degree+1) × (max_degree+1))</li><li><code>dP</code>: Output matrix for dP_n^m/dθ values (same size as P)</li><li><code>cosθ</code>: cos(colatitude)</li><li><code>sinθ</code>: sin(colatitude)</li><li><code>max_degree::Int</code>: Maximum degree to compute</li></ul><p><strong>Schmidt Semi-Normalization</strong></p><p>The Schmidt semi-normalized Legendre polynomials satisfy:</p><p class="math-container">\[\int_0^π [P_n^m(\cos θ)]² \sin θ dθ = \frac{2(n+m)!}{(2n+1)(n-m)!}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/spherical_harmonics.jl#L11-L31">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><code>PlanetaryMagneticFields.spherical_field_to_cartesian</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">spherical_field_to_cartesian(Br, Bθ, Bφ,
+model = load_model(:jupiter, &quot;jrm09&quot;)
+plot_fieldmap(model; r=1.0, title=&quot;Jupiter JRM09&quot;)</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/PlanetaryMagneticFields.jl#L53-L70">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.plot_fieldmap!"><a class="docstring-binding" href="#PlanetaryMagneticFields.plot_fieldmap!"><code>PlanetaryMagneticFields.plot_fieldmap!</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">plot_fieldmap!(ax, model; r=1.0, nlat=180, nlon=360, kwargs...)</code></pre><p>Plot a magnetic field map on an existing GeoAxis <code>ax</code>, with <code>nlat</code> and <code>nlon</code> determining the number of latitude and longitude points, respectively.</p><p><strong>Example</strong></p><pre><code class="language-julia hljs">using CairoMakie, GeoMakie
+using PlanetaryMagneticFields
+
+fig = Figure()
+ax = GeoAxis(fig[1,1]; dest=&quot;+proj=moll&quot;)
+model = load_model(:jupiter, &quot;jrm09&quot;)
+sf = plot_fieldmap!(ax, model; r=1.0)
+Colorbar(fig[1,2], sf; label=&quot;Br [nT]&quot;)
+fig</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/PlanetaryMagneticFields.jl#L33-L50">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.plot_models"><a class="docstring-binding" href="#PlanetaryMagneticFields.plot_models"><code>PlanetaryMagneticFields.plot_models</code></a> — <span class="docstring-category">Function</span></summary><section><div><pre><code class="language-julia hljs">plot_models(; r=1.0, models=nothing, projection=&quot;+proj=moll&quot;, kwargs...)</code></pre><p>Create a figure showing magnetic field maps of all available planets.</p><p><strong>Default Models</strong></p><ul><li>Mercury: &quot;anderson2012&quot;</li><li>Earth: &quot;igrf2020&quot;</li><li>Mars: &quot;langlais2019&quot;</li><li>Jupiter: &quot;jrm09&quot;</li><li>Saturn: &quot;cassini11&quot;</li><li>Uranus: &quot;ah5&quot;</li><li>Neptune: &quot;gsfco8&quot;</li><li>Ganymede: &quot;kivelson2002a&quot;</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/PlanetaryMagneticFields.jl#L73-L87">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.schmidt_legendre!-Tuple{Any, Any, Any, Int64}"><code>PlanetaryMagneticFields.schmidt_legendre!</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">schmidt_legendre!(P, dP, cosθ, sinθ, max_degree::Int)</code></pre><p>Compute Schmidt semi-normalized associated Legendre polynomials and their derivatives.</p><p>This function computes P<em>n^m(cos θ) and dP</em>n^m/dθ for n = 0 to max_degree and m = 0 to n, using the Schmidt semi-normalization convention standard in geomagnetism.</p><p><strong>Arguments</strong></p><ul><li><code>P</code>: Output matrix for P<em>n^m values (size: (max</em>degree+1) × (max_degree+1))</li><li><code>dP</code>: Output matrix for dP_n^m/dθ values (same size as P)</li><li><code>cosθ</code>: cos(colatitude)</li><li><code>sinθ</code>: sin(colatitude)</li><li><code>max_degree::Int</code>: Maximum degree to compute</li></ul><p><strong>Schmidt Semi-Normalization</strong></p><p>The Schmidt semi-normalized Legendre polynomials satisfy:</p><p class="math-container">\[\int_0^π [P_n^m(\cos θ)]² \sin θ dθ = \frac{2(n+m)!}{(2n+1)(n-m)!}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/spherical_harmonics.jl#L12-L32">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.spherical_field_to_cartesian-NTuple{5, Any}"><code>PlanetaryMagneticFields.spherical_field_to_cartesian</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">spherical_field_to_cartesian(Br, Bθ, Bφ,
                                θ, φ)</code></pre><p>Convert magnetic field vector from spherical to Cartesian components.</p><p><strong>Arguments</strong></p><ul><li><code>Br, Bθ, Bφ</code>: Field components in spherical coordinates</li><li><code>θ</code>: colatitude in radians [0, π]</li><li><code>φ</code>: east longitude in radians [0, 2π]</li></ul><p><strong>Returns</strong></p><ul><li><code>SVector{3,Float64}</code>: Field vector [Bx, By, Bz] in Cartesian coordinates</li></ul><p><strong>Transformation</strong></p><p class="math-container">\[\begin{pmatrix} B_x \\ B_y \\ B_z \end{pmatrix} =
 \begin{pmatrix}
   \sin θ \cos φ &amp; \cos θ \cos φ &amp; -\sin φ \\
   \sin θ \sin φ &amp; \cos θ \sin φ &amp;  \cos φ \\
   \cos θ         &amp; -\sin θ          &amp;  0
 \end{pmatrix}
-\begin{pmatrix} B_r \\ B_θ \\ B_φ \end{pmatrix}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/cotrans.jl#L65-L89">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.spherical_to_cartesian</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">spherical_to_cartesian(r, θ, φ)</code></pre><p>Convert spherical coordinates to Cartesian coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>r</code>: radial distance</li><li><code>θ</code>: colatitude in radians [0, π]</li><li><code>φ</code>: east longitude in radians [0, 2π]</li></ul><p><strong>Returns</strong></p><ul><li><code>(x, y, z)</code>: Cartesian coordinates (same units as r)</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/cotrans.jl#L39-L51">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><code>PlanetaryMagneticFields.truncate_coefficients</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">truncate_coefficients(coeffs::GaussCoefficients, max_degree::Int)</code></pre><p>Truncate coefficients to a maximum degree.</p><p><strong>Arguments</strong></p><ul><li><code>coeffs::GaussCoefficients</code>: Original coefficients</li><li><code>max_degree::Int</code>: Maximum degree to retain</li></ul><p><strong>Returns</strong></p><ul><li><code>GaussCoefficients</code>: Truncated coefficients</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/9397e6de474c5ef912be9ead869df815f1766739/src/coefficients.jl#L112-L123">source</a></section></details></article></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Sunday 25 January 2026 03:37">Sunday 25 January 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+\begin{pmatrix} B_r \\ B_θ \\ B_φ \end{pmatrix}\]</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/cotrans.jl#L65-L89">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><a class="docstring-binding" href="#PlanetaryMagneticFields.spherical_to_cartesian-Tuple{Any, Any, Any}"><code>PlanetaryMagneticFields.spherical_to_cartesian</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">spherical_to_cartesian(r, θ, φ)</code></pre><p>Convert spherical coordinates to Cartesian coordinates.</p><p><strong>Arguments</strong></p><ul><li><code>r</code>: radial distance</li><li><code>θ</code>: colatitude in radians [0, π]</li><li><code>φ</code>: east longitude in radians [0, 2π]</li></ul><p><strong>Returns</strong></p><ul><li><code>(x, y, z)</code>: Cartesian coordinates (same units as r)</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/cotrans.jl#L39-L51">source</a></section></details></article><article><details class="docstring" open="true"><summary id="PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><a class="docstring-binding" href="#PlanetaryMagneticFields.truncate_coefficients-Tuple{PlanetaryMagneticFields.GaussCoefficients, Int64}"><code>PlanetaryMagneticFields.truncate_coefficients</code></a> — <span class="docstring-category">Method</span></summary><section><div><pre><code class="language-julia hljs">truncate_coefficients(coeffs::GaussCoefficients, max_degree::Int)</code></pre><p>Truncate coefficients to a maximum degree.</p><p><strong>Arguments</strong></p><ul><li><code>coeffs::GaussCoefficients</code>: Original coefficients</li><li><code>max_degree::Int</code>: Maximum degree to retain</li></ul><p><strong>Returns</strong></p><ul><li><code>GaussCoefficients</code>: Truncated coefficients</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/blob/01dba91e141c2ade5b6b09aa2f9a2ea650c3f711/src/coefficients.jl#L112-L123">source</a></section></details></article></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Sunday 25 January 2026 16:42">Sunday 25 January 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
