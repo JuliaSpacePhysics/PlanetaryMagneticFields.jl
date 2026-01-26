@@ -76,8 +76,8 @@ end
     (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(x, y, z)
 
     # Evaluate both ways
-    B_from_cart = PlanetaryMagneticFields.evaluate_field_cartesian(model, x, y, z)
-    B_sph = PlanetaryMagneticFields.evaluate_field_spherical(model, r, θ, φ)
+    B_from_cart = PlanetaryMagneticFields.evaluate_field_cartesian(model.coeffs, x, y, z)
+    B_sph = PlanetaryMagneticFields.evaluate_field_spherical(model.coeffs, r, θ, φ)
     B_from_sph = PlanetaryMagneticFields.spherical_field_to_cartesian(
         B_sph[1], B_sph[2], B_sph[3], θ, φ
     )

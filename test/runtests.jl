@@ -34,3 +34,7 @@ end
 @testset "Jupiter Models" begin
     include("test_jupiter.jl")
 end
+
+@testset "IGRF Model" begin
+    include("test_igrf.jl")
+end

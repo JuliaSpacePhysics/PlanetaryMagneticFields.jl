@@ -1,8 +1,5 @@
 """
 Core type definitions for PlanetaryMagneticFields.jl
-
-This module defines the abstract type hierarchy and concrete types for representing
-magnetic field models.
 """
 
 """
@@ -16,7 +13,6 @@ abstract type MagneticFieldModel end
     InternalFieldModel <: MagneticFieldModel
 
 Abstract type for internal (planetary) magnetic field models.
-These models typically use spherical harmonic expansions.
 """
 abstract type InternalFieldModel <: MagneticFieldModel end
 
@@ -24,7 +20,6 @@ abstract type InternalFieldModel <: MagneticFieldModel end
     ExternalFieldModel <: MagneticFieldModel
 
 Abstract type for external (magnetospheric) magnetic field models.
-These models may be empirical or physics-based.
 """
 abstract type ExternalFieldModel <: MagneticFieldModel end
 
@@ -71,18 +66,6 @@ Storage for Gauss coefficients in Schmidt semi-normalized form.
 - `h`: Schmidt semi-normalized h coefficients (degree × order)
 - `degree`: Maximum degree N
 - `order`: Maximum order M (typically M ≤ N)
-
-# Indexing
-Coefficients are stored in a triangular matrix where row n (degree) contains
-coefficients for orders m = 0, 1, ..., min(n, M).
-
-For coefficient g_n^m or h_n^m:
-- Use: coeffs.g[n+1, m+1] or coeffs.h[n+1, m+1]
-- Note: Julia uses 1-based indexing, so degree n is in row n+1
-
-# Schmidt Semi-Normalization
-These coefficients follow the Schmidt semi-normalization convention used in
-geomagnetism and planetary magnetic field modeling (IGRF, WMM, JRM, etc.).
 """
 struct GaussCoefficients{A}
     g::A
@@ -103,86 +86,118 @@ struct GaussCoefficients{A}
     end
 end
 
-"""
-    Base.getindex(coeffs::GaussCoefficients, n::Int, m::Int)
-
-Get the (g, h) coefficient pair for degree n and order m.
-
-Returns a named tuple with fields `g` and `h`.
-
-# Example
-```julia
-coeffs[2, 1]  # Get g_2^1 and h_2^1
-```
-"""
+# Get (g, h) coefficient pair for degree n and order m
 function Base.getindex(coeffs::GaussCoefficients, n::Int, m::Int)
     return (g = coeffs.g[n + 1, m + 1], h = coeffs.h[n + 1, m + 1])
 end
 
 """
-    SphericalHarmonicModel <: InternalFieldModel
+    TimeVaryingGaussCoefficients
 
-A magnetic field model using spherical harmonic expansion.
+Storage for time-varying Gauss coefficients with multiple epochs.
+Coefficients are linearly interpolated between epochs.
 
 # Fields
-- `name::String`: Model name (e.g., "jrm09", "jrm33", "igrf14")
-- `coeffs::GaussCoefficients`: Gauss coefficients
-
-# Mathematical Formulation
-The magnetic scalar potential V is expanded in spherical harmonics:
-
-```math
-V(r,θ,φ) = a \\sum_{n=1}^{N} \\sum_{m=0}^{n} \\left(\\frac{a}{r}\\right)^{n+1}
-           [g_n^m \\cos(mφ) + h_n^m \\sin(mφ)] P_n^m(\\cos θ)
-```
-
-where:
-- a is the planetary radius
-- g_n^m, h_n^m are the Gauss coefficients (Schmidt semi-normalized)
-- P_n^m are the associated Legendre polynomials (Schmidt semi-normalized)
-- (r,θ,φ) are spherical coordinates (radius, colatitude, longitude)
-
-The magnetic field **B** = -∇V is computed from derivatives of the potential.
-
-# Coordinate Systems
-- Spherical: (r, θ, φ) where θ is colatitude [0, π] and φ is longitude [0, 2π]
-- Cartesian: (x, y, z) in the planet's reference frame
-- All coordinates are planetocentric unless otherwise specified
+- `epochs`: Sorted vector of epoch years (e.g., [1900.0, 1905.0, ..., 2025.0])
+- `coefficients`: Vector of GaussCoefficients, one per epoch
+- `degree`: Maximum degree N
+- `order`: Maximum order M
 """
-struct SphericalHarmonicModel <: InternalFieldModel
+struct TimeVaryingGaussCoefficients{T, C}
+    epochs::Vector{T}
+    coefficients::Vector{C}
+    degree::Int
+    order::Int
+
+    function TimeVaryingGaussCoefficients(
+            epochs::Vector{T},
+            coefficients::Vector{C};
+            check = true
+        ) where {T, C}
+        check && begin
+            length(epochs) == length(coefficients) || error("Number of epochs must match number of coefficient sets")
+            length(epochs) >= 1 || error("At least one epoch is required")
+            issorted(epochs) || error("Epochs must be sorted in ascending order")
+            deg = coefficients[1].degree
+            ord = coefficients[1].order
+            for c in coefficients[2:end]
+                c.degree == deg || error("All coefficient sets must have the same degree")
+                c.order == ord || error("All coefficient sets must have the same order")
+            end
+        end
+        deg = coefficients[1].degree
+        ord = coefficients[1].order
+        return new{T, C}(epochs, coefficients, deg, ord)
+    end
+end
+
+function (tvc::TimeVaryingGaussCoefficients)(t)
+    eps = tvc.epochs
+    coeffs = tvc.coefficients
+
+    # Handle edge cases
+    if t <= eps[1]
+        return coeffs[1]
+    elseif t >= eps[end]
+        return coeffs[end]
+    end
+
+    idx = searchsortedlast(eps, t)
+    t0, t1 = eps[idx], eps[idx + 1]
+    c0, c1 = coeffs[idx], coeffs[idx + 1]
+    α = (t - t0) / (t1 - t0)
+
+    g_interp = LazyArray(@~ (1 - α) * c0.g + α * c1.g)
+    h_interp = LazyArray(@~ (1 - α) * c0.h + α * c1.h)
+
+    return GaussCoefficients(g_interp, h_interp, tvc.degree, tvc.order)
+end
+
+"""
+    SphericalHarmonicModel{C} <: InternalFieldModel
+
+A magnetic field model using spherical harmonic expansion.
+"""
+struct SphericalHarmonicModel{C} <: InternalFieldModel
     name::String
-    coeffs::GaussCoefficients
+    coeffs::C
 end
 
-# Note: Input positions are assumed to be in planetary radii by default.
-function (m::SphericalHarmonicModel)(r, θ, φ)
-    return evaluate_field_spherical(m, r, θ, φ)
+# Static evaluation
+function (m::SphericalHarmonicModel{<:GaussCoefficients})(r, θ, φ, _ = nothing)
+    return evaluate_field_spherical(m.coeffs, r, θ, φ)
 end
 
-"""
-    degree(model::SphericalHarmonicModel)
+# Time-varying evaluation
+function (m::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients})(r, θ, φ, t)
+    return evaluate_field_spherical(m.coeffs(t), r, θ, φ)
+end
 
-Get the maximum degree of the spherical harmonic expansion.
-"""
+# Convenience accessors
 degree(model::SphericalHarmonicModel) = model.coeffs.degree
-
-"""
-    order(model::SphericalHarmonicModel)
-
-Get the maximum order of the spherical harmonic expansion.
-"""
 order(model::SphericalHarmonicModel) = model.coeffs.order
+epochs(model::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}) = model.coeffs.epochs
+epoch_range(model::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}) = (model.coeffs.epochs[1], model.coeffs.epochs[end])
+
+# Check if a model is time-varying
+is_time_varying(::SphericalHarmonicModel{<:GaussCoefficients}) = false
+is_time_varying(::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}) = true
 
 """
     MagneticModel
 
-A callable wrapper around a magnetic field model that stores default parameters.
+A callable wrapper around a magnetic field model that stores default coordinate parameters.
 
 # Usage
 ```julia
+# Static model
 model = JRM33()
-B = model(r, θ, φ)  # Uses default in/out from constructor
-B = model(r, θ, φ; out=:spherical)  # Keyword arguments override defaults
+B = model(r, θ, φ)
+B = model(r, θ, φ; out=:cartesian)
+
+# Time-varying model
+model = IGRF()
+B = model(r, θ, φ, Date(2020))
 ```
 """
 struct MagneticModel{M, O}
@@ -200,39 +215,36 @@ function Base.getproperty(m::MagneticModel, s::Symbol)
     return s in fieldnames(typeof(m)) ? getfield(m, s) : getproperty(m.model, s)
 end
 
-# Note: Input positions are assumed to be in planetary radii by default.
-# For physical units (km), use Unitful.jl via the package extension.
-function (m::MagneticModel)(
-        r, θ, φ;
-        in = nothing,
-        out = nothing
-    )
-    # Use keyword arguments if provided, otherwise use defaults from constructor
+# Static evaluation (3 positional arguments)
+function (m::MagneticModel)(r, θ, φ, t = nothing; in = nothing, out = nothing)
     coords = isnothing(in) ? m.in : in
     output_coords = isnothing(out) ? m.out : out
 
-    # Validate coordinate systems
     coords ∈ (:spherical, :cartesian) || error("in must be :spherical or :cartesian")
     output_coords ∈ (:spherical, :cartesian) || error("out must be :spherical or :cartesian")
 
-    # Evaluate based on coordinate systems
     return if coords == :spherical && output_coords == :spherical
-        m.model(r, θ, φ)
+        m.model(r, θ, φ, t)
     elseif coords == :spherical && output_coords == :cartesian
-        B_sph = m.model(r, θ, φ)
+        B_sph = m.model(r, θ, φ, t)
         spherical_field_to_cartesian(B_sph..., θ, φ)
     elseif coords == :cartesian && output_coords == :spherical
-        m.model(cartesian_to_spherical(r, θ, φ)...)
+        r_sph, θ_sph, φ_sph = cartesian_to_spherical(r, θ, φ)
+        m.model(r_sph, θ_sph, φ_sph, t)
     else  # cartesian -> cartesian
-        evaluate_field_cartesian(m.model, r, θ, φ)
+        r_sph, θ_sph, φ_sph = cartesian_to_spherical(r, θ, φ)
+        B_sph = m.model(r_sph, θ_sph, φ_sph, t)
+        spherical_field_to_cartesian(B_sph..., θ_sph, φ_sph)
     end
 end
 
 (m::MagneticModel)(r) = m(r...)
 
-
-# Convenience accessors
+# Convenience accessors for MagneticModel
 degree(m::MagneticModel) = degree(m.model)
 order(m::MagneticModel) = order(m.model)
+is_time_varying(m::MagneticModel) = is_time_varying(m.model)
+epochs(m::MagneticModel) = epochs(m.model)
+epoch_range(m::MagneticModel) = epoch_range(m.model)
 
 include("show.jl")

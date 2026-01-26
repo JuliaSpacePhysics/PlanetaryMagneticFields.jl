@@ -2,7 +2,9 @@ module PlanetaryMagneticFields
 
 using StaticArrays
 using LinearAlgebra
+using LazyArrays
 using TOML
+using Dates
 
 # Include core functionality
 include("types.jl")
@@ -22,7 +24,8 @@ export load_model, available_models, model_info, MagneticModel, fieldmap
 
 # Convenience model accessors
 export JRM09,
-    JRM33
+    JRM33,
+    IGRF
 
 # Utility functions that users might want
 export degree, order
