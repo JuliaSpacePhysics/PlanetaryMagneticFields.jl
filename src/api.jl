@@ -139,6 +139,30 @@ function model_info(model)
     return TOML.parsefile(file)
 end
 
+"""
+    IGRF(; max_degree=nothing, in=:spherical, out=:spherical)
+
+Load the International Geomagnetic Reference Field (IGRF) model.
+
+IGRF is a time-varying model of Earth's main magnetic field with coefficients
+at 5-year epochs from 1900 to 2025, linearly interpolated between epochs.
+
+# Usage
+```julia
+model = IGRF()
+B = model(r, θ, φ, 2020.5)  # t as decimal year
+```
+
+# Arguments
+- `max_degree`: Maximum spherical harmonic degree (default: 13)
+- `in`, `out`: Coordinate systems (`:spherical` or `:cartesian`)
+"""
+function IGRF(; max_degree = nothing, kwargs...)
+    tvc = load_igrf_epochs(; max_degree = max_degree)
+    sh_model = SphericalHarmonicModel("IGRF", tvc)
+    return MagneticModel(sh_model, Earth; kwargs...)
+end
+
 for f in [:JRM09, :JRM33]
     @eval $f(; kwargs...) = load_model($(QuoteNode(f)); kwargs...)
     @eval export $f

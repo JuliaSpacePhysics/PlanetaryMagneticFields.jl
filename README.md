@@ -25,7 +25,7 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
   - [ ] Mercury, Mars models
 - 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
 - [ ] Model composition
-- [ ] Time-dependent coefficients (secular variation)
+- [x] Time-dependent coefficients (secular variation) - IGRF model with linear interpolation
 - Performance optimizations
   - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
   - [ ] Batch/vectorized evaluation for regular grid (e.g., [SHTns.jl](https://github.com/fgerick/SHTns.jl))
@@ -44,6 +44,22 @@ model = JRM33(max_degree=13)
 # Evaluate the field at a position (1.5 Jupiter radii, 45° colatitude, 0° longitude)
 r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
+```
+
+### Time-Varying Models (IGRF)
+
+```julia
+using PlanetaryMagneticFields
+
+# Load the time-varying IGRF model for Earth
+model = IGRF()
+
+# Evaluate at a specific time (decimal year)
+r, θ, φ = 1.0, π/4, 0.0  # Earth surface, 45° colatitude
+B = model(r, θ, φ, 2020.5)
+
+# Check available epochs
+epochs(model)      # [1900.0, 1905.0, ..., 2025.0]
 ```
 
 ## Elsewhere

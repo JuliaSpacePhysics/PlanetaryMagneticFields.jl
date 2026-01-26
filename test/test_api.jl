@@ -67,6 +67,8 @@ end
         model = load_model(planet, model_name)
         @test isa(model, PlanetaryMagneticFields.MagneticModel)
 
+        degree(model) != order(model) && @info model
+
         # Test that we can evaluate the field
         B = model(1.0, π / 4, 0.0)
         @test length(B) == 3

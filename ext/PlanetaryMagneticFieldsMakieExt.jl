@@ -6,7 +6,7 @@ using GeoMakie.Makie
 using LinearAlgebra: norm
 using AxisKeys: axiskeys
 
-using PlanetaryMagneticFields: MagneticModel, SphericalHarmonicModel, _field_func
+using PlanetaryMagneticFields: MagneticModel, _field_func
 import PlanetaryMagneticFields: plot_fieldmap, plot_models
 
 
