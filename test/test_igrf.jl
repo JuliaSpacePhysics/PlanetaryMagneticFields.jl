@@ -1,6 +1,7 @@
 using GeoCotrans
 using Test
-using Dates  # Only needed for GeoCotrans.igrf_B
+using Dates
+using PlanetaryMagneticFields
 import PlanetaryMagneticFields as PMF
 model = PMF.IGRF()
 

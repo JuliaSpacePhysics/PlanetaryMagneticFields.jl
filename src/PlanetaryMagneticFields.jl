@@ -8,6 +8,7 @@ using Dates
 
 # Include core functionality
 include("types.jl")
+include("planets.jl")
 include("data.jl")
 include("coefficients.jl")
 include("cotrans.jl")

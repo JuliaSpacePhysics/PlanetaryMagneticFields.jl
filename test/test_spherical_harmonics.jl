@@ -54,7 +54,7 @@ end
     g = zeros(3, 3)
     h = zeros(3, 3)
     g[2, 1] = 410244.7
-    coeffs = GaussCoefficients(g, h, 2, 2)
+    coeffs = GaussCoefficients(g, h)
 
     model = SphericalHarmonicModel("test", coeffs)
     @test degree(model) == 2
@@ -68,7 +68,7 @@ end
     g[2, 1] = 410244.7
     g[2, 2] = -71498.3
     h[2, 2] = 21330.5
-    coeffs = GaussCoefficients(g, h, 2, 2)
+    coeffs = GaussCoefficients(g, h)
     model = SphericalHarmonicModel("test", coeffs)
 
     # Test position
@@ -77,7 +77,7 @@ end
 
     # Evaluate both ways
     B_from_cart = PlanetaryMagneticFields.evaluate_field_cartesian(model.coeffs, x, y, z)
-    B_sph = PlanetaryMagneticFields.evaluate_field_spherical(model.coeffs, r, θ, φ)
+    B_sph = PlanetaryMagneticFields.evalsph(model.coeffs, r, θ, φ)
     B_from_sph = PlanetaryMagneticFields.spherical_field_to_cartesian(
         B_sph[1], B_sph[2], B_sph[3], θ, φ
     )
@@ -90,7 +90,7 @@ end
     h = zeros(2, 2)
     g[2, 1] = 428000.0  # g_1^0 in nT (approximate Jupiter dipole)
 
-    coeffs = GaussCoefficients(g, h, 1, 1)
+    coeffs = GaussCoefficients(g, h)
     model = SphericalHarmonicModel("dipole", coeffs)
 
     # Test at equator (θ = π/2)

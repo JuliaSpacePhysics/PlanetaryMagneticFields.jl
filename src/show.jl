@@ -13,7 +13,7 @@ function Base.show(io::IO, model::SphericalHarmonicModel)
 end
 
 function Base.show(io::IO, coeffs::GaussCoefficients)
-    return print(io, "GaussCoefficients(degree=$(coeffs.degree), order=$(coeffs.order))")
+    return print(io, "GaussCoefficients(degree=$(degree(coeffs)), order=$(order(coeffs)))")
 end
 
 # MagneticModel - check if underlying model is time-varying
