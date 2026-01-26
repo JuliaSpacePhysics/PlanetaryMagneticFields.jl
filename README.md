@@ -49,17 +49,13 @@ B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
 ### Time-Varying Models (IGRF)
 
 ```julia
-using PlanetaryMagneticFields
+using Dates
 
 # Load the time-varying IGRF model for Earth
 model = IGRF()
 
-# Evaluate at a specific time (decimal year)
 r, θ, φ = 1.0, π/4, 0.0  # Earth surface, 45° colatitude
-B = model(r, θ, φ, 2020.5)
-
-# Check available epochs
-epochs(model)      # [1900.0, 1905.0, ..., 2025.0]
+B = model(r, θ, φ, Date(2020))
 ```
 
 ## Elsewhere
