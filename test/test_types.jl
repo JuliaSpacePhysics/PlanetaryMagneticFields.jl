@@ -11,10 +11,10 @@ using PlanetaryMagneticFields
     g[2, 2] = -71498.3  # g_1^1
     h[2, 2] = 21330.5   # h_1^1
 
-    coeffs = GaussCoefficients(g, h, 2, 2)
+    coeffs = GaussCoefficients(g, h)
 
-    @test coeffs.degree == 2
-    @test coeffs.order == 2
+    @test degree(coeffs) == 2
+    @test order(coeffs) == 2
 
     # Test indexing
     c = coeffs[1, 0]
@@ -34,21 +34,19 @@ end
 
     check = true
     # Valid construction
-    @test isa(GaussCoefficients(g, h, 2, 2; check = check), GaussCoefficients)
+    @test isa(GaussCoefficients(g, h; check = check), GaussCoefficients)
     # Invalid: mismatched sizes
-    @test_throws ErrorException GaussCoefficients(g, zeros(2, 2), 2, 2; check = check)
-    # Invalid: degree too large for matrix
-    @test_throws ErrorException GaussCoefficients(g, h, 5, 2; check = check)
-    # Invalid: order > degree
-    @test_throws ErrorException GaussCoefficients(g, h, 2, 3; check = check)
-    # Invalid: degree < 1
-    @test_throws ErrorException GaussCoefficients(g, h, 0, 0; check = check)
+    @test_throws ErrorException GaussCoefficients(g, zeros(2, 2); check = check)
+    # Invalid: order > degree (more columns than rows)
+    @test_throws ErrorException GaussCoefficients(zeros(2, 3), zeros(2, 3); check = check)
+    # Invalid: degree < 1 (matrix too small)
+    @test_throws ErrorException GaussCoefficients(zeros(1, 1), zeros(1, 1); check = check)
 end
 
 @testset "Pretty printing" begin
     g = zeros(3, 3)
     h = zeros(3, 3)
-    coeffs = GaussCoefficients(g, h, 2, 2)
+    coeffs = GaussCoefficients(g, h)
 
     # Test that show methods work without errors
     io = IOBuffer()

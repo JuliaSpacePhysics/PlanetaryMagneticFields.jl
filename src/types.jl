@@ -28,34 +28,6 @@ struct Planet
     radius::Float64  # Mean radius in km
 end
 
-# Planet definitions with mean radii in km
-# Sources: NASA planetary fact sheets
-const Mercury = Planet(:mercury, 2439.7)
-const Earth = Planet(:earth, 6371.2)
-const Mars = Planet(:mars, 3389.5)
-const Jupiter = Planet(:jupiter, 71492.0)
-const Saturn = Planet(:saturn, 60268.0)
-const Uranus = Planet(:uranus, 25559.0)
-const Neptune = Planet(:neptune, 24764.0)
-const Ganymede = Planet(:ganymede, 2634.1)
-
-const PLANETS = Dict{Symbol, Planet}(
-    :mercury => Mercury,
-    :earth => Earth,
-    :mars => Mars,
-    :jupiter => Jupiter,
-    :saturn => Saturn,
-    :uranus => Uranus,
-    :neptune => Neptune,
-    :ganymede => Ganymede,
-)
-
-function planet(s::Symbol)
-    key = Symbol(lowercase(string(s)))
-    haskey(PLANETS, key) || error("Unknown planet: $s. Available: $(keys(PLANETS))")
-    return PLANETS[key]
-end
-
 """
     GaussCoefficients
 
@@ -64,27 +36,27 @@ Storage for Gauss coefficients in Schmidt semi-normalized form.
 # Fields
 - `g`: Schmidt semi-normalized g coefficients (degree × order)
 - `h`: Schmidt semi-normalized h coefficients (degree × order)
-- `degree`: Maximum degree N
-- `order`: Maximum order M (typically M ≤ N)
+
+The degree and order are inferred from matrix dimensions: `degree = size(g,1)-1`, `order = size(g,2)-1`.
 """
 struct GaussCoefficients{A}
     g::A
     h::A
-    degree::Int
-    order::Int
 
-    function GaussCoefficients(g::A, h::A, degree::Int, order::Int; check = false) where {A <: AbstractMatrix}
+    function GaussCoefficients(g::A, h::A; check = false) where {A <: AbstractMatrix}
         check && begin
             size(g) == size(h) || error("g and h matrices must have the same size")
-            size(g, 1) >= degree + 1 || error("g matrix must have at least degree+1 rows")
-            size(g, 2) >= order + 1 || error("g matrix must have at least order+1 columns")
-            degree >= 1 || error("Degree must be at least 1")
-            order >= 0 || error("Order must be non-negative")
-            order <= degree || error("Order cannot exceed degree")
+            size(g, 1) >= 2 || error("g matrix must have at least 2 rows (degree >= 1)")
+            size(g, 2) >= 1 || error("g matrix must have at least 1 column (order >= 0)")
+            size(g, 2) <= size(g, 1) || error("Order cannot exceed degree")
         end
-        return new{A}(g, h, degree, order)
+        return new{A}(g, h)
     end
 end
+
+# Accessor functions for degree and order (inferred from matrix size)
+degree(coeffs::GaussCoefficients) = size(coeffs.g, 1) - 1
+order(coeffs::GaussCoefficients) = size(coeffs.g, 2) - 1
 
 # Get (g, h) coefficient pair for degree n and order m
 function Base.getindex(coeffs::GaussCoefficients, n::Int, m::Int)
@@ -100,14 +72,10 @@ Coefficients are linearly interpolated between epochs.
 # Fields
 - `epochs`: Sorted vector of epoch years (e.g., [1900.0, 1905.0, ..., 2025.0])
 - `coefficients`: Vector of GaussCoefficients, one per epoch
-- `degree`: Maximum degree N
-- `order`: Maximum order M
 """
 struct TimeVaryingGaussCoefficients{T, C}
     epochs::Vector{T}
     coefficients::Vector{C}
-    degree::Int
-    order::Int
 
     function TimeVaryingGaussCoefficients(
             epochs::Vector{T},
@@ -118,18 +86,20 @@ struct TimeVaryingGaussCoefficients{T, C}
             length(epochs) == length(coefficients) || error("Number of epochs must match number of coefficient sets")
             length(epochs) >= 1 || error("At least one epoch is required")
             issorted(epochs) || error("Epochs must be sorted in ascending order")
-            deg = coefficients[1].degree
-            ord = coefficients[1].order
+            deg = degree(coefficients[1])
+            ord = order(coefficients[1])
             for c in coefficients[2:end]
-                c.degree == deg || error("All coefficient sets must have the same degree")
-                c.order == ord || error("All coefficient sets must have the same order")
+                degree(c) == deg || error("All coefficient sets must have the same degree")
+                order(c) == ord || error("All coefficient sets must have the same order")
             end
         end
-        deg = coefficients[1].degree
-        ord = coefficients[1].order
-        return new{T, C}(epochs, coefficients, deg, ord)
+        return new{T, C}(epochs, coefficients)
     end
 end
+
+# Accessor functions for TimeVaryingGaussCoefficients
+degree(tvc::TimeVaryingGaussCoefficients) = degree(tvc.coefficients[1])
+order(tvc::TimeVaryingGaussCoefficients) = order(tvc.coefficients[1])
 
 function (tvc::TimeVaryingGaussCoefficients)(t)
     eps = tvc.epochs
@@ -150,32 +120,46 @@ function (tvc::TimeVaryingGaussCoefficients)(t)
     g_interp = LazyArray(@~ (1 - α) * c0.g + α * c1.g)
     h_interp = LazyArray(@~ (1 - α) * c0.h + α * c1.h)
 
-    return GaussCoefficients(g_interp, h_interp, tvc.degree, tvc.order)
+    return GaussCoefficients(g_interp, h_interp)
 end
 
 """
     SphericalHarmonicModel{C} <: InternalFieldModel
 
 A magnetic field model using spherical harmonic expansion.
+
+# Fields
+- `name`: Model name
+- `coeffs`: Gauss coefficients (GaussCoefficients or TimeVaryingGaussCoefficients)
+- `degree`: Maximum degree N for evaluation
+- `order`: Maximum order M for evaluation
 """
 struct SphericalHarmonicModel{C} <: InternalFieldModel
     name::String
     coeffs::C
+    degree::Int
+    order::Int
+end
+
+function SphericalHarmonicModel(name, coeffs; degree = nothing, order = nothing)
+    degree = @something degree PlanetaryMagneticFields.degree(coeffs)
+    order = min(@something(order, PlanetaryMagneticFields.order(coeffs)), degree)
+    return SphericalHarmonicModel(name, coeffs, degree, order)
 end
 
 # Static evaluation
 function (m::SphericalHarmonicModel{<:GaussCoefficients})(r, θ, φ, _ = nothing)
-    return evaluate_field_spherical(m.coeffs, r, θ, φ)
+    return evalsph(m.coeffs, r, θ, φ; max_degree = m.degree, max_order = m.order)
 end
 
 # Time-varying evaluation
 function (m::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients})(r, θ, φ, t)
-    return evaluate_field_spherical(m.coeffs(t), r, θ, φ)
+    return evalsph(m.coeffs(t), r, θ, φ; max_degree = m.degree, max_order = m.order)
 end
 
 # Convenience accessors
-degree(model::SphericalHarmonicModel) = model.coeffs.degree
-order(model::SphericalHarmonicModel) = model.coeffs.order
+degree(model::SphericalHarmonicModel) = model.degree
+order(model::SphericalHarmonicModel) = model.order
 epochs(model::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}) = model.coeffs.epochs
 epoch_range(model::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}) = (model.coeffs.epochs[1], model.coeffs.epochs[end])
 
@@ -241,10 +225,8 @@ end
 (m::MagneticModel)(r) = m(r...)
 
 # Convenience accessors for MagneticModel
-degree(m::MagneticModel) = degree(m.model)
-order(m::MagneticModel) = order(m.model)
-is_time_varying(m::MagneticModel) = is_time_varying(m.model)
-epochs(m::MagneticModel) = epochs(m.model)
-epoch_range(m::MagneticModel) = epoch_range(m.model)
+for f in (:degree, :order, :is_time_varying, :epochs, :epoch_range)
+    @eval $f(m::MagneticModel) = $f(m.model)
+end
 
 include("show.jl")

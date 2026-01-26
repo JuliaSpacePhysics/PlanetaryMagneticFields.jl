@@ -11,7 +11,7 @@ using AxisKeys
 using SatelliteToolboxLegendre: legendre!
 
 """
-    evaluate_field_spherical(coeffs, r, θ, φ)
+    evalsph(coeffs, r, θ, φ)
 
 Evaluate the magnetic field at a point in spherical coordinates.
 
@@ -38,19 +38,20 @@ B_θ = -\\frac{1}{r}\\frac{∂V}{∂θ}, \\quad
 B_φ = -\\frac{1}{r\\sin θ}\\frac{∂V}{∂φ}
 ```
 """
-function evaluate_field_spherical(coeffs, r, θ, φ; max_degree = coeffs.degree)
-    @assert max_degree <= coeffs.degree
+function evalsph(coeffs, r, θ, φ; max_degree = degree(coeffs), max_order = order(coeffs))
+    @assert max_degree <= degree(coeffs)
+    @assert max_order <= order(coeffs)
     r > 0 || error("Radius must be positive")
     0 <= θ <= π || error("Colatitude θ must be in [0, π]")
     T = promote_type(eltype(r), eltype(θ), eltype(φ))
     return @no_escape begin
         P = @alloc(T, max_degree + 1, max_degree + 1)
         sincos_mφs = @alloc(Tuple{T, T}, max_degree + 1)
-        evaluate_field_spherical!(P, sincos_mφs, coeffs.g, coeffs.h, promote(r, θ, φ)..., max_degree, coeffs.order)
+        evalsph!(P, sincos_mφs, coeffs.g, coeffs.h, promote(r, θ, φ)..., max_degree, max_order)
     end
 end
 
-@inline function evaluate_field_spherical!(P, sincos_mφs, G, H, r::T, θ::T, φ::T, max_degree, max_order) where {T}
+@inline function evalsph!(P, sincos_mφs, G, H, r::T, θ::T, φ::T, max_degree, max_order) where {T}
     sinθ, cosθ = sincos(θ)
     for m in eachindex(sincos_mφs)
         sincos_mφs[m] = sincos((m - 1) * φ)
@@ -101,7 +102,7 @@ end
 
 function evaluate_field_cartesian(model, x, y, z)
     (r, θ, φ) = cartesian_to_spherical(x, y, z)
-    B_sph = evaluate_field_spherical(model, r, θ, φ)
+    B_sph = evalsph(model, r, θ, φ)
     return spherical_field_to_cartesian(B_sph..., θ, φ)
 end
 

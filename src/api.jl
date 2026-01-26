@@ -71,8 +71,8 @@ load_model(p, model; kw...) = _load_model(planet(p), model; kw...)
 function _load_model(p::Planet, model; max_degree = nothing, kw...)
     data_file = "$(lowercase(model)).dat"
     data_path = pkgdir(@__MODULE__, "data/coeffs", lowercase(string(p.name)), data_file)
-    coeffs = load_coefficients(data_path, max_degree = max_degree)
-    sh_model = SphericalHarmonicModel(uppercase(model), coeffs)
+    coeffs = load_coefficients(data_path)
+    sh_model = SphericalHarmonicModel(uppercase(model), coeffs; degree = max_degree)
     return MagneticModel(sh_model, p; kw...)
 end
 
@@ -140,7 +140,7 @@ function model_info(model)
 end
 
 """
-    IGRF(; max_degree=nothing, in=:spherical, out=:spherical)
+    IGRF(; in=:spherical, out=:spherical)
 
 Load the International Geomagnetic Reference Field (IGRF) model.
 
@@ -154,11 +154,10 @@ B = model(r, θ, φ, 2020.5)  # t as decimal year
 ```
 
 # Arguments
-- `max_degree`: Maximum spherical harmonic degree (default: 13)
 - `in`, `out`: Coordinate systems (`:spherical` or `:cartesian`)
 """
-function IGRF(; max_degree = nothing, kwargs...)
-    tvc = load_igrf_epochs(; max_degree = max_degree)
+function IGRF(; kwargs...)
+    tvc = load_igrf_epochs()
     sh_model = SphericalHarmonicModel("IGRF", tvc)
     return MagneticModel(sh_model, Earth; kwargs...)
 end
