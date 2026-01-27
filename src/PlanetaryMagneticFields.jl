@@ -15,16 +15,25 @@ include("data.jl")
 include("coefficients.jl")
 include("spherical_harmonics.jl")
 
+# Include external field models
+include("current_sheet.jl")
+
 # Include public API
 include("api.jl")
 
 # Main user-facing functions
 export load_model, available_models, model_info, fieldmap
 
+# Current sheet model types
+export CurrentSheetModel, CurrentSheetParameters, CurrentSheetEquationType
+export Analytical, Integral, Hybrid
+
 # Convenience model accessors
 export JRM09,
     JRM33,
-    IGRF
+    IGRF,
+    CON2020,
+    CAN1981
 
 # Utility functions that users might want
 export degree, order

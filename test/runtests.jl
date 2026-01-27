@@ -47,3 +47,7 @@ end
 @testset "IGRF Model" begin
     include("test_igrf.jl")
 end
+
+@testset "CON2020 Current Sheet Model" begin
+    include("test_con2020.jl")
+end
