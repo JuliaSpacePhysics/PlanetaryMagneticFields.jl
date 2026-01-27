@@ -1,11 +1,11 @@
 using Test
-using PlanetaryMagneticFields
+using PlanetaryMagneticFields: SphericalHarmonicModel
 using LinearAlgebra
 
 @testset "load_model" begin
     # Test loading by unique model name (Symbol)
     model_sym = load_model(:JRM09)
-    @test isa(model_sym, PlanetaryMagneticFields.MagneticModel)
+    @test isa(model_sym, SphericalHarmonicModel)
     @test model_sym.obj.name == :jupiter
 
     # Test with keyword arguments
@@ -19,6 +19,7 @@ end
 
 @testset "callable model" begin
     using Unitful
+    using PlanetaryMagneticFields: sph2car
     model = JRM09()
 
     # Position at 1.5 RJ
@@ -31,7 +32,7 @@ end
     r_km = r_RJ * 71492.0u"km"  # Jupiter radius
     @test B_RJ == model(r_km, θ, φ)
     𝐫 = [r_km * sin(θ) * cos(φ), r_km * sin(θ) * sin(φ), r_km * cos(θ)]
-    @test B_RJ == model(𝐫)
+    @test model(𝐫...) == sph2car(B_RJ, [r_RJ, θ, φ])
 end
 
 @testset "available_models" begin
@@ -65,7 +66,7 @@ end
 
     for (planet, model_name) in test_models
         model = load_model(planet, model_name)
-        @test isa(model, PlanetaryMagneticFields.MagneticModel)
+        @test isa(model, SphericalHarmonicModel)
 
         degree(model) != order(model) && @info model
 
@@ -74,4 +75,13 @@ end
         @test length(B) == 3
         @test all(isfinite, B)
     end
+end
+
+@testset "fieldmap" begin
+    model = JRM09()
+    field_map = fieldmap(model, 1.0; idx = 1)
+    # @test extrema(field_map) == (-1.2447103241549626e6, 1.8244923067742472e6)
+    @test size(field_map) == (360, 180)
+    @test maximum(field_map) < 2.0e6
+    @test minimum(field_map) > -2.0e6
 end

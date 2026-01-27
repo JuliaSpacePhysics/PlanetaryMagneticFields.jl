@@ -48,12 +48,12 @@ println("Br range: $(minimum(Br)) to $(maximum(Br)) nT")
 
 ```@example example
 # Cartesian input and output
-model = JRM09(in=:cartesian, out=:cartesian)
+model = JRM09()
 x, y, z = 1.0, 0.5, 0.5  # In Jupiter radii
-B = model(x, y, z)
+B = model(x, y, z; in=:cartesian) # by default, output format follows input format
 
 # Cartesian input, spherical output
-model(x, y, z; out=:spherical)
+model(x, y, z; in=:cartesian, out=:spherical)
 ```
 
 ## Visualization

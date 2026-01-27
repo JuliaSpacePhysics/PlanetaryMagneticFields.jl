@@ -3,59 +3,11 @@ using PlanetaryMagneticFields
 using PlanetaryMagneticFields: SphericalHarmonicModel, GaussCoefficients
 using LinearAlgebra
 
-@testset "Coordinate transformations" begin
-    # Test round-trip: Cartesian -> Spherical -> Cartesian
-    x, y, z = 1.0, 2.0, 3.0
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(x, y, z)
-    (x2, y2, z2) = PlanetaryMagneticFields.spherical_to_cartesian(r, θ, φ)
-
-    @test x ≈ x2 atol = 1.0e-10
-    @test y ≈ y2 atol = 1.0e-10
-    @test z ≈ z2 atol = 1.0e-10
-
-    # Test specific cases
-    # Point on z-axis
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(0.0, 0.0, 5.0)
-    @test r ≈ 5.0
-    @test θ ≈ 0.0  # Colatitude = 0 at north pole
-
-    # Point on x-axis
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(3.0, 0.0, 0.0)
-    @test r ≈ 3.0
-    @test θ ≈ π / 2
-    @test φ ≈ 0.0
-
-    # Point on y-axis
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(0.0, 4.0, 0.0)
-    @test r ≈ 4.0
-    @test θ ≈ π / 2
-    @test φ ≈ π / 2
-
-    # Origin
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(0.0, 0.0, 0.0)
-    @test r ≈ 0.0
-end
-
-@testset "Field vector transformations" begin
-    # Test field transformation consistency
-    θ, φ = π / 4, π / 6
-    Br, Bθ, Bφ = 100.0, 50.0, 30.0
-
-    B_cart = PlanetaryMagneticFields.spherical_field_to_cartesian(Br, Bθ, Bφ, θ, φ)
-
-    # Magnitude should be preserved
-    B_sph_mag = sqrt(Br^2 + Bθ^2 + Bφ^2)
-    B_cart_mag = norm(B_cart)
-    @test B_sph_mag ≈ B_cart_mag rtol = 1.0e-10
-end
-
-
 @testset "SphericalHarmonicModel construction" begin
     g = zeros(3, 3)
     h = zeros(3, 3)
     g[2, 1] = 410244.7
     coeffs = GaussCoefficients(g, h)
-
     model = SphericalHarmonicModel("test", coeffs)
     @test degree(model) == 2
     @test order(model) == 2
@@ -73,13 +25,13 @@ end
 
     # Test position
     x, y, z = 1.5, 0.5, 1.0  # Cartesian (in planetary radii)
-    (r, θ, φ) = PlanetaryMagneticFields.cartesian_to_spherical(x, y, z)
+    (r, θ, φ) = PlanetaryMagneticFields.car2sph(x, y, z)
 
     # Evaluate both ways
-    B_from_cart = PlanetaryMagneticFields.evaluate_field_cartesian(model.coeffs, x, y, z)
+    B_from_cart = model(x, y, z; in = :cartesian)
     B_sph = PlanetaryMagneticFields.evalsph(model.coeffs, r, θ, φ)
-    B_from_sph = PlanetaryMagneticFields.spherical_field_to_cartesian(
-        B_sph[1], B_sph[2], B_sph[3], θ, φ
+    B_from_sph = PlanetaryMagneticFields.sph2car(
+        B_sph[1], B_sph[2], B_sph[3], 1, θ, φ
     )
     @test B_from_cart ≈ B_from_sph rtol = 1.0e-10
 end

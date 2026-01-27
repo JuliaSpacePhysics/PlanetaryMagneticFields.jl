@@ -5,23 +5,21 @@ using LinearAlgebra
 using LazyArrays
 using TOML
 using Dates
+using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame
+import GeoCotrans: getcsys, evalsph, evalmodel
 
 # Include core functionality
 include("types.jl")
 include("planets.jl")
 include("data.jl")
 include("coefficients.jl")
-include("cotrans.jl")
 include("spherical_harmonics.jl")
 
 # Include public API
 include("api.jl")
 
-# Export API
-# export MagneticFieldModel, InternalFieldModel, ExternalFieldModel, SphericalHarmonicModel
-
 # Main user-facing functions
-export load_model, available_models, model_info, MagneticModel, fieldmap
+export load_model, available_models, model_info, fieldmap
 
 # Convenience model accessors
 export JRM09,
@@ -30,6 +28,7 @@ export JRM09,
 
 # Utility functions that users might want
 export degree, order
+export getcsys, Cartesian3, Spherical
 
 # Plotting functions (implemented in MakieExt)
 export plot_fieldmap, plot_fieldmap!, plot_models

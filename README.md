@@ -55,7 +55,7 @@ using Dates
 model = IGRF()
 
 r, θ, φ = 1.0, π/4, 0.0  # Earth surface, 45° colatitude
-B = model(r, θ, φ, Date(2020))
+B = model(r, θ, φ, DateTime(2020))
 ```
 
 ## Elsewhere
@@ -67,6 +67,7 @@ B = model(r, θ, φ, Date(2020))
 - [TsyganenkoModels.jl](https://github.com/JuliaSpacePhysics/TsyganenkoModels.jl): Tsyganenko's models for Earth's magnetosphere
 - [Saturn-Mag-Model](https://github.com/NASA-Planetary-Science/Saturn-Mag-Model): FORTRAN source code for a Saturnian magnetospheric empirical magnetic field model derived from Cassini magnetometer data
 
+- [POT3D](https://github.com/predsci/POT3D): High Performance Potential Field Solver to approximate the solar coronal magnetic field using observed photospheric magnetic fields as a boundary condition
 - [SHTns](https://bitbucket.org/nschaeff/shtns/src/master/) & [SHTns.jl](https://github.com/fgerick/SHTns.jl): A high performance library for Spherical Harmonic Transform written in C
 
 ### Data sources
