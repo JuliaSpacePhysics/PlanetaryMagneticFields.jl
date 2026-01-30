@@ -4,6 +4,9 @@ CurrentModule = PlanetaryMagneticFields
 
 # PlanetaryMagneticFields.jl
 
+[![DOI](https://zenodo.org/badge/1140943453.svg)](https://doi.org/10.5281/zenodo.18428922)
+[![version](https://juliahub.com/docs/General/PlanetaryMagneticFields/stable/version.svg)](https://juliahub.com/ui/Packages/General/PlanetaryMagneticFields)
+
 A Julia package for planetary magnetic field modeling.
 
 ## Overview

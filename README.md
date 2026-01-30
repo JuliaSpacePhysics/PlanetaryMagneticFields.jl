@@ -1,5 +1,8 @@
 # PlanetaryMagneticFields.jl
 
+[![DOI](https://zenodo.org/badge/1140943453.svg)](https://doi.org/10.5281/zenodo.18428922)
+[![version](https://juliahub.com/docs/General/PlanetaryMagneticFields/stable/version.svg)](https://juliahub.com/ui/Packages/General/PlanetaryMagneticFields)
+
 [![Build Status](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl)
 [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
@@ -16,6 +19,7 @@ PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of 
 
 - 🪐 **Multi-planetary support**: General type system and framework for magnetic field models
   - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
+    - [ ] Jupiter current sheet model
   - [x] Model discovery API (available_models())
   - [ ] Model metadata system
 - Testing
