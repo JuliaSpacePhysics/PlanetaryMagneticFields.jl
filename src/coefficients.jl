@@ -59,7 +59,7 @@ function load_coefficients(filepath)
 end
 
 # Load all IGRF epoch files from a directory
-function load_igrf_epochs(epochs = Date.(1900:5:2025))
+function load_igrf_epochs(epochs = DateTime.(1900:5:2025))
     # Find all IGRF epoch files
     data_dir = pkgdir(@__MODULE__, "data/coeffs/earth")
     coefficients = map(epochs) do epoch

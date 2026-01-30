@@ -13,8 +13,8 @@ const MODEL_REGISTRY = Dict{Symbol, Tuple{Symbol, String}}(
 const Celestial_bodies = (:jupiter, :mercury, :earth, :mars, :ganymede, :neptune, :uranus, :saturn)
 
 """
-    load_model(model; kwargs...)::MagneticModel
-    load_model(planet, model; kwargs...)::MagneticModel
+    load_model(model; kwargs...)
+    load_model(planet, model; kwargs...)
 
 Load and create a magnetic field model.
 
@@ -36,7 +36,7 @@ Input positions are assumed to be in planetary radii by default. For physical un
 use Unitful.jl which is supported via a package extension.
 
 # Returns
-A callable `MagneticModel` object that can be invoked as `model(r, θ, φ; kwargs...)`
+A callable object that can be invoked as `model(r, θ, φ; kwargs...)`
 
 # Examples
 ```julia
@@ -72,8 +72,7 @@ function _load_model(p::Planet, model; max_degree = nothing, kw...)
     data_file = "$(lowercase(model)).dat"
     data_path = pkgdir(@__MODULE__, "data/coeffs", lowercase(string(p.name)), data_file)
     coeffs = load_coefficients(data_path)
-    sh_model = SphericalHarmonicModel(uppercase(model), coeffs; degree = max_degree)
-    return MagneticModel(sh_model, p; kw...)
+    return SphericalHarmonicModel(uppercase(model), coeffs, p; degree = max_degree, kw...)
 end
 
 """
@@ -158,8 +157,7 @@ B = model(r, θ, φ, 2020.5)  # t as decimal year
 """
 function IGRF(; kwargs...)
     tvc = load_igrf_epochs()
-    sh_model = SphericalHarmonicModel("IGRF", tvc)
-    return MagneticModel(sh_model, Earth; kwargs...)
+    return SphericalHarmonicModel("IGRF", tvc, Earth; frame = GEO())
 end
 
 for f in [:JRM09, :JRM33]

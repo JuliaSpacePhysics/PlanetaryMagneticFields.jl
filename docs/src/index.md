@@ -41,11 +41,10 @@ r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nT
 
 # Use Cartesian coordinates
-model_cart = JRM33(max_degree=13, in=:cartesian, out=:cartesian)
-B = model_cart(1.0, 0.0, 0.5)  # Returns [B_x, B_y, B_z] in nT
+B = model(1.0, 0.0, 0.5; in=:cartesian)  # Returns [B_x, B_y, B_z] in nT
 
 # Keyword arguments take precedence over constructor arguments
-B_sph = model_cart(1.0, 0.0, 0.5; out=:spherical)  # Returns [B_r, B_θ, B_φ]
+B_sph = model(1.0, 0.0, 0.5; in=:cartesian, out=:spherical)  # Returns [B_r, B_θ, B_φ]
 ```
 
 ## Coordinate Systems
@@ -223,7 +222,7 @@ B_py = pyconvert(Vector{Float64}, [Br[0], Bt[0], Bp[0]])
 model = JRM33(max_degree=13)
 B = model(r, θ, φ)
 @assert B_py ≈ B
-@b model(r, θ, φ), jm.Internal.Field(r, θ, φ)
+@b $model($r, $θ, $φ), jm.Internal.Field($r, $θ, $φ)
 ```
 
 ## API Reference

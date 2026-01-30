@@ -6,14 +6,14 @@ using GeoMakie.Makie
 using LinearAlgebra: norm
 using AxisKeys: axiskeys
 
-using PlanetaryMagneticFields: MagneticModel, _field_func
+using PlanetaryMagneticFields: _field_func
 import PlanetaryMagneticFields: plot_fieldmap, plot_models
 
 
 default_isvertical(pos) = pos isa Makie.Right || pos isa Makie.Left
 
 function PlanetaryMagneticFields.plot_fieldmap!(
-        ax, model::MagneticModel;
+        ax, model;
         r = 1.0, nlat = 180, nlon = 360,
         idx = 1,
         colormap = :RdBu,
@@ -52,7 +52,7 @@ elseif idx == norm
 end
 
 function PlanetaryMagneticFields.plot_fieldmap(
-        fpos, model::MagneticModel; r = 1.0,
+        fpos, model; r = 1.0,
         axis = (;),
         dest = "+proj=moll",
         idx = 1,

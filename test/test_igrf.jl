@@ -1,6 +1,7 @@
 using GeoCotrans
 using Test
 using Dates
+using Chairmarks
 using PlanetaryMagneticFields
 import PlanetaryMagneticFields as PMF
 model = PMF.IGRF()
@@ -14,6 +15,7 @@ model = PMF.IGRF()
 end
 
 @testset "Comparison with GeoCotrans at epoch points" begin
+    using GeoCotrans
     test_years = Date.(1970:5:2015)
     test_times = [
         Date(2005, 7, 2),
@@ -26,9 +28,11 @@ end
     φ = deg2rad(45)
     for t in vcat(test_years, test_times)
         B_pmf = model(r, θ, φ, t)
-        B_geo = collect(GeoCotrans.igrf_B(r * model.obj.radius, θ, φ, t))
+        B_geo = collect(GeoCotrans.igrf(r, θ, φ, t))
         @test B_pmf ≈ B_geo rtol = 1.0e-8
     end
+    t = Date(2015)
+    @info @b $model($r, $θ, $φ, $t), GeoCotrans.igrf($r, $θ, $φ, $t)
 end
 
 @testset "Coordinate system options" begin
@@ -47,5 +51,6 @@ end
     θ = deg2rad(45)
     φ = deg2rad(45)
     B = model(r, θ, φ)
-    @test B ≈ collect(GeoCotrans.igrf_B(r * model.obj.radius, θ, φ, Date(2015)))
+    @test B ≈ collect(GeoCotrans.igrf_B(r, θ, φ, Date(2015)))
+    @test B ≈ [-45469.44626375856, -21942.539310375545, 2933.49091800253]
 end
