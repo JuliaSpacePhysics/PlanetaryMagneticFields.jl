@@ -1,6 +1,6 @@
 name = "PlanetaryMagneticFields"
 uuid = "548c34cc-0185-415b-8526-a0c739028078"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
 
 [workspace]
