@@ -5,18 +5,28 @@ This module provides functions to load Gauss coefficients from data files
 and create GaussCoefficients objects.
 """
 
-"""
-    load_coefficients(filepath)::GaussCoefficients
+# Cache for loaded coefficients: filepath -> GaussCoefficients
+const COEFFICIENT_CACHE = Dict{String, GaussCoefficients{Matrix{Float64}}}()
 
-Load Gauss coefficients from a `filepath`.
+"""
+    load_coefficients(filepath; use_cache=false)::GaussCoefficients
+
+Load Gauss coefficients from the given `filepath`.
+
+Set `use_cache=true` to cache loaded coefficients and reuse them on subsequent calls.
 
 # Example
 ```julia
 load_coefficients("data/jupiter/jrm09.dat")
 ```
 """
-function load_coefficients(filepath)
+function load_coefficients(filepath; use_cache = false)
     isfile(filepath) || error("File not found: $filepath")
+
+    # Check cache first
+    if use_cache && haskey(COEFFICIENT_CACHE, filepath)
+        return COEFFICIENT_CACHE[filepath]
+    end
 
     # Storage: (n, m) -> (g, h)
     coeffs_dict = Dict{Tuple{Int, Int}, Tuple{Float64, Float64}}()
@@ -55,7 +65,9 @@ function load_coefficients(filepath)
         h_matrix[n + 1, m + 1] = h
     end
 
-    return GaussCoefficients(g_matrix, h_matrix)
+    result = GaussCoefficients(g_matrix, h_matrix)
+    use_cache && (COEFFICIENT_CACHE[filepath] = result)
+    return result
 end
 
 # Load all IGRF epoch files from a directory

@@ -1,5 +1,6 @@
 using Test
 using PlanetaryMagneticFields
+using PlanetaryMagneticFields: GaussCoefficients, SphericalHarmonicModel
 
 @testset "GaussCoefficients construction and indexing" begin
     # Create simple test coefficients (degree 2, order 2)
