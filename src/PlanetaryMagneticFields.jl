@@ -5,7 +5,7 @@ using LinearAlgebra
 using LazyArrays
 using TOML
 using Dates
-using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame
+using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame, IGRF
 import GeoCotrans: getcsys, evalsph, evalmodel
 
 # Include core functionality

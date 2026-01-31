@@ -4,7 +4,7 @@ using Dates
 using Chairmarks
 using PlanetaryMagneticFields
 import PlanetaryMagneticFields as PMF
-model = PMF.IGRF()
+model = PMF._IGRF()
 
 @testset "Basic functionality" begin
     @test degree(model) == 13
