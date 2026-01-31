@@ -138,24 +138,8 @@ function model_info(model)
     return TOML.parsefile(file)
 end
 
-"""
-    IGRF(; in=:spherical, out=:spherical)
-
-Load the International Geomagnetic Reference Field (IGRF) model.
-
-IGRF is a time-varying model of Earth's main magnetic field with coefficients
-at 5-year epochs from 1900 to 2025, linearly interpolated between epochs.
-
-# Usage
-```julia
-model = IGRF()
-B = model(r, θ, φ, 2020.5)  # t as decimal year
-```
-
-# Arguments
-- `in`, `out`: Coordinate systems (`:spherical` or `:cartesian`)
-"""
-function IGRF(; kwargs...)
+# IGRF model for testing with `GeoCotrans.IGRF`
+function _IGRF(; kwargs...)
     tvc = load_igrf_epochs()
     return SphericalHarmonicModel("IGRF", tvc, Earth; frame = GEO())
 end

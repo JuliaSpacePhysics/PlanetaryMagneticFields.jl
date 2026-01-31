@@ -19,10 +19,11 @@ end
     @test B ≈ [-250.03964154, 779.36280353, -48.0067748]
     @test model(8 * 71492.0u"km", θ, φ) ≈ [-250.03964154, 779.36280353, -48.0067748]
 
-    model = PMF.IGRF()
-    r, θ, φ = 1.0, deg2rad(45), deg2rad(45)
-    @test model(r, θ, φ, Date(2015)) ≈ [-45469.44626375856, -21942.539310375545, 2933.49091800253]
-    @b $model($r, $θ, $φ, Date(2015))
+    for model in (PMF._IGRF(), IGRF())
+        r, θ, φ = 1.0, deg2rad(45), deg2rad(45)
+        @test model(r, θ, φ, Date(2015)) ≈ [-45469.44626375856, -21942.539310375545, 2933.49091800253]
+        @info @b $model($r, $θ, $φ, Date(2015))
+    end
 end
 
 @testset "PlanetaryMagneticFields.jl" begin
