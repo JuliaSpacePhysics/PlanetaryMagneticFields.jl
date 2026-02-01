@@ -6,9 +6,9 @@ magnetic field models.
 """
 
 # Global registry mapping model names to (planet, model_string)
-const MODEL_REGISTRY = Dict{Symbol, Tuple{Symbol, String}}(
-    :JRM09 => (:jupiter, "jrm09"),
-    :JRM33 => (:jupiter, "jrm33"),
+const MODEL_REGISTRY = Dict{Symbol, Tuple{Planet, String}}(
+    :JRM09 => (Jupiter, "jrm09"),
+    :JRM33 => (Jupiter, "jrm33"),
 )
 const Celestial_bodies = (:jupiter, :mercury, :earth, :mars, :ganymede, :neptune, :uranus, :saturn)
 
@@ -68,11 +68,12 @@ end
 
 load_model(p, model; kw...) = _load_model(planet(p), model; kw...)
 
-function _load_model(p::Planet, model; max_degree = nothing, kw...)
-    data_file = "$(lowercase(model)).dat"
-    data_path = pkgdir(@__MODULE__, "data/coeffs", lowercase(string(p.name)), data_file)
-    coeffs = load_coefficients(data_path)
-    return SphericalHarmonicModel(uppercase(model), coeffs, p; degree = max_degree, kw...)
+const _pkgdir = pkgdir(@__MODULE__)
+
+function _load_model(p::Planet, model; max_degree = nothing, use_cache = false, kw...)
+    data_path = "$_pkgdir/data/coeffs/$(p.name)/$(lowercase(model)).dat"
+    coeffs = load_coefficients(data_path; use_cache)
+    return SphericalHarmonicModel(model, coeffs, p; degree = max_degree, kw...)
 end
 
 """
@@ -145,6 +146,6 @@ function _IGRF(; kwargs...)
 end
 
 for f in [:JRM09, :JRM33]
-    @eval $f(; kwargs...) = load_model($(QuoteNode(f)); kwargs...)
+    @eval $f(; kwargs...) = load_model($(QuoteNode(f)); use_cache = true, kwargs...)
     @eval export $f
 end

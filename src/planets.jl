@@ -25,3 +25,5 @@ function planet(s::Symbol)
     haskey(PLANETS, key) || error("Unknown planet: $s. Available: $(keys(PLANETS))")
     return PLANETS[key]
 end
+
+planet(p::Planet) = p
