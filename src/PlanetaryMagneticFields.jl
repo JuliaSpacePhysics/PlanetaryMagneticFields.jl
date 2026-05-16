@@ -2,10 +2,9 @@ module PlanetaryMagneticFields
 
 using StaticArrays
 using LinearAlgebra
-using LazyArrays
 using TOML
 using Dates
-using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame, IGRF
+using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame, IGRF, LinearInterp
 import GeoCotrans: getcsys, evalsph, evalmodel
 
 # Include core functionality

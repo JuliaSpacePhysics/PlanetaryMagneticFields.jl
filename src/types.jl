@@ -37,6 +37,7 @@ end
 
 evalsph(coeffs::GaussCoefficients, r, θ, φ) = evalsph(coeffs, r, θ, φ, degree(coeffs), order(coeffs))
 
+Base.:(-)(a::GaussCoefficients, b::GaussCoefficients) = GaussCoefficients(a.g - b.g, a.h - b.h)
 
 # Accessor functions for degree and order (inferred from matrix size)
 degree(coeffs::GaussCoefficients) = size(coeffs.g, 1) - 1
@@ -54,31 +55,34 @@ Storage for time-varying Gauss coefficients with multiple epochs.
 Coefficients are linearly interpolated between epochs.
 
 # Fields
-- `epochs`: Sorted vector of epoch years (e.g., [1900.0, 1905.0, ..., 2025.0])
+- `epochs`: Sorted vector of epoch values (e.g., [1900.0, 1905.0, ..., 2025.0])
 - `coefficients`: Vector of GaussCoefficients, one per epoch
+- `deltas`: Precomputed `(g, h)` differences between adjacent epochs (length `N-1`),
+  used to speed up linear interpolation.
 """
-struct TimeVaryingGaussCoefficients{T, C}
+struct TimeVaryingGaussCoefficients{T, C, D}
     epochs::Vector{T}
     coefficients::Vector{C}
+    deltas::D
+end
 
-    function TimeVaryingGaussCoefficients(
-            epochs::Vector{T},
-            coefficients::Vector{C};
-            check = true
-        ) where {T, C}
-        check && begin
-            length(epochs) == length(coefficients) || error("Number of epochs must match number of coefficient sets")
-            length(epochs) >= 1 || error("At least one epoch is required")
-            issorted(epochs) || error("Epochs must be sorted in ascending order")
-            deg = degree(coefficients[1])
-            ord = order(coefficients[1])
-            for c in coefficients[2:end]
-                degree(c) == deg || error("All coefficient sets must have the same degree")
-                order(c) == ord || error("All coefficient sets must have the same order")
-            end
+function TimeVaryingGaussCoefficients(
+        epochs::Vector{T},
+        coeffs::Vector{C};
+        check = true
+    ) where {T, C}
+    check && begin
+        length(epochs) == length(coeffs) || error("Number of epochs must match number of coefficient sets")
+        length(epochs) >= 1 || error("At least one epoch is required")
+        issorted(epochs) || error("Epochs must be sorted in ascending order")
+        deg = degree(coeffs[1])
+        ord = order(coeffs[1])
+        for c in coeffs[2:end]
+            degree(c) == deg || error("All coefficient sets must have the same degree")
+            order(c) == ord || error("All coefficient sets must have the same order")
         end
-        return new{T, C}(epochs, coefficients)
     end
+    return TimeVaryingGaussCoefficients(epochs, coeffs, diff(coeffs))
 end
 
 # Accessor functions for TimeVaryingGaussCoefficients
@@ -99,13 +103,11 @@ function (tvc::TimeVaryingGaussCoefficients)(t)
 
     idx = searchsortedlast(eps, t)
     t0, t1 = eps[idx], eps[idx + 1]
-    c0, c1 = coeffs[idx], coeffs[idx + 1]
+    c0 = coeffs[idx]
+    δ = tvc.deltas[idx]
     α = (t - t0) / (t1 - t0)
 
-    g_interp = LazyArray(@~ (1 - α) * c0.g + α * c1.g)
-    h_interp = LazyArray(@~ (1 - α) * c0.h + α * c1.h)
-
-    return GaussCoefficients(g_interp, h_interp)
+    return GaussCoefficients(LinearInterp(c0.g, δ.g, α), LinearInterp(c0.h, δ.h, α))
 end
 
 """
