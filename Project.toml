@@ -4,7 +4,7 @@ version = "0.1.1"
 authors = ["Beforerr <zzj956959688@gmail.com> and contributors"]
 
 [workspace]
-projects = ["docs", "test"]
+projects = ["docs", "test", "benchmark"]
 
 [deps]
 AxisKeys = "94b1ba4f-4ee9-5380-92f1-94cde586c3c5"
