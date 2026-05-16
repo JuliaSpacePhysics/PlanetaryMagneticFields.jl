@@ -1,43 +1,20 @@
 # PlanetaryMagneticFields.jl
 
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg?logo=julia)](https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/dev/)
 [![DOI](https://zenodo.org/badge/1140943453.svg)](https://doi.org/10.5281/zenodo.18428922)
 [![version](https://juliahub.com/docs/General/PlanetaryMagneticFields/stable/version.svg)](https://juliahub.com/ui/Packages/General/PlanetaryMagneticFields)
 
 [![Build Status](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaSpacePhysics/PlanetaryMagneticFields.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl)
-[![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 **A unified framework for planetary magnetic field modeling in Julia.**
 
 PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of planetary magnetic fields, with a focus on clean API design, performance, and extensibility.
 
-**Installation**: at the Julia REPL, run `using Pkg; Pkg.add("PlanetaryMagneticFields")`
-
-**Documentation**: [![Dev](https://img.shields.io/badge/docs-dev-blue.svg?logo=julia)](https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/dev/)
-
-## Features & Roadmap
-
-- 🪐 **Multi-planetary support**: General type system and framework for magnetic field models
-  - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
-    - [ ] Jupiter current sheet model
-  - [x] Model discovery API (available_models())
-  - [ ] Model metadata system
-- Testing
-  - [x] Jupiter (JRM09, JRM33)
-  - [x] Earth models (IGRF)
-  - [ ] Saturn models (Cassini-derived)
-  - [ ] Mercury, Mars models
-- 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
-- [ ] Model composition
-- [x] Time-dependent coefficients (secular variation) - IGRF model with linear interpolation
-- Performance optimizations
-  - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
-  - [ ] Batch/vectorized evaluation for regular grid (e.g., [SHTns.jl](https://github.com/fgerick/SHTns.jl))
-- [x] Visualization extensions
-
 ## Quick Start
 
 ```julia
+using Pkg; Pkg.add("PlanetaryMagneticFields")
 using PlanetaryMagneticFields
 
 # Load a Jupiter magnetic field model by unique name
@@ -49,6 +26,22 @@ model = JRM33(max_degree=13)
 r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
 ```
+
+## Features & Roadmap
+
+- 🪐 **Multi-planetary support**: General type system and framework for magnetic field models
+  - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
+    - [ ] Jupiter current sheet model
+    - [ ] Test Saturn (Cassini-derived), Mercury and Mars models.
+  - [x] Model discovery API (available_models())
+  - [ ] Model metadata system
+- 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
+- [ ] Model composition
+- [x] Time-dependent coefficients (secular variation) - IGRF model with linear interpolation
+- Performance optimizations
+  - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
+  - [ ] Batch/vectorized evaluation for regular grid (e.g., [SHTns.jl](https://github.com/fgerick/SHTns.jl))
+- [x] Visualization extensions
 
 ### Time-Varying Models (IGRF)
 
