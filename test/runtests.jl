@@ -48,3 +48,7 @@ end
 @testset "IGRF Model" begin
     include("test_igrf.jl")
 end
+
+@testset "Makie Extension" begin
+    include("test_makie.jl")
+end
