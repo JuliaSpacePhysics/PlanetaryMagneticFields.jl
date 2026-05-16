@@ -23,6 +23,6 @@ end
 # Field map over lat-lon grid
 SUITE["fieldmap"] = BenchmarkGroup()
 let jrm33_13 = JRM33(max_degree = 13)
-    SUITE["fieldmap"]["JRM33_d13_45x90"]   = @benchmarkable fieldmap($jrm33_13; nlat = 45,  nlon = 90)
-    SUITE["fieldmap"]["JRM33_d13_180x360"] = @benchmarkable fieldmap($jrm33_13; nlat = 180, nlon = 360)
+    SUITE["fieldmap"]["JRM33_d13_45x90"]   = @benchmarkable collect(fieldmap($jrm33_13; nlat = 45,  nlon = 90))
+    SUITE["fieldmap"]["JRM33_d13_180x360"] = @benchmarkable collect(fieldmap($jrm33_13; nlat = 180, nlon = 360))
 end
