@@ -37,9 +37,10 @@ B = model.(positions)
 You can compute field values over a latitude-longitude grid:
 
 ```@example example
-# Compute radial field at 1.5 planetary radii
+# Compute field vectors at 1.5 planetary radii
 r = 1.5
-Br = fieldmap(model, r, nlat=90, nlon=180; idx = 1)
+field = fieldmap(model, r; nlat=90, nlon=180)
+Br = getindex.(field, 1)
 # Field statistics
 println("Br range: $(minimum(Br)) to $(maximum(Br)) nT")
 ```

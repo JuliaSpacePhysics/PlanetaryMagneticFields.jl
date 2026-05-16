@@ -79,9 +79,11 @@ end
 
 @testset "fieldmap" begin
     model = JRM09()
-    field_map = fieldmap(model, 1.0; idx = 1)
-    # @test extrema(field_map) == (-1.2447103241549626e6, 1.8244923067742472e6)
+    field_map = fieldmap(model, 1.0)
     @test size(field_map) == (360, 180)
-    @test maximum(field_map) < 2.0e6
-    @test minimum(field_map) > -2.0e6
+    @test field_map.lons == range(-180, 180, length = 360)
+    @test hasproperty(field_map, :lats)
+    Br = getindex.(field_map, 1)
+    @test maximum(Br) < 2.0e6
+    @test minimum(Br) > -2.0e6
 end

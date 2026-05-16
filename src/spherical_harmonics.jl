@@ -1,31 +1,50 @@
-using LinearAlgebra
-using AxisKeys
+"""
+    LazyFieldMap{T,M,R,Θ,Φ} <: AbstractMatrix{T}
 
-_field_func(idx::Int) = idx <= 3 ? x -> getindex(x, idx) : norm
-_field_func(::Nothing) = identity
-_field_func(f) = f
+Lazy `(nlon, nlat)` grid of magnetic field vectors at radial distance `r`.
+Each `field[i, j]` calls `model(r, θs[j], φs[i]; in = :spherical, out = :spherical)`
+on access, so broadcasting a projection (`getindex.(field, 1)`, `norm.(field)`)
+materializes only the requested scalar array — no intermediate `Matrix{SVector{3}}`.
 
-function fieldmap(model, r, nlat, nlon; idx = identity)
-    func = _field_func(idx)
-    # Create latitude and longitude grids
-    # Latitude: -90 to 90 degrees (convert to colatitude for evaluation)
-    # Longitude: -180 to 180 degrees
-    lats = range(-90, 90, length = nlat)
-    lons = range(-180, 180, length = nlon)
-
-    # Preallocate field array (longitude × latitude for GeoMakie surface!)
-    field = zeros(Float64, nlon, nlat)
-
-    θs = @. deg2rad(90 - lats)'
-    φs = @. deg2rad(mod(lons, 360))
-    field = func.(model.(r, θs, φs; in = :spherical, out = :spherical))
-
-    return KeyedArray(field; lon = lons, lat = lats)
+# Properties
+- `model`, `r`, `θs`, `φs`: stored fields (radians).
+- `lons`, `lats`: derived axes in degrees, suitable for plotting:
+  `lons = range(-180, 180, length = nlon)`, `lats = range(-90, 90, length = nlat)`.
+"""
+struct LazyFieldMap{T, M, R, Θ, Φ} <: AbstractMatrix{T}
+    model::M
+    r::R
+    θs::Θ
+    φs::Φ
 end
 
-function fieldmap(model, r = 1.0; nlat = 180, nlon = 360, kw...)
-    return fieldmap(model, r, nlat, nlon; kw...)
+function Base.getproperty(m::LazyFieldMap, name::Symbol)
+    name === :lons && return range(-180, 180, length = length(getfield(m, :φs)))
+    name === :lats && return range(-90, 90, length = length(getfield(m, :θs)))
+    return getfield(m, name)
 end
+
+Base.propertynames(::LazyFieldMap) = (:model, :r, :θs, :φs, :lons, :lats)
+
+function LazyFieldMap(model, r, θs::AbstractVector, φs::AbstractVector)
+    T = Base.promote_op(model, typeof(r), eltype(θs), eltype(φs))
+    return LazyFieldMap{T, typeof(model), typeof(r), typeof(θs), typeof(φs)}(model, r, θs, φs)
+end
+
+Base.size(m::LazyFieldMap) = (length(m.φs), length(m.θs))
+Base.IndexStyle(::Type{<:LazyFieldMap}) = IndexCartesian()
+@inline Base.getindex(m::LazyFieldMap, i::Int, j::Int) =
+    @inbounds m.model(m.r, m.θs[j], m.φs[i]; in = :spherical, out = :spherical)
+
+function fieldmap(model, r, nlat, nlon)
+    # Latitude spans -90 to 90 (south to north); θ = colatitude = π/2 - lat.
+    # Longitude spans -180 to 180; sin/cos are 2π-periodic so no wrap needed.
+    θs = range(π, 0, length = nlat)
+    φs = deg2rad.(range(-180, 180, length = nlon))
+    return LazyFieldMap(model, r, θs, φs)
+end
+
+fieldmap(model, r = 1.0; nlat = 180, nlon = 360) = fieldmap(model, r, nlat, nlon)
 
 function evalmodel(m::SphericalHarmonicModel{<:GaussCoefficients}, r, θ, φ, _)
     return evalsph(m.coeffs, r, θ, φ, m.degree, m.order)

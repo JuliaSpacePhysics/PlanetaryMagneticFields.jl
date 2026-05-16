@@ -1,6 +1,5 @@
 module PlanetaryMagneticFields
 
-using StaticArrays
 using LinearAlgebra
 using TOML
 using Dates
