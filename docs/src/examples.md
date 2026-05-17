@@ -145,18 +145,17 @@ using OrdinaryDiffEqTsit5                     # any SciML solver works
 using PlanetaryMagneticFields: PlanetFrame    # for the Cartesian-input frame
 
 model = JRM33()
-in_csys = (PlanetFrame(), Cartesian3())
 
 n = 8
 # Surface starts at φ = 0, southern-hemisphere colatitudes 145°…157.5°
 colats = deg2rad.(180 .- range(22.5, 35, length = n))
 starts = [[sin(θ), 0.0, cos(θ)] for θ in colats]
 
+options = (; in = (PlanetFrame(), Cartesian3()), r0 = 0.95, rlim = 20.0, maxs = 80.0, dtmax = 0.05)
+
 lines = map(starts) do pos
-    fwd = trace(pos, nothing, Tsit5(); model, dir =  1, in = in_csys,
-                r0 = 0.95, rlim = 20.0, maxs = 80.0)
-    bwd = trace(pos, nothing, Tsit5(); model, dir = -1, in = in_csys,
-                r0 = 0.95, rlim = 20.0, maxs = 80.0)
+    fwd = trace(pos, nothing, Tsit5(); model, dir =  1, options...)
+    bwd = trace(pos, nothing, Tsit5(); model, dir = -1, options...)
     vcat(reverse(bwd.u), fwd.u)
 end
 
