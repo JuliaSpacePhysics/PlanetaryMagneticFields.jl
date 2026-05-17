@@ -37,11 +37,10 @@ B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
   - [ ] Model metadata system
 - 📐 **Flexible coordinates**: Spherical and Cartesian coordinate systems
 - [ ] Model composition
+- [x] Visualization extensions
 - [x] Time-dependent coefficients (secular variation) - IGRF model with linear interpolation
 - Performance optimizations
-  - [x] Pre-allocated memory: using arena allocators with [`Bumper.jl`](https://github.com/MasonProtter/Bumper.jl)
   - [ ] Batch/vectorized evaluation for regular grid (e.g., [SHTns.jl](https://github.com/fgerick/SHTns.jl))
-- [x] Visualization extensions
 
 ### Time-Varying Models (IGRF)
 

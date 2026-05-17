@@ -77,31 +77,21 @@ function _load_model(p::Planet, model; max_degree = nothing, use_cache = false, 
 end
 
 """
-    fieldmap(model, r, nlat, nlon; idx = identity)
-    fieldmap(model, r = 1.0; nlat = 180, nlon = 360, kw...)
+    fieldmap(model, r, nlat, nlon)
+    fieldmap(model, r = 1.0; nlat = 180, nlon = 360)
 
-Compute magnetic fields over a latitude-longitude grid at a given radial distance `r` [planetary radii] for model `model`.
-
-# Arguments
-- `nlat=180`: Number of latitude points
-- `nlon=360`: Number of longitude points`
-- `idx`: Field component selector / function that works on the output of `model(r, θ, φ)` (default: identity returns full vector)
-  - `1`: Radial component (Br)
-  - `2`: Colatitude component (Bθ)
-  - `3`: Azimuthal component (Bφ)
-  - `norm`: Field magnitude
-
-# Returns
-- `KeyedArray`: Magnetic field values at each grid point with axes:
-  - `lon`: Longitude values [-180, 180] degrees
-  - `lat`: Latitude values [-90, 90] degrees
+Lazy magnetic-field grid at radial distance `r` [planetary radii]. Returns a
+[`LazyFieldMap`](@ref) of size `(nlon, nlat)` whose elements `[Bᵣ, Bθ, Bφ]` are
+computed on access. Project components by broadcasting; recover axes via
+`field.lons` and `field.lats`.
 
 # Example
 ```julia
 model = load_model(:jupiter, "jrm09")
-field_map = fieldmap(model; r=1.0)
-# Access data: field_map[lon=0.0, lat=45.0]
-# Get axes: axiskeys(field_map, 1) for longitudes, axiskeys(field_map, 2) for latitudes
+field = fieldmap(model; r=1.0)
+Br = getindex.(field, 1)        # radial component
+B  = norm.(field)               # magnitude
+field.lons, field.lats          # axes in degrees
 ```
 """
 function fieldmap end

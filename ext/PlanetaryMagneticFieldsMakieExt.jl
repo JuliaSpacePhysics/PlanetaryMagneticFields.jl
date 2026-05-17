@@ -4,13 +4,14 @@ using PlanetaryMagneticFields
 using GeoMakie
 using GeoMakie.Makie
 using LinearAlgebra: norm
-using AxisKeys: axiskeys
 
-using PlanetaryMagneticFields: _field_func
 import PlanetaryMagneticFields: plot_fieldmap, plot_models
 
 
 default_isvertical(pos) = pos isa Makie.Right || pos isa Makie.Left
+
+_component(field, idx::Int) = getindex.(field, idx)
+_component(field, f) = f.(field)
 
 function PlanetaryMagneticFields.plot_fieldmap!(
         ax, model;
@@ -21,18 +22,12 @@ function PlanetaryMagneticFields.plot_fieldmap!(
         kwargs...
     )
 
-    field_map = fieldmap(model, r, nlat, nlon; idx)
-    lons = axiskeys(field_map, 1)
-    lats = axiskeys(field_map, 2)
-    field = parent(field_map)
-    # For diverging colormaps with Br, center at zero
-    colorrange = if idx == 1
-        maxabs = maximum(abs, field)
-        (-maxabs, maxabs)
-    else
-        extrema(field)
-    end
-    return surface!(ax, lons, lats, field; colormap, colorrange, shading, kwargs...)
+    vecs = fieldmap(model, r, nlat, nlon)
+    field = _component(vecs, idx)
+    lo, hi = extrema(field)
+    # Diverging colormap when the data straddles zero
+    colorrange = (lo < 0 < hi) ? (-max(-lo, hi), max(-lo, hi)) : (lo, hi)
+    return surface!(ax, vecs.lons, vecs.lats, field; colormap, colorrange, shading, kwargs...)
 end
 
 function PlanetaryMagneticFields.plot_fieldmap(model; r = 1.0, figure = (;), kwargs...)
