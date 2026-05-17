@@ -130,6 +130,54 @@ let fig = Figure()
 end
 ```
 
+### Tracing Field Lines (Jupiter)
+
+`trace` from [GeoCotrans](https://github.com/JuliaSpacePhysics/GeoCotrans.jl) integrates
+`du/ds = ±B̂(u)` along arc length. 
+
+This reproduces the JRM33 panel of [JupiterMag's `PlotRhoZ` example](https://github.com/mattkjames7/JupiterMag#331-plotting):
+8 field lines starting on the surface in the noon meridian (φ=0), traced both
+directions to give closed footpoint-to-footpoint loops, then projected into the
+`ρ`–`z` plane where `ρ = √(x² + y²)`.
+
+```@example plotting
+using OrdinaryDiffEqTsit5                     # any SciML solver works
+using PlanetaryMagneticFields: PlanetFrame    # for the Cartesian-input frame
+
+model = JRM33()
+in_csys = (PlanetFrame(), Cartesian3())
+
+n = 8
+# Surface starts at φ = 0, southern-hemisphere colatitudes 145°…157.5°
+colats = deg2rad.(180 .- range(22.5, 35, length = n))
+starts = [[sin(θ), 0.0, cos(θ)] for θ in colats]
+
+lines = map(starts) do pos
+    fwd = trace(pos, nothing, Tsit5(); model, dir =  1, in = in_csys,
+                r0 = 0.95, rlim = 20.0, maxs = 80.0)
+    bwd = trace(pos, nothing, Tsit5(); model, dir = -1, in = in_csys,
+                r0 = 0.95, rlim = 20.0, maxs = 80.0)
+    vcat(reverse(bwd.u), fwd.u)
+end
+
+fig = Figure(size = (650, 400))
+ax = Axis(fig[1, 1]; aspect = DataAspect(), xlabel = "ρ [RJ]", ylabel = "z [RJ]",
+          title = "Jupiter (JRM33) field lines")
+poly!(ax, Circle(Point2f(0, 0), 1.0f0); color = (:tan, 0.4), strokecolor = :tan)
+for line in lines
+    lines!(ax, [hypot(u[1], u[2]) for u in line], [u[3] for u in line];
+           color = :black, linewidth = 1.2)
+end
+xlims!(ax, -2, 15); ylims!(ax, -6, 6)
+fig
+```
+
+`trace` keywords used above:
+
+- `dir = ±1` — parallel / anti-parallel to **B**
+- `r0`, `rlim` — inner / outer termination radii in planetary radii
+- `maxs` — maximum arc length (cuts off lines that wander)
+
 ### Different Field Components
 
 Plot different components of the magnetic field:

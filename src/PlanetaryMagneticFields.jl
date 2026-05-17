@@ -4,20 +4,17 @@ using LinearAlgebra
 using TOML
 using Dates
 using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame, IGRF, LinearInterp
-import GeoCotrans: getcsys, evalsph, evalmodel
+import GeoCotrans: getcsys, evalsph, evalmodel, trace
 
-# Include core functionality
 include("types.jl")
 include("planets.jl")
 include("data.jl")
 include("coefficients.jl")
 include("spherical_harmonics.jl")
-
-# Include public API
 include("api.jl")
 
-# Main user-facing functions
 export load_model, available_models, model_info, fieldmap
+export trace
 
 # Convenience model accessors
 export JRM09,
@@ -28,7 +25,7 @@ export JRM09,
 export degree, order
 export getcsys, Cartesian3, Spherical
 
-# Plotting functions (implemented in MakieExt)
+# Plotting functions
 export plot_fieldmap, plot_fieldmap!, plot_models
 
 """
@@ -88,4 +85,4 @@ Create a figure showing magnetic field maps of all available planets.
 """
 function plot_models end
 
-end # module PlanetaryMagneticFields
+end
