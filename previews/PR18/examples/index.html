@@ -64,31 +64,7 @@ end</code></pre><pre class="documenter-example-output"><code class="nohighlight 
     end
     Label(fig[0, :], &quot;Giant Planet Magnetic Fields&quot;)
     fig
-end</code></pre><img src="90b3a178.png" alt="Example block output"/><h3 id="Tracing-Field-Lines-(Jupiter)"><a class="docs-heading-anchor" href="#Tracing-Field-Lines-(Jupiter)">Tracing Field Lines (Jupiter)</a><a id="Tracing-Field-Lines-(Jupiter)-1"></a><a class="docs-heading-anchor-permalink" href="#Tracing-Field-Lines-(Jupiter)" title="Permalink"></a></h3><p><code>trace</code> from <a href="https://github.com/JuliaSpacePhysics/GeoCotrans.jl">GeoCotrans</a> integrates <code>du/ds = ±B̂(u)</code> along arc length. Load any SciML solver, then pass a <code>PlanetaryMagneticFields</code> model:</p><pre><code class="language-julia hljs">using GeoCotrans                 # provides `trace`
-using OrdinaryDiffEqTsit5        # any SciML solver works
-
-model = JRM09()
-# Trace from northern-hemisphere surface in the noon meridian (φ=0),
-# in both directions, so each line connects two footpoints.
-starts_lat = [40, 55, 70, 85]
-lines = map(starts_lat) do lat
-    θ = deg2rad(90 - lat)
-    pos = [sin(θ), 0.0, cos(θ)] .* 1.02         # just above the 1 RJ surface
-    fwd = trace(pos, nothing, Tsit5(); model, dir =  1, r0 = 0.95, rlim = 30.0, maxs = 40.0, saveat = 0.05)
-    bwd = trace(pos, nothing, Tsit5(); model, dir = -1, r0 = 0.95, rlim = 30.0, maxs = 40.0, saveat = 0.05)
-    vcat(reverse(bwd.u), fwd.u)
-end
-
-fig = Figure(size = (500, 500))
-ax = Axis(fig[1, 1]; aspect = DataAspect(), xlabel = &quot;x [RJ]&quot;, ylabel = &quot;z [RJ]&quot;,
-          title = &quot;Jupiter (JRM09) field lines&quot;)
-poly!(ax, Circle(Point2f(0, 0), 1.0f0); color = (:tan, 0.4), strokecolor = :tan)
-for (lat, line) in zip(starts_lat, lines)
-    lines!(ax, getindex.(line, 1), getindex.(line, 3); linewidth = 1.5, label = &quot;lat $(lat)°&quot;)
-end
-axislegend(ax; position = :rb)
-limits!(ax, -3, 3, -3, 3)
-fig</code></pre><img src="390ead4d.png" alt="Example block output"/><p><code>trace</code> keywords:</p><ul><li><code>dir = ±1</code> — parallel / anti-parallel to <strong>B</strong></li><li><code>r0</code>, <code>rlim</code> — inner / outer termination radii in planetary radii</li><li><code>maxs</code> — maximum arc length (cuts off lines that wander)</li><li>extra kwargs are forwarded to <code>solve</code>, e.g. <code>saveat = 0.05</code> to subsample</li></ul><p>For time-varying models (IGRF) pass a <code>Date</code> instead of <code>nothing</code> for the second positional argument.</p><h3 id="Different-Field-Components"><a class="docs-heading-anchor" href="#Different-Field-Components">Different Field Components</a><a id="Different-Field-Components-1"></a><a class="docs-heading-anchor-permalink" href="#Different-Field-Components" title="Permalink"></a></h3><p>Plot different components of the magnetic field:</p><pre><code class="language-julia hljs">using LinearAlgebra: norm
+end</code></pre><img src="90b3a178.png" alt="Example block output"/><h3 id="Different-Field-Components"><a class="docs-heading-anchor" href="#Different-Field-Components">Different Field Components</a><a id="Different-Field-Components-1"></a><a class="docs-heading-anchor-permalink" href="#Different-Field-Components" title="Permalink"></a></h3><p>Plot different components of the magnetic field:</p><pre><code class="language-julia hljs">using LinearAlgebra: norm
 
 model = load_model(:jupiter, &quot;jrm09&quot;)
 let fig = Figure(; size=(600, 300))
@@ -97,4 +73,4 @@ let fig = Figure(; size=(600, 300))
     # Field magnitude
     plot_fieldmap(fig[1, 2], model; idx=norm, colormap=:plasma)
     fig
-end</code></pre><img src="92bea72b.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Sunday 17 May 2026 01:17">Sunday 17 May 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><img src="92bea72b.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Sunday 17 May 2026 01:37">Sunday 17 May 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
