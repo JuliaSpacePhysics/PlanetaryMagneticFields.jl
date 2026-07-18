@@ -9,3 +9,6 @@ OrdinaryDiffEqTsit5 = "b1df2697-797e-41e3-8120-5422d3b24e4a"
 PlanetaryMagneticFields = "548c34cc-0185-415b-8526-a0c739028078"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[compat]
+Unitful = "1.28.0"
