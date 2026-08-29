@@ -28,7 +28,7 @@ end
     (r, θ, φ) = PlanetaryMagneticFields.car2sph(x, y, z)
 
     # Evaluate both ways
-    B_from_cart = model(x, y, z; in = :cartesian)
+    B_from_cart = model(x, y, z; from = :cartesian)
     B_sph = PlanetaryMagneticFields.evalsph(model.coeffs, r, θ, φ)
     B_from_sph = PlanetaryMagneticFields.sph2car(
         B_sph[1], B_sph[2], B_sph[3], 1, θ, φ

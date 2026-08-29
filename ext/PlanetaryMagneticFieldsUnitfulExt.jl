@@ -16,7 +16,7 @@ function (m::SphericalHarmonicModel)(x::Unitful.Length, y::Unitful.Length, z::Un
     x_radii = ustrip(u"km", x) / m.obj.radius
     y_radii = ustrip(u"km", y) / m.obj.radius
     z_radii = ustrip(u"km", z) / m.obj.radius
-    return m(x_radii, y_radii, z_radii; in = :cartesian, kw...)
+    return m(x_radii, y_radii, z_radii; from = :cartesian, kw...)
 end
 
 end # module

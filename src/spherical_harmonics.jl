@@ -2,7 +2,7 @@
     LazyFieldMap{T,M,R,Θ,Φ} <: AbstractMatrix{T}
 
 Lazy `(nlon, nlat)` grid of magnetic field vectors at radial distance `r`.
-Each `field[i, j]` calls `model(r, θs[j], φs[i]; in = :spherical, out = :spherical)`
+Each `field[i, j]` calls `model(r, θs[j], φs[i]; from = :spherical, to = :spherical)`
 on access, so broadcasting a projection (`getindex.(field, 1)`, `norm.(field)`)
 materializes only the requested scalar array — no intermediate `Matrix{SVector{3}}`.
 
@@ -34,7 +34,7 @@ end
 Base.size(m::LazyFieldMap) = (length(m.φs), length(m.θs))
 Base.IndexStyle(::Type{<:LazyFieldMap}) = IndexCartesian()
 @inline Base.getindex(m::LazyFieldMap, i::Int, j::Int) =
-    @inbounds m.model(m.r, m.θs[j], m.φs[i]; in = :spherical, out = :spherical)
+    @inbounds m.model(m.r, m.θs[j], m.φs[i]; from = :spherical, to = :spherical)
 
 function fieldmap(model, r, nlat, nlon)
     # Latitude spans -90 to 90 (south to north); θ = colatitude = π/2 - lat.
