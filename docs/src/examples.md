@@ -51,10 +51,10 @@ println("Br range: $(minimum(Br)) to $(maximum(Br)) nT")
 # Cartesian input and output
 model = JRM09()
 x, y, z = 1.0, 0.5, 0.5  # In Jupiter radii
-B = model(x, y, z; in=:cartesian) # by default, output format follows input format
+B = model(x, y, z; from=:cartesian) # by default, output format follows input format
 
 # Cartesian input, spherical output
-model(x, y, z; in=:cartesian, out=:spherical)
+model(x, y, z; from=:cartesian, to=:spherical)
 ```
 
 ## Visualization
@@ -151,7 +151,7 @@ n = 8
 colats = deg2rad.(180 .- range(22.5, 35, length = n))
 starts = [[sin(θ), 0.0, cos(θ)] for θ in colats]
 
-options = (; in = (PlanetFrame(), Cartesian3()), r0 = 0.95, rlim = 20.0, maxs = 80.0, dtmax = 0.05)
+options = (; from = (PlanetFrame(), Cartesian3()), r0 = 0.95, rlim = 20.0, maxs = 80.0, dtmax = 0.05)
 
 lines = map(starts) do pos
     fwd = trace(pos, nothing, Tsit5(); model, dir =  1, options...)

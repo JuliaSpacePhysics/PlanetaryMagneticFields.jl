@@ -22,7 +22,7 @@ PlanetaryMagneticFieldsUnitfulExt = "Unitful"
 
 [compat]
 Dates = "1"
-GeoCotrans = "0.2"
+GeoCotrans = "0.2, 0.3"
 GeoMakie = "0.7"
 LinearAlgebra = "1"
 TOML = "1"

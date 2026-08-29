@@ -44,10 +44,10 @@ r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nT
 
 # Use Cartesian coordinates
-B = model(1.0, 0.0, 0.5; in=:cartesian)  # Returns [B_x, B_y, B_z] in nT
+B = model(1.0, 0.0, 0.5; from=:cartesian)  # Returns [B_x, B_y, B_z] in nT
 
 # Keyword arguments take precedence over constructor arguments
-B_sph = model(1.0, 0.0, 0.5; in=:cartesian, out=:spherical)  # Returns [B_r, B_θ, B_φ]
+B_sph = model(1.0, 0.0, 0.5; from=:cartesian, to=:spherical)  # Returns [B_r, B_θ, B_φ]
 ```
 
 ## Coordinate Systems
@@ -216,7 +216,7 @@ using Chairmarks
 @py import JupiterMag as jm
 
 r, θ, φ = 1.5, π/4, 0.0
-jm.Internal.Config(Model="jrm33", CartesianIn=false, CartesianOut=false)
+jm.Internal.Config(Model="jrm33", CartesianIn=false, Cartesianto=false)
 ```
 
 ```@repl comparison
