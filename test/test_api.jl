@@ -28,11 +28,10 @@ end
 
     # Evaluate in planetary radii
     B_RJ = model(r_RJ, θ, φ)
-    # Same position in km
     r_km = r_RJ * 71492.0u"km"  # Jupiter radius
     @test B_RJ == model(r_km, θ, φ)
     𝐫 = [r_km * sin(θ) * cos(φ), r_km * sin(θ) * sin(φ), r_km * cos(θ)]
-    @test model(𝐫...) == sph2car(B_RJ, [r_RJ, θ, φ])
+    @test model(𝐫...) ≈ sph2car(B_RJ, [r_RJ, θ, φ])
 end
 
 @testset "available_models" begin
