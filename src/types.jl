@@ -1,7 +1,3 @@
-"""
-Core type definitions for PlanetaryMagneticFields.jl
-"""
-
 struct Planet
     name::Symbol
     radius::Float64  # Mean radius in km

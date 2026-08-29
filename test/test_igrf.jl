@@ -40,7 +40,7 @@ end
     t = Date(2020)
 
     B_sph = model(r, θ, φ, t)
-    B_cart = model(r, θ, φ, t; out = :cartesian)
+    B_cart = model(r, θ, φ, t; to = :cartesian)
     using LinearAlgebra
     @test norm(B_sph) == norm(B_cart)
 end
