@@ -42,7 +42,7 @@ end
     B_sph = model(r, θ, φ, t)
     B_cart = model(r, θ, φ, t; to = :cartesian)
     using LinearAlgebra
-    @test norm(B_sph) == norm(B_cart)
+    @test norm(B_sph) ≈ norm(B_cart)
 end
 
 @testset "IGRF Static Model (backward compatibility)" begin
