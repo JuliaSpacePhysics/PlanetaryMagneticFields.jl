@@ -56,7 +56,7 @@ PlanetaryMagneticFields.jl currently supports two coordinate systems:
 
 ### Spherical Coordinates
 
-- `r`: Radial distance from planet center (in planetary radii or km)
+- `r`: Radial distance from planet center (in planetary radii, or a Unitful length)
 - `θ`: Colatitude in radians [0, π] (0 at north pole, π at south pole)
 - `φ`: East longitude in radians [0, 2π]
 

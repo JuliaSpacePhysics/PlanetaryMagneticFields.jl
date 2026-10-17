@@ -79,9 +79,15 @@ function default_models()
     ]
 
     return map(default_mappings) do (planet, model_name)
-        load_model(planet, model_name)
+        planet => load_model(planet, model_name)
     end
 end
+
+# `models` are models or `planet => model` pairs
+_model(m) = m
+_model(p::Pair) = last(p)
+_title(m) = m.name
+_title((planet, m)::Pair) = "$(titlecase(string(planet))) ($(m.name))"
 
 function plot_models(; r = 1.0, models = nothing, figure = (;), kwargs...)
     models = @something models default_models()
@@ -90,10 +96,8 @@ function plot_models(; r = 1.0, models = nothing, figure = (;), kwargs...)
     for (idx, model) in enumerate(models)
         row = (idx - 1) ÷ 3 + 1
         col = (idx - 1) % 3 + 1
-        obj = model.obj
-        title = "$(titlecase(string(obj.name))) ($(model.name))"
-        axis = (; title)
-        plot_fieldmap(GridLayout(fig[row, col]), model; r, axis, kwargs...)
+        axis = (; title = _title(model))
+        plot_fieldmap(GridLayout(fig[row, col]), _model(model); r, axis, kwargs...)
     end
     return fig
 end

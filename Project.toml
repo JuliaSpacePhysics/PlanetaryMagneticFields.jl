@@ -14,17 +14,14 @@ TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [weakdeps]
 GeoMakie = "db073c08-6b98-4ee5-b6a4-5efafb3259c6"
-Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [extensions]
 PlanetaryMagneticFieldsMakieExt = "GeoMakie"
-PlanetaryMagneticFieldsUnitfulExt = "Unitful"
 
 [compat]
 Dates = "1"
-GeoCotrans = "0.2, 0.3"
+GeoCotrans = "0.3.5"
 GeoMakie = "0.7"
 LinearAlgebra = "1"
 TOML = "1"
-Unitful = "1"
 julia = "1.10"

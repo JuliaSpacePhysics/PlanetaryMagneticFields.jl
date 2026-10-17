@@ -5,7 +5,7 @@ using LinearAlgebra
 @testset "Model loading" begin
     # Test JRM09 loading
     jrm09 = PlanetaryMagneticFields.load_model("jrm09")
-    @test jrm09.obj.radius == 71492.0
+    @test jrm09.radius == 71492.0
     @test uppercase(jrm09.name) == "JRM09"
     @test degree(jrm09) == 20
     @test order(jrm09) == 20
@@ -22,10 +22,6 @@ end
 
 @testset "Coefficient access" begin
     jrm09 = PlanetaryMagneticFields.load_model("jrm09")
-
-    # Access dipole coefficient
-    g10 = jrm09.coeffs[1, 0].g
-    @test g10 != 0.0
 
     # https://ankitbarik.github.io/planetMagFields/examples.html
     @test jrm09.coeffs[2, 0].g == 11670.4

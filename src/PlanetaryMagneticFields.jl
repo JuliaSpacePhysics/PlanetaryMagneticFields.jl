@@ -3,8 +3,9 @@ module PlanetaryMagneticFields
 using LinearAlgebra
 using TOML
 using Dates
-using GeoCotrans: Cartesian3, Spherical, sph2car, car2sph, GEO, InternalFieldModel, CompositeFieldModel, AbstractReferenceFrame, IGRF, LinearInterp
-import GeoCotrans: getcsys, evalsph, evalmodel, trace
+using GeoCotrans: Cartesian3, Spherical, sph2car, AbstractReferenceFrame, IGRF
+using GeoCotrans: GaussCoefficients
+import GeoCotrans: SphericalHarmonicModel, getcsys, trace
 
 include("types.jl")
 include("planets.jl")
@@ -16,12 +17,7 @@ include("api.jl")
 export load_model, available_models, model_info, fieldmap
 export trace
 
-# Convenience model accessors
-export JRM09,
-    JRM33,
-    IGRF
-
-# Utility functions that users might want
+export JRM09, JRM33, IGRF
 export degree, order
 export getcsys, Cartesian3, Spherical
 

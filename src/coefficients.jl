@@ -1,11 +1,3 @@
-"""
-Coefficient loading and manipulation for PlanetaryMagneticFields.jl
-
-This module provides functions to load Gauss coefficients from data files
-and create GaussCoefficients objects.
-"""
-
-# Cache for loaded coefficients: filepath -> GaussCoefficients
 const COEFFICIENT_CACHE = Dict{String, GaussCoefficients{Matrix{Float64}}}()
 
 """
@@ -68,15 +60,4 @@ function load_coefficients(filepath; use_cache = false)
     result = GaussCoefficients(g_matrix, h_matrix)
     use_cache && (COEFFICIENT_CACHE[filepath] = result)
     return result
-end
-
-# Load all IGRF epoch files from a directory
-function load_igrf_epochs(epochs = DateTime.(1900:5:2025))
-    # Find all IGRF epoch files
-    data_dir = pkgdir(@__MODULE__, "data/coeffs/earth")
-    coefficients = map(epochs) do epoch
-        filepath = joinpath(data_dir, "igrf$(year(epoch)).dat")
-        load_coefficients(filepath)
-    end
-    return TimeVaryingGaussCoefficients(epochs, coefficients)
 end
