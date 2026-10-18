@@ -6,7 +6,7 @@ using LinearAlgebra
     # Test loading by unique model name (Symbol)
     model_sym = load_model(:JRM09)
     @test isa(model_sym, SphericalHarmonicModel)
-    @test model_sym.obj.name == :jupiter
+    @test model_sym.radius == 71492.0
 
     # Test with keyword arguments
     model_truncated = load_model(:jupiter, "jrm33"; max_degree = 13)

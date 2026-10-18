@@ -45,13 +45,3 @@ function fieldmap(model, r, nlat, nlon)
 end
 
 fieldmap(model, r = 1.0; nlat = 180, nlon = 360) = fieldmap(model, r, nlat, nlon)
-
-function evalmodel(m::SphericalHarmonicModel{<:GaussCoefficients}, r, θ, φ, _)
-    return evalsph(m.coeffs, r, θ, φ, m.degree, m.order)
-end
-
-# Time-varying evaluation
-function evalmodel(m::SphericalHarmonicModel{<:TimeVaryingGaussCoefficients}, r, θ, φ, t)
-    @assert r > 0
-    return evalsph(m.coeffs(t), r, θ, φ, m.degree, m.order)
-end

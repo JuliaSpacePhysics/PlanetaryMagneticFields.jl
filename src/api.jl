@@ -21,12 +21,9 @@ Load a model by specifying both planet and model name.
 - `model`: Unique model identifier (e.g., `:JRM33`, `:JRM09`)
 - `planet`: Planet identifier (e.g., :jupiter, :saturn, :earth)
 - `max_degree`: Maximum degree to use (truncates model if specified)
-- `in`: Default input coordinate system (`:spherical` or `:cartesian`)
-- `out`: Default output coordinate system (`:spherical` or `:cartesian`)
 
 # Notes
-Input positions are assumed to be in planetary radii by default. For physical units (e.g., km),
-use Unitful.jl which is supported via a package extension.
+Input positions are assumed to be in planetary radii by default. Use Unitful for physical units.
 
 # Returns
 A callable object that can be invoked as `model(r, θ, φ; kwargs...)`
@@ -41,12 +38,8 @@ B = model(1.5, π/4, 0.0)  # Returns [B_r, B_θ, B_φ] in nT
 model = load_model(:jupiter, "jrm09")
 B = model(1.5, π/4, 0.0)
 
-# With custom coordinate systems
-model = load_model(:JRM33; max_degree=13, from=:cartesian, to=:cartesian)
-B = model(1.0, 0.0, 0.5)  # Returns [B_x, B_y, B_z] in nT
-
-# Override output coordinates at call time
-B_sph = model(1.0, 0.0, 0.5; to=:spherical)  # Returns [B_r, B_θ, B_φ]
+# Cartesian input and output
+B = model(1.0, 0.0, 0.5; from=:cartesian, to=:cartesian)  # Returns [B_x, B_y, B_z] in nT
 ```
 """
 function load_model(name; kw...)
@@ -122,12 +115,6 @@ function model_info(model)
     return TOML.parsefile(file)
 end
 
-# IGRF model for testing with `GeoCotrans.IGRF`
-function _IGRF(; kwargs...)
-    tvc = load_igrf_epochs()
-    return SphericalHarmonicModel("IGRF", tvc, Earth; frame=GEO())
-end
-
 for f in [:JRM09, :JRM33]
     @eval $f(; kwargs...) = load_model($(QuoteNode(f)); use_cache=true, kwargs...)
     @eval export $f
@@ -179,6 +166,7 @@ function plot_fieldmap end
     plot_models(; r=1.0, models=nothing, projection="+proj=moll", kwargs...)
 
 Create a figure showing magnetic field maps of all available planets.
+`models` are models or `planet => model` pairs (titled with the planet).
 
 # Default Models
 - Mercury: "anderson2012"

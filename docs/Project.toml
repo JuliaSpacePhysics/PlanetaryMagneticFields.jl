@@ -11,10 +11,10 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
-CairoMakie = "0.15"
+CairoMakie = "0.15 - 0.15.15"  # GeoMakie#398: GeoMakie 0.7.17 uses an internal removed in Makie 0.24.16
 Chairmarks = "1"
 Documenter = "1"
-GeoCotrans = "0.2, 0.3"
+GeoCotrans = "0.3.5"
 GeoMakie = "0.7"
 OrdinaryDiffEqTsit5 = "2"
 PythonCall = "0.9"

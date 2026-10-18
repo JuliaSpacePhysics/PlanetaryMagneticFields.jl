@@ -7,4 +7,4 @@ PlanetaryMagneticFields = "548c34cc-0185-415b-8526-a0c739028078"
 [compat]
 BenchmarkTools = "1"
 DimensionalData = "0.30"
-GeoCotrans = "0.2, 0.3"
+GeoCotrans = "0.3.5"

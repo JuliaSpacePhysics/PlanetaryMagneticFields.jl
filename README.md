@@ -1,12 +1,10 @@
 # PlanetaryMagneticFields.jl
 
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg?logo=julia)](https://JuliaSpacePhysics.github.io/PlanetaryMagneticFields.jl/dev/)
 [![DOI](https://zenodo.org/badge/1140943453.svg)](https://doi.org/10.5281/zenodo.18428922)
-[![Coverage](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaSpacePhysics/PlanetaryMagneticFields.jl)
 
 **A unified framework for planetary magnetic field modeling in Julia.**
 
-PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of planetary magnetic fields, with a focus on clean API design, performance, and extensibility.
+PlanetaryMagneticFields.jl provides easy access to spherical harmonic models of planetary magnetic fields.
 
 ## Quick Start
 
@@ -23,6 +21,12 @@ model = JRM33(max_degree=13)
 # Evaluate the field at a position (1.5 Jupiter radii, 45° colatitude, 0° longitude)
 r, θ, φ = 1.5, π/4, 0.0
 B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
+
+# Time-Varying Models (i.e. IGRF for Earth)
+using Dates
+
+model = IGRF()
+model(r, θ, φ, DateTime(2020))
 ```
 
 ## Features
@@ -31,19 +35,6 @@ B = model(r, θ, φ)  # Returns [B_r, B_θ, B_φ] in nanoTesla
   - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
     - [ ] Jupiter current sheet model
     - [ ] Test Saturn (Cassini-derived), Mercury and Mars models.
-- [x] Visualization extensions
-
-### Time-Varying Models (IGRF)
-
-```julia
-using Dates
-
-# Load the time-varying IGRF model for Earth
-model = IGRF()
-
-r, θ, φ = 1.0, π/4, 0.0  # Earth surface, 45° colatitude
-B = model(r, θ, φ, DateTime(2020))
-```
 
 ## Elsewhere
 
