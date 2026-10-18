@@ -34,7 +34,6 @@ model(r, θ, φ, DateTime(2020))
 - 🪐 **Multi-planetary support**: General type system and framework for magnetic field models
   - [x] Available astronomical objects: Jupiter, Earth, Saturn, Mercury, Mars, Ganymede
     - [ ] Jupiter current sheet model
-    - [ ] Test Saturn (Cassini-derived), Mercury and Mars models.
 
 ## Elsewhere
 
@@ -51,3 +50,4 @@ model(r, θ, φ, DateTime(2020))
 ### Data sources
 
 - [libinternalfield](https://github.com/mattkjames7/libinternalfield): a C++ library for various internal magnetic field models
+- [planetMagFields](https://github.com/AnkitBarik/planetMagFields): Mercury `wardinski2019` ([Wardinski et al. 2019](https://doi.org/10.1029/2018JE005835)) and Saturn `cassini11+` ([Cao et al. 2020](https://doi.org/10.1016/j.icarus.2019.113541))
